@@ -1,0 +1,35 @@
+32 6 34 198
+
+IdleRt			207 132 6  250 0 82 82 
+RunRt			207 132 8  50 0 82 82 
+AttackRt		207 132 12 100 0 82 82 
+DeathRt			207 132 11 100 0 82 82 
+HurtRt			207 132 4  100 0 82 82 
+JumpRt			207 132 3  500 0 82 82 
+UpToFallRt		207 132 2  100 0 82 82 
+FallRt			207 132 3  200 0 82 82 
+EdgeGrabRt		207 132 5  100 0 82 82 
+IdleEdgeRt		207 132 6  100 0 82 82 
+WallSlideRt		207 132 3   100 0 82 82 
+CrouchRt		207 132 6   100 0 82 82 
+DashRt			207 132 7   100 0 82 82 
+DashAttackRt	207 132 10  100 0 82 82 
+SlideRt			207 132 5   100 0 82 82 
+LadderGrabRt	207 132 8   100 0 82 82 
+				SKIP 3   
+IdleLt			207 132 6   250 0 125 82 
+RunLt			207 132 8   50 0 125 82 
+AttackLt		207 132 12  100 0 125 82 
+DeathLt			207 132 11  100 0 125 82 
+HurtLt			207 132 4   100 0 125 82 
+JumpLt			207 132 3   100 0 125 82 
+UpToFallLt		207 132 2   100 0 125 82 
+FallLt			207 132 3   100 0 125 82 
+EdgeGrabLt		207 132 5   100 0 125 82 
+IdleEdgeLt		207 132 6   100 0 125 82 
+WallSlideLt		207 132 3   100 0 125 82 
+CrouchLt		207 132 6   100 0 125 82 
+DashLt			207 132 7   100 0 125 82 
+DashAttackLt	207 132 10  100 0 125 82 
+SlideLt			207 132 5   100 0 125 82 
+LadderGrabLt	207 132 8   100 0 125 82 

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{f3e3131c-af7f-4912-a703-2b17b7977998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{2b4c5625-5025-4050-835b-69858ab647cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\action">
+      <UniqueIdentifier>{a75667d8-dd5d-49e4-a3c4-9d32de63917a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\action">
+      <UniqueIdentifier>{8cd9ba7f-2b6b-4ee9-9b8b-37099ba8a6a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\action\tpl">
+      <UniqueIdentifier>{0e09d981-73d3-415a-ae1f-e10c294b6525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\tpl">
+      <UniqueIdentifier>{07722b41-0492-474a-a51b-dac1d109c8a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game_states">
+      <UniqueIdentifier>{151affea-6c31-409c-ba08-7d4019329587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game_states">
+      <UniqueIdentifier>{dac68a18-aeee-41e8-8ce9-b416a3064c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\assets">
+      <UniqueIdentifier>{45f12985-c6be-4102-b26a-313ce8028c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures">
+      <UniqueIdentifier>{666bea81-62f8-4e1a-9e99-45a30f517553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\data">
+      <UniqueIdentifier>{4f532b3e-fa07-41bc-a606-2ebd1d8aae4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\bgs">
+      <UniqueIdentifier>{3df932f1-ce04-4a52-a420-87f9e3e36d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\bgs\bg1">
+      <UniqueIdentifier>{dd43c3fa-c5bb-4227-b79f-10c746046288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\actors">
+      <UniqueIdentifier>{348f1456-63bf-4539-b78a-73ba3eefddea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\actors\player">
+      <UniqueIdentifier>{c0e66888-a81b-4ceb-a345-1655909eab7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\data\animations">
+      <UniqueIdentifier>{e82a659e-3e17-4255-beba-1abb3e46503e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\data\animations\actors">
+      <UniqueIdentifier>{a9a60909-f2a3-4044-bb9e-4fcf6c7a8512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\fonts">
+      <UniqueIdentifier>{3cc7f605-8e52-45be-a53d-3ff792484957}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Cfg.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Game.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\globals.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\rec.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\Action.cpp">
+      <Filter>Source Files\action</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GameState.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GameStateMgr.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_states\PausedState.cpp">
+      <Filter>Source Files\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_states\PlayState.cpp">
+      <Filter>Source Files\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_states\SplashState..cpp">
+      <Filter>Source Files\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_states\TitleState.cpp">
+      <Filter>Source Files\game_states</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\Cfg.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Game.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameState.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameStateMgr.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\globals.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\rec.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ResourceManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\Action.h">
+      <Filter>Header Files\action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\ActionMap.h">
+      <Filter>Header Files\action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\ActionTarget.h">
+      <Filter>Header Files\action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_states\PausedState.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_states\PlayState.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_states\SplashState.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_states\TitleState.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\core\tpl\ResourceManager.tpl">
+      <Filter>Header Files\core\tpl</Filter>
+    </None>
+    <None Include="src\action\tpl\ActionMap.tpl">
+      <Filter>Header Files\action\tpl</Filter>
+    </None>
+    <None Include="src\action\tpl\ActionTarget.tpl">
+      <Filter>Header Files\action\tpl</Filter>
+    </None>
+    <None Include="assets\data\animations\actors\player.anim">
+      <Filter>Resource Files\assets\data\animations\actors</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\bgs\bg1\bgLayer1.png">
+      <Filter>Resource Files\assets\textures\bgs\bg1</Filter>
+    </Image>
+    <Image Include="assets\textures\bgs\bg1\bgLayer2.png">
+      <Filter>Resource Files\assets\textures\bgs\bg1</Filter>
+    </Image>
+    <Image Include="assets\textures\bgs\bg1\bgLayer3.png">
+      <Filter>Resource Files\assets\textures\bgs\bg1</Filter>
+    </Image>
+    <Image Include="assets\textures\bgs\bg1\bgLayer4.png">
+      <Filter>Resource Files\assets\textures\bgs\bg1</Filter>
+    </Image>
+    <Image Include="assets\textures\bgs\bg1\bgLayer5.png">
+      <Filter>Resource Files\assets\textures\bgs\bg1</Filter>
+    </Image>
+    <Image Include="assets\textures\actors\player\WarriorBig3.png">
+      <Filter>Resource Files\assets\textures\actors\player</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\frisky_puppy.ttf">
+      <Filter>Resource Files\assets\fonts</Filter>
+    </Font>
+  </ItemGroup>
+</Project>
