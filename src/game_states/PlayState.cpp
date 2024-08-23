@@ -12,7 +12,7 @@ void PlayState::input()
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) + (300.f * gTime), player->pos.y }).x < 800)
+		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) + (300.f * gTime), player->pos.y }).x <= 800)
 		{
 			player->vel.x = 300.f;
 		}
@@ -25,7 +25,7 @@ void PlayState::input()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) - (300.f * gTime), player->pos.y }).x > 800)
+		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) - (300.f * gTime), player->pos.y }).x >= 800)
 		{
 			player->vel.x = -300.f;
 		}
@@ -246,14 +246,14 @@ void PlayState::DrawBG()
 		//gWnd.draw(*bgLayers.top());
 	}
 
-	if (bgLayers.size() != numLayers)
+	if (bgLayers.size()-1 != numLayers)
 		std::cout << "bgLayers are not displaying properly" << std::endl;
 }
 
 void PlayState::DrawFront()
 {
 	// draw bg onto current view at global position starting from zero
-	int numLayers = bgLayers.size();
+	int numLayers = (int)bgLayers.size();
 	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
 
 	for (int i = 0; i < numLayers; i++)
@@ -331,7 +331,25 @@ void PlayState::MoveView(float xVelocity)
 		tmpStack.pop();
 	}
 
-	player->pos = gWnd.mapPixelToCoords({ 800 - (int)(player->size.x / 2.f), (int)player->pos.y });
+
+	player->vel.x = 0.f;
+	if (xVelocity < 0.f)
+	{
+		player->pos = { gWnd.mapPixelToCoords({ 800, (int)player->pos.y }).x - (player->size.x / 2.f), player->pos.y };
+	}
+	else if (xVelocity > 0.f)
+	{
+		auto pos = sf::Vector2f{ gWnd.mapPixelToCoords({800 ,gWnd.mapCoordsToPixel(player->pos).y }).x - player->size.x / 2.f , player->pos.y };
+
+		auto diff = (player->pos.x - pos.x) - ((int)((player->pos.x - pos.x) * 100.f) % 2 == 1) ? (xVelocity * gTime) : 0.f;// std::roundf((xVelocity * gTime)); //{ gWnd.mapPixelToCoords({ 800, (int)player->pos.y }).x - (player->size.x / 2.f) + 0.5f, player->pos.y };
+		pos.x += diff;
+		player->pos = pos;
+		//std::cout << "PlayerPos: " << player->pos.x << "\nPlayer Pos Calculation: " << (int)(800 - player->size.x / 2.f);
+		//std::cout << std::endl;
+	}
+	//player->pos.x = player->pos.x;
+	//auto adjust = ((player->size.x / 2.f) + player->texPosOffset.x);
+	//player->pos.x += adjust;
 
 }
 
