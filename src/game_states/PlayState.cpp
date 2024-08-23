@@ -305,23 +305,23 @@ void PlayState::MoveView(float xVelocity)
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * .9f * gTime) , 0.f });
+		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * .6f * gTime) , 0.f });
 
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.7f * gTime) , 0.f });
+		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.3f * gTime) , 0.f });
 
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.5f * gTime) , 0.f });
+		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.2f * gTime) , 0.f });
 
 
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.1f * gTime) , 0.f });
+		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.0001f * gTime) , 0.f });
 
 
 
