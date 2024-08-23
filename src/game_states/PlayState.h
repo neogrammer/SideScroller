@@ -15,6 +15,8 @@ class PlayState : public GameState
 
 
 	std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
+	std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
+
 	std::unique_ptr<rec> player{};
 	float l1Factor{0.1f};
 	float l2Factor{0.25f};
@@ -24,12 +26,14 @@ class PlayState : public GameState
 	bool playerIsInCenter{ false };
 	float mapXVelocity{ 0.0f };
 	
+	
 
 
 	void LoadLevel(int levelNum_ = 1);
 	void DrawBG();
 	void AdjustView();
 	void MoveView(float xVelocity);
+	void setLoopLayers();
 public:
 	PlayState() = default;
 	PlayState(GameStateMgr* mgr_);
