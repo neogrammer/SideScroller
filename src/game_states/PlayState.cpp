@@ -75,6 +75,7 @@ void PlayState::render()
 
 	DrawBG();
 	gWnd.draw(*phys::spr(*player));
+	DrawFront();
 }
 
 
@@ -228,7 +229,7 @@ void PlayState::LoadLevel(int levelNum_)
 void PlayState::DrawBG()
 {
 	// draw bg onto current view at global position starting from zero
-	int numLayers = (int)bgLayers.size();
+	int numLayers = (int)bgLayers.size()-1;
 	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
 
 	for (int i = 0; i < numLayers; i++)
@@ -236,6 +237,33 @@ void PlayState::DrawBG()
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		gWnd.draw(*tmpStack.top());
+	}
+	// now lay them on the screen from back to front
+	for (int i = 0; i < numLayers; i++)
+	{
+		bgLayers.push(std::move(tmpStack.top()));
+		tmpStack.pop();
+		//gWnd.draw(*bgLayers.top());
+	}
+
+	if (bgLayers.size() != numLayers)
+		std::cout << "bgLayers are not displaying properly" << std::endl;
+}
+
+void PlayState::DrawFront()
+{
+	// draw bg onto current view at global position starting from zero
+	int numLayers = bgLayers.size();
+	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
+
+	for (int i = 0; i < numLayers; i++)
+	{
+		tmpStack.push(std::move(bgLayers.top()));
+		bgLayers.pop();
+		if (i == numLayers - 1)
+		{
+			gWnd.draw(*tmpStack.top());
+		}
 	}
 	// now lay them on the screen from back to front
 	for (int i = 0; i < numLayers; i++)

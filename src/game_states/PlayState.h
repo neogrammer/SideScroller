@@ -34,6 +34,7 @@ class PlayState : public GameState
 	void AdjustView();
 	void MoveView(float xVelocity);
 	void setLoopLayers();
+	void DrawFront();
 public:
 	PlayState() = default;
 	PlayState(GameStateMgr* mgr_);
