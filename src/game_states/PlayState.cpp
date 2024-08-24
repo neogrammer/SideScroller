@@ -5,11 +5,8 @@
 #include <iostream>
 
 
-
-
 void PlayState::input()
 {
-	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) + (300.f * gTime), player->pos.y }).x <= 800)
@@ -32,7 +29,6 @@ void PlayState::input()
 		else
 		{
 			// move view
-			// move view
 			player->vel.x = 0.f;
 			MoveView(-300.f);
 		}
@@ -45,12 +41,10 @@ void PlayState::input()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-			player->vel.y = -300.f;
+		player->vel.y = -300.f;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-
-		
+	{		
 		player->vel.y = 300.f;
 	}
 	else
@@ -59,13 +53,9 @@ void PlayState::input()
 	}
 }
 
-
-
 void PlayState::update()
 {
 	player->pos += player->vel * gTime;
-
-	//AdjustView();
 }
 
 void PlayState::render()
@@ -118,6 +108,7 @@ void PlayState::LoadLevel(int levelNum_)
 		{
 			bgLayers.push(std::make_unique<sf::Sprite>());
 			loopLayers.push(std::make_unique<sf::Sprite>());
+
 			tmpStack.push(std::move(bgLayers.top()));
 			tmpLoopStack.push(std::move(loopLayers.top()));
 
@@ -138,7 +129,7 @@ void PlayState::LoadLevel(int levelNum_)
 			top->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_5));
 			top->setPosition({ 0.f, 900 - (float)top->getTextureRect().height });
 			loopTop->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_5));
-			loopTop->setPosition({ 0.f, 900 - (float)top->getTextureRect().height });
+			loopTop->setPosition({ 4500.f, 900 - (float)top->getTextureRect().height });
 		
 
 		}
@@ -159,7 +150,7 @@ void PlayState::LoadLevel(int levelNum_)
 				top->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_4));
 				top->setPosition({ 0.f, 900 - (float)top->getTextureRect().height });
 				loopTop->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_4));
-				loopTop->setPosition({ 0.f, 900 - (float)top->getTextureRect().height });
+				loopTop->setPosition({ 4500.f, 900 - (float)top->getTextureRect().height });
 
 			}
 		}
@@ -180,7 +171,7 @@ void PlayState::LoadLevel(int levelNum_)
 				top->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_3));
 				top->setPosition({ 0.f, 650 - (float)top->getTextureRect().height });
 				loopTop->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_3));
-				loopTop->setPosition({ 0.f, 650 - (float)top->getTextureRect().height });
+				loopTop->setPosition({ 4500.f, 650 - (float)top->getTextureRect().height });
 
 			}
 		}
@@ -199,7 +190,7 @@ void PlayState::LoadLevel(int levelNum_)
 				top->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_2));
 				top->setPosition({ 0.f, 650 - (float)top->getTextureRect().height });
 				loopTop->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_2));
-				loopTop->setPosition({ 0.f, 650 - (float)top->getTextureRect().height });
+				loopTop->setPosition({ 4500.f, 650 - (float)top->getTextureRect().height });
 			}
 		}
 		{
@@ -218,7 +209,7 @@ void PlayState::LoadLevel(int levelNum_)
 				top->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_1));
 				top->setPosition({ 0.f, 500 - (float)top->getTextureRect().height });
 				loopTop->setTexture(Cfg::textures.get((int)Cfg::Textures::BG1_1));
-				loopTop->setPosition({ 0.f, 500 - (float)top->getTextureRect().height });
+				loopTop->setPosition({ 4500.f, 500 - (float)top->getTextureRect().height });
 			}
 		}
 
@@ -231,18 +222,26 @@ void PlayState::DrawBG()
 	// draw bg onto current view at global position starting from zero
 	int numLayers = (int)bgLayers.size()-1;
 	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
+	std::stack<std::unique_ptr<sf::Sprite> > tmpLoopStack = {};
 
 	for (int i = 0; i < numLayers; i++)
 	{
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		gWnd.draw(*tmpStack.top());
+		tmpLoopStack.push(std::move(loopLayers.top()));
+		loopLayers.pop();
+		gWnd.draw(*tmpLoopStack.top());
+
 	}
 	// now lay them on the screen from back to front
 	for (int i = 0; i < numLayers; i++)
 	{
 		bgLayers.push(std::move(tmpStack.top()));
 		tmpStack.pop();
+		loopLayers.push(std::move(tmpLoopStack.top()));
+		tmpLoopStack.pop();
+
 		//gWnd.draw(*bgLayers.top());
 	}
 
@@ -296,39 +295,54 @@ void PlayState::MoveView(float xVelocity)
 
 	// move map and then put the player at the center of the screen
 	gameView.move({xVelocity * gTime, 0.f});
-	std::stack<std::unique_ptr<sf::Sprite> > tmpStack;
+	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
+	std::stack<std::unique_ptr<sf::Sprite> > tmpLoopStack = {};
+
 	int numLayers = (int)bgLayers.size();
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.9999f * gTime) , 0.f });
-
+		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 		tmpStack.push(std::move(bgLayers.top()));
+		tmpLoopStack.push(std::move(loopLayers.top()));
+		loopLayers.pop();
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * .6f * gTime) , 0.f });
-
+		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+		tmpLoopStack.push(std::move(loopLayers.top()));
+		loopLayers.pop();
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.3f * gTime) , 0.f });
+		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+		tmpLoopStack.push(std::move(loopLayers.top()));
+		loopLayers.pop();
 
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.2f * gTime) , 0.f });
-
+		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+		tmpLoopStack.push(std::move(loopLayers.top()));
+		loopLayers.pop();
 
 
 		tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.0001f * gTime) , 0.f });
-
+		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+		tmpLoopStack.push(std::move(loopLayers.top()));
+		loopLayers.pop();
 
 
 	for (int i = 0; i < numLayers; i++)
 	{
 		bgLayers.push(std::move(tmpStack.top()));
 		tmpStack.pop();
+		loopLayers.push(std::move(tmpLoopStack.top()));
+		tmpLoopStack.pop();
 	}
 
 
@@ -344,13 +358,7 @@ void PlayState::MoveView(float xVelocity)
 		auto diff = (player->pos.x - pos.x) - ((int)((player->pos.x - pos.x) * 100.f) % 2 == 1) ? (xVelocity * gTime) : 0.f;// std::roundf((xVelocity * gTime)); //{ gWnd.mapPixelToCoords({ 800, (int)player->pos.y }).x - (player->size.x / 2.f) + 0.5f, player->pos.y };
 		pos.x += diff;
 		player->pos = pos;
-		//std::cout << "PlayerPos: " << player->pos.x << "\nPlayer Pos Calculation: " << (int)(800 - player->size.x / 2.f);
-		//std::cout << std::endl;
 	}
-	//player->pos.x = player->pos.x;
-	//auto adjust = ((player->size.x / 2.f) + player->texPosOffset.x);
-	//player->pos.x += adjust;
-
 }
 
 void PlayState::setLoopLayers()
