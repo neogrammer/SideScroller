@@ -56,6 +56,8 @@ void PlayState::input()
 void PlayState::update()
 {
 	player->pos += player->vel * gTime;
+
+	setLoopLayers();
 }
 
 void PlayState::render()
@@ -366,26 +368,100 @@ void PlayState::setLoopLayers()
 	int numLayers = (int)bgLayers.size();
 	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
 	std::stack<std::unique_ptr<sf::Sprite> > tmpLoopStack = {};
-
-	for (int i = 0; i < numLayers; i++)
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		loopLayers.top()->setPosition({ bgLayers.top()->getPosition().x + (float)bgLayers.top()->getTextureRect().width, bgLayers.top()->getPosition().y});
-		tmpStack.push(std::move(bgLayers.top()));
-		bgLayers.pop();
-		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();
+		for (int i = 0; i < numLayers; i++)
+		{
+			if (player->pos.x + (player->size.x / 2.f) + (player->vel.x * gTime) >=  loopLayers.top()->getPosition().x + 3700.f)
+			{
+				bgLengthsTravelled[i]++;
+				bgLayers.top()->setPosition({ loopLayers.top()->getPosition() });
+				loopLayers.top()->setPosition({ bgLayers.top()->getPosition().x + (float)bgLayers.top()->getTextureRect().width, bgLayers.top()->getPosition().y });
+				
+			}
+			tmpStack.push(std::move(bgLayers.top()));
+			bgLayers.pop();
+			tmpLoopStack.push(std::move(loopLayers.top()));
+			loopLayers.pop();
+		}
+
+		for (int i = 0; i < numLayers; i++)
+		{
+			bgLayers.push(std::move(tmpStack.top()));
+			tmpStack.pop();
+			loopLayers.push(std::move(tmpLoopStack.top()));
+			tmpLoopStack.pop();
+		}
+	}	// background should now be reset
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{ 
+		for (int i = 0; i < numLayers; i++)
+		{
+			if (player->pos.x + (player->size.x / 2.f) + (player->vel.x * gTime) < bgLayers.top()->getPosition().x + 800.f)
+			{
+				bgLengthsTravelled[i]--;
+				loopLayers.top()->setPosition({ bgLayers.top()->getPosition() });
+				bgLayers.top()->setPosition({ loopLayers.top()->getPosition().x - (float)loopLayers.top()->getTextureRect().width, loopLayers.top()->getPosition().y });
+				
+			}
+			tmpStack.push(std::move(bgLayers.top()));
+			bgLayers.pop();
+			tmpLoopStack.push(std::move(loopLayers.top()));
+			loopLayers.pop();
+		}
+
+		for (int i = 0; i < numLayers; i++)
+		{
+			bgLayers.push(std::move(tmpStack.top()));
+			tmpStack.pop();
+			loopLayers.push(std::move(tmpLoopStack.top()));
+			tmpLoopStack.pop();
+		}
 	}
-
-	for (int i = 0; i < numLayers; i++)
-	{
-		bgLayers.push(std::move(tmpStack.top()));
-		tmpStack.pop();
-		loopLayers.push(std::move(tmpLoopStack.top()));
-		tmpLoopStack.pop();
-	}
-
-
 }
+	/*else
+	{
+		bgLengthsTravelled--;
+		for (int i = 0; i < numLayers; i++)
+		{
+			bgLayers.top()->setPosition({ loopLayers.top()->getPosition() });
+			loopLayers.top()->setPosition({ bgLayers.top()->getPosition().x + (float)bgLayers.top()->getTextureRect().width, bgLayers.top()->getPosition().y });
+			tmpStack.push(std::move(bgLayers.top()));
+			bgLayers.pop();
+			tmpLoopStack.push(std::move(loopLayers.top()));
+			loopLayers.pop();
+		}
+
+		for (int i = 0; i < numLayers; i++)
+		{
+			bgLayers.push(std::move(tmpStack.top()));
+			tmpStack.pop();
+			loopLayers.push(std::move(tmpLoopStack.top()));
+			tmpLoopStack.pop();
+		}
+	}
+	else
+	{
+		for (int i = 0; i < numLayers; i++)
+		{
+			loopLayers.top()->setPosition({ bgLayers.top()->getPosition().x + (float)bgLayers.top()->getTextureRect().width, bgLayers.top()->getPosition().y });
+			tmpStack.push(std::move(bgLayers.top()));
+			bgLayers.pop();
+			tmpLoopStack.push(std::move(loopLayers.top()));
+			loopLayers.pop();
+		}
+
+		for (int i = 0; i < numLayers; i++)
+		{
+			bgLayers.push(std::move(tmpStack.top()));
+			tmpStack.pop();
+			loopLayers.push(std::move(tmpLoopStack.top()));
+			tmpLoopStack.pop();
+		}
+	}*/
+
+//}
 
 PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }

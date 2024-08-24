@@ -9,6 +9,7 @@
 #include <vector>
 #include <stack>
 #include <memory>
+#include <array>
 class PlayState : public GameState
 {
 	friend class GameStateMgr;
@@ -25,6 +26,7 @@ class PlayState : public GameState
 	float l5Factor{1.f};
 	bool playerIsInCenter{ false };
 	float mapXVelocity{ 0.0f };
+	std::array<int, 5> bgLengthsTravelled = { 1,1,1,1,1 };
 	
 	
 
