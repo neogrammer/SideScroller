@@ -256,21 +256,32 @@ void PlayState::DrawFront()
 	// draw bg onto current view at global position starting from zero
 	int numLayers = (int)bgLayers.size();
 	std::stack<std::unique_ptr<sf::Sprite> > tmpStack = {};
+	std::stack<std::unique_ptr<sf::Sprite> > tmpLoopStack = {};
 
 	for (int i = 0; i < numLayers; i++)
 	{
 		tmpStack.push(std::move(bgLayers.top()));
+		tmpLoopStack.push(std::move(loopLayers.top()));
+
 		bgLayers.pop();
+		loopLayers.pop();
+
 		if (i == numLayers - 1)
 		{
 			gWnd.draw(*tmpStack.top());
+			gWnd.draw(*tmpLoopStack.top());
+
 		}
 	}
 	// now lay them on the screen from back to front
 	for (int i = 0; i < numLayers; i++)
 	{
 		bgLayers.push(std::move(tmpStack.top()));
+		loopLayers.push(std::move(tmpLoopStack.top()));
+
 		tmpStack.pop();
+		tmpLoopStack.pop();
+
 		//gWnd.draw(*bgLayers.top());
 	}
 
@@ -306,9 +317,10 @@ void PlayState::MoveView(float xVelocity)
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.9999f * gTime) , 0.f });
 		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
-		tmpStack.push(std::move(bgLayers.top()));
 		tmpLoopStack.push(std::move(loopLayers.top()));
 		loopLayers.pop();
+
+     	tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * .6f * gTime) , 0.f });
 		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
