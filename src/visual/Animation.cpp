@@ -1,6 +1,4 @@
 #include <visual/Animation.h>
-#include <visual/AnimData.h>
-#include <core/Cfg.h>
 #include <core/globals.h>
 void Animation::animate()
 {
@@ -139,9 +137,9 @@ sf::IntRect Animation::getCurrentRect()
 	return animRects[i];
 }
 
-const std::string& Animation::getName()
+std::variant<PlayerState> Animation::getName()
 {
-	return data.name;
+	return Cfg::animStateLookup[std::pair(data.animType, data.name)];
 }
 
 Cfg::Textures Animation::getTexType()

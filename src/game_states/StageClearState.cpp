@@ -31,6 +31,10 @@ void StageClearState::update()
 
 }
 
+void StageClearState::updateLate()
+{
+}
+
 void StageClearState::render()
 {
 	

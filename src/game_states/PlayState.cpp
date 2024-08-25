@@ -56,26 +56,18 @@ void PlayState::input()
 
 void PlayState::update()
 {
-	
-	player->pos += player->vel * gTime;
-	if (player->pos.x < 10.f)
-	{
-		player->pos.x = 10.f;
-	}
-	if (player->pos.y < 550.f)
-	{
-		player->pos.y = 550.f;
-	}
-	if (player->pos.y > 900.f - player->size.y)
-	{
-		player->pos.y = 900.f - player->size.y;
-	}
+	player->update();
 	if (player->pos.x > 2000.f)
 	{
+		player->onEvent(GameEvent::StoppedRunning);
 		owner->changeState(GameStateType::StageClearState);
-		
 	}
 	setLoopLayers();
+}
+
+void PlayState::updateLate()
+{
+	player->updateLate();
 }
 
 void PlayState::render()
@@ -84,7 +76,11 @@ void PlayState::render()
 	gWnd.setView(gameView);
 
 	DrawBG();
-	gWnd.draw(*phys::spr(*player));
+	sf::Sprite aSpr;
+	aSpr.setTexture(Cfg::textures.get((int)player->texType));
+	aSpr.setTextureRect(player->getAnimRect());
+	aSpr.setPosition(player->getImagePos());
+	gWnd.draw(aSpr);
 	DrawFront();
 	gWnd.setView(gWnd.getDefaultView());
 	// draw GUI
@@ -496,8 +492,7 @@ void PlayState::setLoopLayers()
 
 PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }
-	, player{ std::make_unique<rec>() }
+	, player{ std::make_unique<Player>() }
 {
-	player->set({ 200.f,700.f }, { 207.f,132.f }, Cfg::Textures::PlayerAtlas, { 0,0 }, { 207, 132 }, { 0,0 }, { 0.f,0.f });
 	
 }

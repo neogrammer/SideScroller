@@ -3,7 +3,7 @@
 #include <core/GameStateMgr.h>
 #include <core/GameState.h>
 #include <SFML/Graphics/View.hpp>
-#include <core/rec.h>
+#include <entities/player/Player.h>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <vector>
@@ -19,7 +19,7 @@ class PlayState : public GameState
 	std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
 	std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
 
-	std::unique_ptr<rec> player{};
+	std::unique_ptr<Player> player{};
 	float tmpTimer{};
 	float l1Factor{0.1f};
 	float l2Factor{0.25f};
@@ -47,6 +47,7 @@ public:
 	virtual ~PlayState();
 	virtual void input() override final;
 	virtual void update() override final;
+	void updateLate() override final;
 	virtual void render() override final;
 
 	

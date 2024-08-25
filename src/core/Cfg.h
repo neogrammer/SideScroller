@@ -5,6 +5,8 @@
 #include <core/ResourceManager.h>
 #include <action/ActionMap.h>
 #include <vector>
+#include <variant>
+#include <utility>
 
 enum class MachineType
 {
@@ -128,6 +130,12 @@ enum class GameEvent
 	Count
 };
 
+enum class AnimType
+{
+	Player,
+	Count
+};
+
 enum class PlayerState
 {
 	Idle,
@@ -184,12 +192,16 @@ struct Cfg
 
 	// resource buckets for each type of resource
 	static ResourceManager<sf::Texture, int> textures;
-	static ResourceManager<sf::Font, int> fonts;
 	static ResourceManager<sf::Music, int> music;
 	static ResourceManager<sf::SoundBuffer, int> sounds;
-
+	static ResourceManager<sf::Font, int> fonts;
+	
 	static ActionMap<int> playerInputs;
+
 	static std::map<std::string, Textures> textureLookupTable;
+	static std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > animStateLookup;
+	static std::map<std::variant<PlayerState>, std::string> stateStringLookup;
+
 private:
     // initalize the resources for the entire game
     static void initFonts();

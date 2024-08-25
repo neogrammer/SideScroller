@@ -43,6 +43,7 @@ struct AnimData
 	bool stopped{};
 	bool paused{};
 	unsigned int frameIdx{};
+	AnimType animType{ AnimType::Count };
 };
 
 #endif

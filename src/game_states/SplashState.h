@@ -10,6 +10,7 @@ public:
 	void processEvent(sf::Event& e) override final;
 	virtual void input()  override final;
 	virtual void update()  override final;
+	void updateLate() override final;
 	virtual void render()  override final;
 
 };

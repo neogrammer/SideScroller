@@ -16,6 +16,7 @@ public:
 	virtual void processEvent(sf::Event& e) = 0;
 	virtual void input() = 0;
 	virtual void update() = 0;
+	virtual void updateLate() = 0;
 	virtual void render() = 0;
 
 };

@@ -32,6 +32,7 @@ public:
 	bool hasUnder();
 	void input();
 	void update();
+	void updateLate();
 	void render();
 	void safeStateSwitch();
 	void processEvent(sf::Event& e_);

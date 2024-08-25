@@ -5,8 +5,12 @@
 #include <string>
 #include <fstream>
 #include <visual/AnimData.h>
+#include <variant>
+#include <utility>
+
 class Animation
 {
+	friend class AnimMap;
 	std::vector<sf::IntRect> animRects{};
 	AnimData data{};
 	float animTimer{};
@@ -20,7 +24,7 @@ public:
 	unsigned int getCurrentFrame();
 	sf::IntRect getCurrentRect();
 
-	const std::string& getName();
+	std::variant<PlayerState> getName();
 	Cfg::Textures getTexType();
 	void play();
 	void stop();

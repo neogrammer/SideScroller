@@ -13,6 +13,7 @@ public:
 
 	void input()   override final;
 	void update()   override final;
+	void updateLate() override final;
 	void render()   override final;
 
 };

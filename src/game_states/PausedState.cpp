@@ -25,6 +25,10 @@ void PausedState::update()
 {
 }
 
+void PausedState::updateLate()
+{
+}
+
 void PausedState::render()
 {
 	

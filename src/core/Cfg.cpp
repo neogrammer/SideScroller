@@ -11,6 +11,48 @@ std::map<std::string, Cfg::Textures> Cfg::textureLookupTable =  {
 	{"logo",Textures::Logo},
 	{"player",Textures::PlayerAtlas}
 };
+
+std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > Cfg::animStateLookup = {
+	{ std::pair{AnimType::Player,"idleRt"}, PlayerState::Idle },
+	{ std::pair{AnimType::Player,"runRt"}, PlayerState::Running },
+	{ std::pair{AnimType::Player,"attackRt"}, PlayerState::Attacking },
+	{ std::pair{AnimType::Player,"deathRt"}, PlayerState::Dying },
+	{ std::pair{AnimType::Player,"hurtRt"}, PlayerState::Damaged },
+	{ std::pair{AnimType::Player,"jumpRt"}, PlayerState::Jumping },
+	{ std::pair{AnimType::Player,"upToFallRt"}, PlayerState::Falling },
+	{ std::pair{AnimType::Player,"fallRt"}, PlayerState::Falling },
+	{ std::pair{AnimType::Player,"edgeGrabRt"}, PlayerState::HangingFromEdge },
+	{ std::pair{AnimType::Player,"idleEdgeRt"}, PlayerState::HangingFromEdge },
+	{ std::pair{AnimType::Player,"wallSlideRt"}, PlayerState::WallKicking },
+	{ std::pair{AnimType::Player,"crouchRt"}, PlayerState::Crouching },
+	{ std::pair{AnimType::Player,"dashRt"}, PlayerState::Dashing },
+	{ std::pair{AnimType::Player,"dashAttackRt"}, PlayerState::DashAttacking },
+	{ std::pair{AnimType::Player,"slideRt"}, PlayerState::Sliding },
+	{ std::pair{AnimType::Player,"ladderGrabRt"}, PlayerState::LadderClimbing },
+	{ std::pair{AnimType::Player,"idleLt"}, PlayerState::Idle },
+	{ std::pair{AnimType::Player,"runLt"}, PlayerState::Running },
+	{ std::pair{AnimType::Player,"attackLt"}, PlayerState::Attacking },
+	{ std::pair{AnimType::Player,"deathLt"}, PlayerState::Dying },
+	{ std::pair{AnimType::Player,"hurtLt"}, PlayerState::Damaged },
+	{ std::pair{AnimType::Player,"jumpLt"}, PlayerState::Jumping },
+	{ std::pair{AnimType::Player,"upToFallLt"}, PlayerState::Falling },
+	{ std::pair{AnimType::Player,"fallLt"}, PlayerState::Falling },
+	{ std::pair{AnimType::Player,"edgeGrabLt"}, PlayerState::HangingFromEdge },
+	{ std::pair{AnimType::Player,"idleEdgeLt"}, PlayerState::HangingFromEdge },
+	{ std::pair{AnimType::Player,"wallSlideLt"}, PlayerState::WallKicking },
+	{ std::pair{AnimType::Player,"crouchLt"}, PlayerState::Crouching },
+	{ std::pair{AnimType::Player,"dashLt"}, PlayerState::Dashing },
+	{ std::pair{AnimType::Player,"dashAttackLt"}, PlayerState::DashAttacking },
+	{ std::pair{AnimType::Player,"slideLt"}, PlayerState::Sliding },
+	{ std::pair{AnimType::Player,"ladderGrabLt"}, PlayerState::LadderClimbing }
+};
+
+std::map<std::variant<PlayerState>, std::string> Cfg::stateStringLookup = {
+	{ PlayerState::Idle, "idle"},
+	{ PlayerState::Running, "running"}
+};
+
+
 void Cfg::Initialize()
 {
     initTextures();

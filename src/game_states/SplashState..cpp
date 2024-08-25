@@ -32,6 +32,10 @@ void SplashState::update()
 {
 }
 
+void SplashState::updateLate()
+{
+}
+
 void SplashState::render()
 {
 

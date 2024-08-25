@@ -4,10 +4,12 @@
 #include <unordered_map>
 #include <utility>
 #include <memory>
+#include <variant>
 class AnimMap
 {
 public:
-	std::unordered_map<std::string, std::unique_ptr<Animation> > anims;
+	std::unordered_map<std::variant<PlayerState>, std::unique_ptr<Animation> > anims;
+	Animation* currentAnimation{ nullptr };
 
 	AnimMap();
 	~AnimMap();
@@ -16,7 +18,11 @@ public:
 	AnimMap& operator=(const AnimMap&) = delete;
 	AnimMap& operator=(AnimMap&&) = delete;
 
-	void loadAnimMap(const std::string& animSheet);
+	std::string currAnim{"idle"};
+	AnimType animType{ AnimType::Count };
+
+	sf::IntRect getRect();
+	void loadAnimMap(const std::string& animSheet, AnimType animType_);
 };
 
 #endif

@@ -5,8 +5,9 @@
 #include <functional>
 #include <string>
 #include <variant>
+#include <core/rec.h>
 
-class Player
+class Player : public rec
 {
 	std::function<std::variant<PlayerState>(GameEvent evt_)> Func;
 	AnimMgr animMgr;
@@ -20,6 +21,10 @@ public:
 	Player& operator=(Player&&) = delete;
 
 	std::variant<PlayerState> onEvent(GameEvent evt_);
+	sf::IntRect getAnimRect();
+	void update();
+	void updateLate();
+	void render();
 
 };
 

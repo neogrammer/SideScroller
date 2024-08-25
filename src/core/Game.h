@@ -15,6 +15,7 @@ class Game
 
 	void input();
 	void update();
+	void updateLate();
 	void render();
 
 public:

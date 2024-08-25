@@ -1,6 +1,10 @@
 #include <core/Game.h>
 #include <type_traits>
 #include <string>
+#include <variant>
+#include <string>
+#include <functional>
+#include <utility>
 
 Game::Game()
 	: gameStateMgr{ std::make_unique<GameStateMgr>(this) }
@@ -57,11 +61,13 @@ void Game::run()
 
 			
 			update();
-			
+			updateLate();
 			// now render the screen
 			gWnd.clear(sf::Color(47, 147, 247, 255));
 			render();
 			gWnd.display();
+
+			
 		}
 	}
 }
@@ -69,5 +75,10 @@ void Game::run()
 void Game::update()
 {
 	gameStateMgr->update();
+}
+
+void Game::updateLate()
+{
+	gameStateMgr->updateLate();
 }
 

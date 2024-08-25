@@ -70,6 +70,11 @@ void GameStateMgr::update()
 	return;
 }
 
+void GameStateMgr::updateLate()
+{
+	stateStack.top()->updateLate();
+}
+
 void GameStateMgr::popTop()
 {
 	stateStack.pop();

@@ -30,6 +30,10 @@ void TitleState::update()
 {
 }
 
+void TitleState::updateLate()
+{
+}
+
 void TitleState::render()
 {
 
