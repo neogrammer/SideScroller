@@ -22,9 +22,10 @@ void PlayState::input()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) - (300.f * gTime), player->pos.y }).x >= 800)
+		if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) - (300.f * gTime), player->pos.y }).x >= 800 || gameView.getCenter().x - (300.f * gTime) < 800.f)
 		{
-			player->vel.x = -300.f;
+				player->vel.x = -300.f;
+
 		}
 		else
 		{
@@ -55,8 +56,25 @@ void PlayState::input()
 
 void PlayState::update()
 {
+	
 	player->pos += player->vel * gTime;
-
+	if (player->pos.x < 10.f)
+	{
+		player->pos.x = 10.f;
+	}
+	if (player->pos.y < 550.f)
+	{
+		player->pos.y = 550.f;
+	}
+	if (player->pos.y > 900.f - player->size.y)
+	{
+		player->pos.y = 900.f - player->size.y;
+	}
+	if (player->pos.x > 2000.f)
+	{
+		owner->changeState(GameStateType::StageClearState);
+		
+	}
 	setLoopLayers();
 }
 
@@ -68,6 +86,8 @@ void PlayState::render()
 	DrawBG();
 	gWnd.draw(*phys::spr(*player));
 	DrawFront();
+	gWnd.setView(gWnd.getDefaultView());
+	// draw GUI
 }
 
 
@@ -216,7 +236,6 @@ void PlayState::LoadLevel(int levelNum_)
 		}
 
 	}
-
 }
 
 void PlayState::DrawBG()
@@ -477,7 +496,8 @@ void PlayState::setLoopLayers()
 
 PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }
-	, player{std::make_unique<rec>()}
+	, player{ std::make_unique<rec>() }
 {
 	player->set({ 200.f,700.f }, { 207.f,132.f }, Cfg::Textures::PlayerAtlas, { 0,0 }, { 207, 132 }, { 0,0 }, { 0.f,0.f });
+	
 }

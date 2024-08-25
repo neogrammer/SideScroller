@@ -7,7 +7,10 @@ ResourceManager<sf::Music, int> Cfg::music = {};
 ResourceManager<sf::SoundBuffer, int> Cfg::sounds = {};
 
 ActionMap<int> Cfg::playerInputs = {};
-
+std::map<std::string, Cfg::Textures> Cfg::textureLookupTable =  {
+	{"logo",Textures::Logo},
+	{"player",Textures::PlayerAtlas}
+};
 void Cfg::Initialize()
 {
     initTextures();
@@ -39,6 +42,7 @@ void Cfg::initTextures()
 	textures.load((int)Cfg::Textures::BG1_3, "assets/textures/bgs/bg1/bgLayer3.png");
 	textures.load((int)Cfg::Textures::BG1_4, "assets/textures/bgs/bg1/bgLayer4.png");
 	textures.load((int)Cfg::Textures::BG1_5, "assets/textures/bgs/bg1/bgLayer5.png");
+	textures.load((int)Cfg::Textures::Logo, "assets/textures/bgs/logoImg.png");
 
 
 }

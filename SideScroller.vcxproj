@@ -143,10 +143,15 @@
     <ClCompile Include="src\core\GameStateMgr.cpp" />
     <ClCompile Include="src\core\globals.cpp" />
     <ClCompile Include="src\core\rec.cpp" />
+    <ClCompile Include="src\entities\player\Player.cpp" />
     <ClCompile Include="src\game_states\PausedState.cpp" />
     <ClCompile Include="src\game_states\PlayState.cpp" />
     <ClCompile Include="src\game_states\SplashState..cpp" />
+    <ClCompile Include="src\game_states\StageClearState.cpp" />
     <ClCompile Include="src\game_states\TitleState.cpp" />
+    <ClCompile Include="src\visual\Animation.cpp" />
+    <ClCompile Include="src\visual\AnimMap.cpp" />
+    <ClCompile Include="src\visual\AnimMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\action\Action.h" />
@@ -159,12 +164,19 @@
     <ClInclude Include="src\core\globals.h" />
     <ClInclude Include="src\core\rec.h" />
     <ClInclude Include="src\core\ResourceManager.h" />
+    <ClInclude Include="src\entities\player\Player.h" />
     <ClInclude Include="src\game_states\PausedState.h" />
     <ClInclude Include="src\game_states\PlayState.h" />
     <ClInclude Include="src\game_states\SplashState.h" />
+    <ClInclude Include="src\game_states\StageClearState.h" />
     <ClInclude Include="src\game_states\TitleState.h" />
+    <ClInclude Include="src\visual\Animation.h" />
+    <ClInclude Include="src\visual\AnimData.h" />
+    <ClInclude Include="src\visual\AnimMap.h" />
+    <ClInclude Include="src\visual\AnimMgr.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\data\animations\actors\player.dat" />
     <None Include="assets\data\animations\actors\player.anim" />
     <None Include="src\action\tpl\ActionMap.tpl" />
     <None Include="src\action\tpl\ActionTarget.tpl" />

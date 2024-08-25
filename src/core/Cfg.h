@@ -98,7 +98,60 @@ enum class GameStateType
 	Gameover,
 	Menu,
 	Pause,
-	StageSelect
+	StageSelect,
+	StageClearState
+};
+
+enum class GameEvent
+{
+	StoppedRunning,
+	StartedRunning,
+	StartedAttacking,
+	StoppedAttacking,
+	ContinuedAttacking,
+	LifeDepleted,
+	Damaged,
+	Jumped,
+	PeakingJump,
+	Fell,
+	GrabbingForLedge,
+	HoldingOntoLedge,
+	StartedToRepel,
+	JumpedOffWall,
+	Crouched,
+	Dashed,
+	StartedDashAttack,
+	ContinuedDashAttack,
+	StoppedDashAttack,
+	Slid,
+	GrabbedOntoLadder,
+	Count
+};
+
+enum class PlayerState
+{
+	Idle,
+	Running,
+	Attacking,
+	Dying,
+	Damaged,
+	Jumping,
+	Falling,
+	HangingFromEdge,
+	WallKicking,
+	Crouching,
+	Dashing,
+	DashAttacking,
+	Sliding,
+	LadderClimbing,
+	Count
+};
+
+enum class Dir
+{
+	Right,
+	Left,
+	Count
 };
 
 struct Cfg
@@ -113,7 +166,7 @@ struct Cfg
 	static void Initialize();
 
 	// Resource Enums 
-	enum class Textures : int { PlayerAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
+	enum class Textures : int { Logo, PlayerAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
 	enum class Fonts : int { Font1, Count };
 	enum class Music : int { Count };
 	enum class Sounds : int { Count };
@@ -136,7 +189,7 @@ struct Cfg
 	static ResourceManager<sf::SoundBuffer, int> sounds;
 
 	static ActionMap<int> playerInputs;
-
+	static std::map<std::string, Textures> textureLookupTable;
 private:
     // initalize the resources for the entire game
     static void initFonts();

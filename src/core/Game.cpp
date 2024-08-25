@@ -3,7 +3,7 @@
 #include <string>
 
 Game::Game()
-	: gameStateMgr{ std::make_unique<GameStateMgr>() }
+	: gameStateMgr{ std::make_unique<GameStateMgr>(this) }
 {
 	wndw::CreateWindow("MegamanOne", 1600U, 900U);
 	gWnd.setPosition({ 120, 20 });

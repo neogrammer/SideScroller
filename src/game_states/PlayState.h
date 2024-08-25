@@ -10,6 +10,7 @@
 #include <stack>
 #include <memory>
 #include <array>
+#include <visual/AnimMgr.h>
 class PlayState : public GameState
 {
 	friend class GameStateMgr;
@@ -19,6 +20,7 @@ class PlayState : public GameState
 	std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
 
 	std::unique_ptr<rec> player{};
+	float tmpTimer{};
 	float l1Factor{0.1f};
 	float l2Factor{0.25f};
 	float l3Factor{0.5f};
@@ -31,13 +33,14 @@ class PlayState : public GameState
 	
 
 
-	void LoadLevel(int levelNum_ = 1);
 	void DrawBG();
 	void AdjustView();
 	void MoveView(float xVelocity);
 	void setLoopLayers();
 	void DrawFront();
 public:
+
+	void LoadLevel(int levelNum_ = 1);
 	PlayState() = default;
 	PlayState(GameStateMgr* mgr_);
 	void processEvent(sf::Event& e) override final;

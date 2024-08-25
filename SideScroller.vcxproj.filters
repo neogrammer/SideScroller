@@ -67,6 +67,18 @@
     <Filter Include="Resource Files\assets\fonts">
       <UniqueIdentifier>{3cc7f605-8e52-45be-a53d-3ff792484957}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\visual">
+      <UniqueIdentifier>{9746c1db-0930-461d-99ac-91b6b74644ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\visual">
+      <UniqueIdentifier>{eb014774-4796-4ede-84fc-c924f98b569f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entities">
+      <UniqueIdentifier>{118ceb75-2599-444b-8a28-53d7d8198963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entities">
+      <UniqueIdentifier>{5aebff1d-f2f9-41fe-b042-2c5831e2f83b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +116,21 @@
     </ClCompile>
     <ClCompile Include="src\game_states\TitleState.cpp">
       <Filter>Source Files\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_states\StageClearState.cpp">
+      <Filter>Source Files\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\visual\Animation.cpp">
+      <Filter>Source Files\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="src\visual\AnimMap.cpp">
+      <Filter>Source Files\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="src\visual\AnimMgr.cpp">
+      <Filter>Source Files\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\player\Player.cpp">
+      <Filter>Source Files\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +176,24 @@
     <ClInclude Include="src\game_states\TitleState.h">
       <Filter>Header Files\game_states</Filter>
     </ClInclude>
+    <ClInclude Include="src\game_states\StageClearState.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\visual\AnimData.h">
+      <Filter>Header Files\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\visual\Animation.h">
+      <Filter>Header Files\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\visual\AnimMap.h">
+      <Filter>Header Files\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\visual\AnimMgr.h">
+      <Filter>Header Files\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\player\Player.h">
+      <Filter>Header Files\entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\core\tpl\ResourceManager.tpl">
@@ -161,6 +206,9 @@
       <Filter>Header Files\action\tpl</Filter>
     </None>
     <None Include="assets\data\animations\actors\player.anim">
+      <Filter>Resource Files\assets\data\animations\actors</Filter>
+    </None>
+    <None Include="assets\data\animations\actors\player.dat">
       <Filter>Resource Files\assets\data\animations\actors</Filter>
     </None>
   </ItemGroup>

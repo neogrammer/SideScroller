@@ -4,19 +4,20 @@
 #include <game_states/PlayState.h>
 #include <game_states/SplashState.h>
 #include <game_states/TitleState.h>
-
+#include <game_states/StageClearState.h>
+#include <core/globals.h>
 #include <iostream>
-GameStateMgr::GameStateMgr()
+GameStateMgr::GameStateMgr(Game* game_)
+	: game{ game_ }
 {
 	stateMap.emplace(std::pair{ GameStateType::Splash, std::move(std::make_unique<SplashState>(this)) });
 	stateMap.emplace(std::pair{ GameStateType::Title, std::move(std::make_unique<TitleState>(this)) });
 	stateMap.emplace(std::pair{ GameStateType::Pause, std::move(std::make_unique<PausedState>(this)) });
 	stateMap.emplace(std::pair{ GameStateType::Play, std::move(std::make_unique<PlayState>(this)) });
+	stateMap.emplace(std::pair{ GameStateType::StageClearState, std::move(std::make_unique<StageClearState>(this)) });
+	stateStack.push(stateMap.at(GameStateType::Splash).get());
 	
-	stateStack.push(stateMap.at(GameStateType::Play).get());
-	dynamic_cast<PlayState*>(stateStack.top())->LoadLevel();
 }
-
 GameStateMgr::~GameStateMgr()
 {
 	while (!stateStack.empty())
@@ -74,6 +75,16 @@ void GameStateMgr::popTop()
 	stateStack.pop();
 }
 
+void GameStateMgr::resetState(GameStateType type_)
+{
+	if (stateMap.find(type_) != stateMap.end())
+	{
+		stateMap.erase(stateMap.find(type_));
+		stateMap.insert_or_assign(type_, std::make_unique<PlayState>(this));
+	}
+
+}
+
 void GameStateMgr::render()
 {
 	if (!needsToSwitchState)
@@ -102,12 +113,21 @@ void GameStateMgr::safeStateSwitch()
 		}
 		else
 		{
+			gameView = gWnd.getDefaultView();
+			gWnd.setView(gWnd.getDefaultView());
 			if (popOffCurrent)
 				stateStack.pop();
+			
 			stateStack.push(stateMap.at(nextState).get());
+
+			if (nextState == GameStateType::Play)
+			{
+				dynamic_cast<PlayState*>(stateStack.top())->LoadLevel();
+			}
 		}
 		nextState = GameStateType::None;
 		popOffCurrent = true;
+
 		return;
 	}
 	return;

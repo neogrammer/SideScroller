@@ -7,6 +7,7 @@
 #include <stack>
 #include <unordered_map>
 #include <core/Cfg.h>
+class Game;
 class GameState;
 
 class GameStateMgr
@@ -15,11 +16,12 @@ class GameStateMgr
 	bool needsToSwitchState{ false };
 	bool popOffCurrent{ true };
 
-	std::stack<GameState*> stateStack;
-
 	std::unordered_map<GameStateType, std::unique_ptr<GameState> > stateMap{};
 public:
-	GameStateMgr();
+	std::stack<GameState*> stateStack;
+	Game* game;
+	GameStateMgr(Game* game_ = nullptr);
+
 	~GameStateMgr();
 	GameStateMgr& operator=(const GameStateMgr&) = delete;
 	GameStateMgr(const GameStateMgr&) = delete;
@@ -35,6 +37,7 @@ public:
 	void processEvent(sf::Event& e_);
 	void changeState(GameStateType type_, bool popCurrent_ = true);
 	void popTop();
+	void resetState(GameStateType type_);
 
 };
 

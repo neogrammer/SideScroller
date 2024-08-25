@@ -1,7 +1,7 @@
 
 #include "SplashState.h"
 #include <core/globals.h>
-
+#include "PlayState.h"
 SplashState::SplashState(GameStateMgr* mgr_)
 	: GameState(mgr_)
 {
@@ -17,7 +17,8 @@ void SplashState::processEvent(sf::Event& e)
 	{
 		if (e.key.code == sf::Keyboard::Enter)
 		{
-			owner->changeState(GameStateType::Title, true);
+			owner->changeState(GameStateType::Play, true);
+			
 		}
 	}
 }
@@ -36,7 +37,7 @@ void SplashState::render()
 
 
 
-	//sf::Sprite logoScreen = {};
-	//logoScreen.setTexture(Cfg::textures.get((int)Cfg::Textures::Logo));
-	//gWnd.draw(logoScreen);
+	sf::Sprite logoScreen = {};
+	logoScreen.setTexture(Cfg::textures.get((int)Cfg::Textures::Logo));
+	gWnd.draw(logoScreen);
 }
