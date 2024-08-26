@@ -324,7 +324,44 @@ void PlayState::MoveView(float xVelocity)
 
 	int numLayers = (int)bgLayers.size();
 
-		tmpStack.push(std::move(bgLayers.top()));
+	tmpStack.push(std::move(bgLayers.top()));
+	bgLayers.pop();
+	tmpStack.top()->move({ ((100000.f / xVelocity) * gTime) , 0.f });
+	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+	tmpLoopStack.push(std::move(loopLayers.top()));
+	loopLayers.pop();
+
+	tmpStack.push(std::move(bgLayers.top()));
+	bgLayers.pop();
+	tmpStack.top()->move({ ((75000.f / xVelocity ) * gTime) , 0.f });
+	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+	tmpLoopStack.push(std::move(loopLayers.top()));
+	loopLayers.pop();
+
+	tmpStack.push(std::move(bgLayers.top()));
+	bgLayers.pop();
+	tmpStack.top()->move({ ((50000.f / xVelocity) * gTime) , 0.f });
+	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+	tmpLoopStack.push(std::move(loopLayers.top()));
+	loopLayers.pop();
+
+
+	tmpStack.push(std::move(bgLayers.top()));
+	bgLayers.pop();
+	tmpStack.top()->move({ ((40000.f / xVelocity) * gTime) , 0.f });
+	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+	tmpLoopStack.push(std::move(loopLayers.top()));
+	loopLayers.pop();
+
+
+	tmpStack.push(std::move(bgLayers.top()));
+	bgLayers.pop();
+	tmpStack.top()->move({ ((20000.f / xVelocity) * gTime) , 0.f });
+	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
+	tmpLoopStack.push(std::move(loopLayers.top()));
+	loopLayers.pop();
+
+	/*	tmpStack.push(std::move(bgLayers.top()));
 		bgLayers.pop();
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.9999f * gTime) , 0.f });
 		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
@@ -359,7 +396,7 @@ void PlayState::MoveView(float xVelocity)
 		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.0001f * gTime) , 0.f });
 		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();
+		loopLayers.pop();*/
 
 
 	for (int i = 0; i < numLayers; i++)
