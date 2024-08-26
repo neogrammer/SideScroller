@@ -86,7 +86,7 @@ void PlayState::input()
 void PlayState::update()
 {
 	player->update();
-	if (player->pos.x > 2000.f)
+	if (player->pos.x > 24900.f)
 	{
 		player->onEvent(GameEvent::StoppedRunning);
 		owner->changeState(GameStateType::StageClearState);
