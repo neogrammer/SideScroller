@@ -143,26 +143,26 @@ void Player::update()
 		}
 	}
 
-	pos += vel * gTime;
+	//pos += vel * gTime;
 	if (pos.x < 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		onEvent(GameEvent::StoppedRunning);
+		//onEvent(GameEvent::StoppedRunning);
 		pos.x = 10.f;
 	}
-	if (pos.y < 550.f && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (pos.y > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		onEvent(GameEvent::StoppedRunning);
+		//onEvent(GameEvent::StoppedRunning);
+		pos.y = 900.f - size.y;
+	}
+	if (pos.y < 550.f && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		//onEvent(GameEvent::StoppedRunning);
 		pos.y = 550.f;
 	}
-	if (pos.x > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (pos.x > 25000.f - 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		onEvent(GameEvent::StoppedRunning);
-		pos.y = 900.f - size.y;
-	}
-	if (pos.y > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		onEvent(GameEvent::StoppedRunning);
-		pos.y = 900.f - size.y;
+		//onEvent(GameEvent::StoppedRunning);
+		pos.x = 25000.f - 10.f;
 	}
 	if (vel.x == 0.f && vel.y == 0.f && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S)  && !sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{

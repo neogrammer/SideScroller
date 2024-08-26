@@ -11,7 +11,7 @@ void PlayState::input()
 	{
 		//if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) + (300.f * gTime), player->pos.y }).x <= 800)
 	 //	{
-			player->vel.x = 300.f;
+			player->vel.x = 400.f;
 	//	}
 		//else
 		//{
@@ -24,7 +24,7 @@ void PlayState::input()
 	{
 		//if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) - (300.f * gTime), player->pos.y }).x >= 800 || gameView.getCenter().x - (300.f * gTime) < 800.f)
 		//{
-		player->vel.x = -300.f;
+		player->vel.x = -400.f;
 		
 		//if ((gWnd.mapCoordsToPixel({ player->pos.x + (player->size.x / 2.f) + (player->vel.x * gTime), player->pos.y }).x < 800) && (gameView.getCenter().x - (300.f * gTime) + (player->size.x / 2.f) > 800.f))
 		//{
@@ -42,11 +42,11 @@ void PlayState::input()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		player->vel.y = -300.f;
+		player->vel.y = -400.f;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{		
-		player->vel.y = 300.f;
+		player->vel.y = 400.f;
 	}
 	else
 	{
@@ -326,7 +326,7 @@ void PlayState::MoveView(float xVelocity)
 
 	tmpStack.push(std::move(bgLayers.top()));
 	bgLayers.pop();
-	tmpStack.top()->move({ ((100000.f / xVelocity) * gTime) , 0.f });
+	tmpStack.top()->move({ ((80000.f / xVelocity) * gTime) , 0.f });
 	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
