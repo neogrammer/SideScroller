@@ -10,7 +10,7 @@ AnimMgr::AnimMgr(const std::string& filename, std::function <std::variant<Player
 	, onEvent{onEvent_}
 {
 	setup(filename, type_);
-	animMap.currAnim = "idle";
+	animMap.currAnim = "idleRt";
 }
 
 AnimMgr::~AnimMgr()
@@ -31,18 +31,46 @@ void AnimMgr::changeAnimState(std::variant<PlayerState> newState_)
 
 void AnimMgr::update()
 {
-
-		animMap.currentAnimation = animMap.anims.at(mainState).get();
-		animMap.currAnim = Cfg::stateStringLookup[mainState];
-
 	animMap.currentAnimation->animate();
-
 }
 
 void AnimMgr::updateLate()
 {
-	mainState = transientState;
 	
+
+	if (mainState != transientState || changingDirection != "none")
+	{
+		if (changingDirection != "none")
+		{
+			if (changingDirection == "left")
+			{
+				facingRight = false;
+			}
+			else
+			{
+				facingRight = true;
+			}
+			changingDirection = "none";
+		}
+		animMap.currentAnimation->stop();
+		mainState = transientState;
+		animMap.currAnim = Cfg::playerStateStringLookup[std::pair(mainState, facingRight)];
+		animMap.currentAnimation = animMap.anims.at(animMap.currAnim).get();
+		animMap.currentAnimation->play();
+		
+	}
+}
+
+void AnimMgr::faceRight()
+{
+	if (facingRight == false)
+		changingDirection = "right";
+}
+
+void AnimMgr::faceLeft()
+{
+	if (facingRight == true)
+		changingDirection = "left";
 }
 
 sf::IntRect AnimMgr::getCurrentRect()

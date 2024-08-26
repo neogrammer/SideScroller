@@ -63,6 +63,10 @@ std::variant<PlayerState> Player::onEvent(GameEvent evt_)
 	{
 	}
 	break;
+	case PlayerState::PeakingJump:
+	{
+	}
+	break;
 	case PlayerState::Falling:
 	{
 	}
@@ -71,7 +75,7 @@ std::variant<PlayerState> Player::onEvent(GameEvent evt_)
 	{
 	}
 	break;
-	case PlayerState::WallKicking:
+	case PlayerState::WallSliding:
 	{
 	}
 	break;
@@ -125,24 +129,44 @@ sf::IntRect Player::getAnimRect()
 
 void Player::update()
 {
-	if (vel.x != 0.f || vel.y != 0.f)
+	if (vel.x != 0.f || vel.y != 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		
 		onEvent(GameEvent::StartedRunning);
+		if (vel.x < 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			animMgr.faceLeft();
+		}
+		else if (vel.x > 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			animMgr.faceRight();
+		}
+	}
 
 	pos += vel * gTime;
-	if (pos.x < 10.f)
+	if (pos.x < 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		onEvent(GameEvent::StoppedRunning);
 		pos.x = 10.f;
 	}
-	if (pos.y < 550.f)
+	if (pos.y < 550.f && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		onEvent(GameEvent::StoppedRunning);
 		pos.y = 550.f;
 	}
-	if (pos.y > 900.f - size.y)
+	if (pos.x > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		onEvent(GameEvent::StoppedRunning);
 		pos.y = 900.f - size.y;
+	}
+	if (pos.y > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		onEvent(GameEvent::StoppedRunning);
+		pos.y = 900.f - size.y;
+	}
+	if (vel.x == 0.f && vel.y == 0.f && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S)  && !sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		onEvent(GameEvent::StoppedRunning);
 	}
 	
 

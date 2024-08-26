@@ -158,3 +158,8 @@ void Animation::stop()
 	data.frameIdx = 0U;
 
 }
+
+void Animation::pause()
+{
+	data.playing = false;
+}

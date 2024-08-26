@@ -144,9 +144,11 @@ enum class PlayerState
 	Dying,
 	Damaged,
 	Jumping,
+	PeakingJump,
 	Falling,
+	GrabbingEdge,
 	HangingFromEdge,
-	WallKicking,
+	WallSliding,
 	Crouching,
 	Dashing,
 	DashAttacking,
@@ -200,7 +202,7 @@ struct Cfg
 
 	static std::map<std::string, Textures> textureLookupTable;
 	static std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > animStateLookup;
-	static std::map<std::variant<PlayerState>, std::string> stateStringLookup;
+	static std::map<std::pair<std::variant<PlayerState>, bool>, std::string> playerStateStringLookup;
 
 private:
     // initalize the resources for the entire game

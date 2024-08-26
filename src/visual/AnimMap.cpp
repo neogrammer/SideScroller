@@ -36,11 +36,11 @@ void AnimMap::loadAnimMap(const std::string& animSheet, AnimType animType_)
 			// anim->LoadAnim(file, common data points for an AnimMap) to shorten the animmap file
 			anim->data.animType = animType_;
 			
-			anims.emplace(std::pair{ Cfg::animStateLookup[std::pair(animType_, anim->data.name)],std::move(anim) });
+			anims.emplace(std::pair{  anim->data.name, std::move(anim) });
 			if (first)
 			{
 				first = false;
-				currentAnimation = anims.at(PlayerState::Idle).get();
+				currentAnimation = anims.at("idleRt").get();
 			}
 		}
 	}

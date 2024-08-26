@@ -183,7 +183,7 @@
     <None Include="src\core\tpl\ResourceManager.tpl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\textures\actors\player\WarriorBig3.png" />
+    <Image Include="assets\textures\actors\player\WarriorBig3_229x132.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer1.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer2.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer3.png" />

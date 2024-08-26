@@ -18,9 +18,6 @@
     <Filter Include="Header Files\action">
       <UniqueIdentifier>{a75667d8-dd5d-49e4-a3c4-9d32de63917a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\action">
-      <UniqueIdentifier>{8cd9ba7f-2b6b-4ee9-9b8b-37099ba8a6a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\action\tpl">
       <UniqueIdentifier>{0e09d981-73d3-415a-ae1f-e10c294b6525}</UniqueIdentifier>
     </Filter>
@@ -79,6 +76,9 @@
     <Filter Include="Header Files\entities">
       <UniqueIdentifier>{5aebff1d-f2f9-41fe-b042-2c5831e2f83b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\action">
+      <UniqueIdentifier>{8cd9ba7f-2b6b-4ee9-9b8b-37099ba8a6a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -97,7 +97,7 @@
       <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="src\action\Action.cpp">
-      <Filter>Source Files\action</Filter>
+      <Filter>Source Files\core\action</Filter>
     </ClCompile>
     <ClCompile Include="src\core\GameState.cpp">
       <Filter>Source Files\core</Filter>
@@ -228,7 +228,7 @@
     <Image Include="assets\textures\bgs\bg1\bgLayer5.png">
       <Filter>Resource Files\assets\textures\bgs\bg1</Filter>
     </Image>
-    <Image Include="assets\textures\actors\player\WarriorBig3.png">
+    <Image Include="assets\textures\actors\player\WarriorBig3_229x132.png">
       <Filter>Resource Files\assets\textures\actors\player</Filter>
     </Image>
   </ItemGroup>

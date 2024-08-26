@@ -6,7 +6,6 @@
 #include <vector>
 #include <functional>
 
-
 class AnimMgr
 {
 	friend class Player;
@@ -16,7 +15,10 @@ class AnimMgr
 	float currentStateTimeElapsed{};
 	float currentAnimFrameTimeElapsed{};
     std::function <std::variant<PlayerState> (GameEvent evt_)> onEvent;
+	bool facingRight{ true };
+	std::string changingDirection{ "none"};
 public:
+	
 	AnimMgr() = delete;
 	AnimMgr(const std::string& filename, std::function <std::variant<PlayerState>(GameEvent evt_)> onEvent_, AnimType type_);
 	~AnimMgr();
@@ -28,6 +30,8 @@ public:
 	void setup(const std::string& filename, AnimType type_);
 	void update();
 	void updateLate();
+	void faceRight();
+	void faceLeft();
 	sf::IntRect getCurrentRect();
 	void loadAnimMap(std::string animFile_, AnimType type_);
 };

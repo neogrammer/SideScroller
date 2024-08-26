@@ -11,7 +11,9 @@ class Player : public rec
 {
 	std::function<std::variant<PlayerState>(GameEvent evt_)> Func;
 	AnimMgr animMgr;
-
+	bool facingRight{ true };
+	
+	Dir direction{ Dir::Right };
 public:
 	Player();
 	~Player();

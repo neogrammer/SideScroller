@@ -19,11 +19,11 @@ std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > Cfg::anim
 	{ std::pair{AnimType::Player,"deathRt"}, PlayerState::Dying },
 	{ std::pair{AnimType::Player,"hurtRt"}, PlayerState::Damaged },
 	{ std::pair{AnimType::Player,"jumpRt"}, PlayerState::Jumping },
-	{ std::pair{AnimType::Player,"upToFallRt"}, PlayerState::Falling },
+	{ std::pair{AnimType::Player,"upToFallRt"}, PlayerState::PeakingJump },
 	{ std::pair{AnimType::Player,"fallRt"}, PlayerState::Falling },
-	{ std::pair{AnimType::Player,"edgeGrabRt"}, PlayerState::HangingFromEdge },
+	{ std::pair{AnimType::Player,"edgeGrabRt"}, PlayerState::GrabbingEdge },
 	{ std::pair{AnimType::Player,"idleEdgeRt"}, PlayerState::HangingFromEdge },
-	{ std::pair{AnimType::Player,"wallSlideRt"}, PlayerState::WallKicking },
+	{ std::pair{AnimType::Player,"wallSlideRt"}, PlayerState::WallSliding },
 	{ std::pair{AnimType::Player,"crouchRt"}, PlayerState::Crouching },
 	{ std::pair{AnimType::Player,"dashRt"}, PlayerState::Dashing },
 	{ std::pair{AnimType::Player,"dashAttackRt"}, PlayerState::DashAttacking },
@@ -35,11 +35,11 @@ std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > Cfg::anim
 	{ std::pair{AnimType::Player,"deathLt"}, PlayerState::Dying },
 	{ std::pair{AnimType::Player,"hurtLt"}, PlayerState::Damaged },
 	{ std::pair{AnimType::Player,"jumpLt"}, PlayerState::Jumping },
-	{ std::pair{AnimType::Player,"upToFallLt"}, PlayerState::Falling },
+	{ std::pair{AnimType::Player,"upToFallLt"}, PlayerState::PeakingJump },
 	{ std::pair{AnimType::Player,"fallLt"}, PlayerState::Falling },
-	{ std::pair{AnimType::Player,"edgeGrabLt"}, PlayerState::HangingFromEdge },
+	{ std::pair{AnimType::Player,"edgeGrabLt"}, PlayerState::GrabbingEdge },
 	{ std::pair{AnimType::Player,"idleEdgeLt"}, PlayerState::HangingFromEdge },
-	{ std::pair{AnimType::Player,"wallSlideLt"}, PlayerState::WallKicking },
+	{ std::pair{AnimType::Player,"wallSlideLt"}, PlayerState::WallSliding },
 	{ std::pair{AnimType::Player,"crouchLt"}, PlayerState::Crouching },
 	{ std::pair{AnimType::Player,"dashLt"}, PlayerState::Dashing },
 	{ std::pair{AnimType::Player,"dashAttackLt"}, PlayerState::DashAttacking },
@@ -47,9 +47,39 @@ std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > Cfg::anim
 	{ std::pair{AnimType::Player,"ladderGrabLt"}, PlayerState::LadderClimbing }
 };
 
-std::map<std::variant<PlayerState>, std::string> Cfg::stateStringLookup = {
-	{ PlayerState::Idle, "idle"},
-	{ PlayerState::Running, "running"}
+std::map<std::pair<std::variant<PlayerState>, bool>, std::string> Cfg::playerStateStringLookup = {
+	{ std::pair(PlayerState::Idle, true), "idleRt"},
+	{ std::pair(PlayerState::Running, true), "runRt"},
+		{ std::pair(PlayerState::Attacking, true), "attackRt"},
+	{ std::pair(PlayerState::Dying, true), "deathRt"},
+		{ std::pair(PlayerState::Damaged, true), "hurtRt"},
+	{ std::pair(PlayerState::Jumping, true), "jumpRt"},
+		{ std::pair(PlayerState::PeakingJump, true), "upToFallRt"},
+	{ std::pair(PlayerState::Falling, true), "fallRt"},
+		{ std::pair(PlayerState::GrabbingEdge, true), "edgeGrabRt"},
+	{ std::pair(PlayerState::HangingFromEdge, true), "idleEdgeRt"},
+		{ std::pair(PlayerState::WallSliding, true), "wallSlideRt"},
+	{ std::pair(PlayerState::Crouching, true), "crouchRt"},
+		{ std::pair(PlayerState::Dashing, true), "dashRt"},
+		{ std::pair(PlayerState::DashAttacking, true), "dashAttackRt"},
+	{ std::pair(PlayerState::Sliding, true), "slideRt"},
+		{ std::pair(PlayerState::LadderClimbing, true), "ladderGrabRt"},
+		{ std::pair(PlayerState::Idle, false), "idleLt"},
+	{ std::pair(PlayerState::Running, false), "runLt"},
+		{ std::pair(PlayerState::Attacking, false), "attackLt"},
+	{ std::pair(PlayerState::Dying, false), "deathLt"},
+		{ std::pair(PlayerState::Damaged, false), "hurtLt"},
+	{ std::pair(PlayerState::Jumping, false), "jumpLt"},
+		{ std::pair(PlayerState::PeakingJump, false), "upToFallLt"},
+	{ std::pair(PlayerState::Falling, false), "fallLt"},
+		{ std::pair(PlayerState::GrabbingEdge, false), "edgeGrabLt"},
+	{ std::pair(PlayerState::HangingFromEdge, false), "idleEdgeLt"},
+		{ std::pair(PlayerState::WallSliding, false), "wallSlideLt"},
+	{ std::pair(PlayerState::Crouching, false), "crouchLt"},
+		{ std::pair(PlayerState::Dashing, false), "dashLt"},
+		{ std::pair(PlayerState::DashAttacking, false), "dashAttackLt"},
+	{ std::pair(PlayerState::Sliding, false), "slideLt"},
+		{ std::pair(PlayerState::LadderClimbing, false), "ladderGrabLt"}
 };
 
 
@@ -78,7 +108,7 @@ void Cfg::initSounds()
 
 void Cfg::initTextures()
 {
-	textures.load((int)Cfg::Textures::PlayerAtlas, "assets/textures/actors/player/WarriorBig3.png");
+	textures.load((int)Cfg::Textures::PlayerAtlas, "assets/textures/actors/player/WarriorBig3_229x132.png");
 	textures.load((int)Cfg::Textures::BG1_1, "assets/textures/bgs/bg1/bgLayer1.png");
 	textures.load((int)Cfg::Textures::BG1_2, "assets/textures/bgs/bg1/bgLayer2.png");
 	textures.load((int)Cfg::Textures::BG1_3, "assets/textures/bgs/bg1/bgLayer3.png");

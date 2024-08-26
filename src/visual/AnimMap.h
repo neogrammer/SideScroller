@@ -8,7 +8,7 @@
 class AnimMap
 {
 public:
-	std::unordered_map<std::variant<PlayerState>, std::unique_ptr<Animation> > anims;
+	std::unordered_map<std::string, std::unique_ptr<Animation> > anims;
 	Animation* currentAnimation{ nullptr };
 
 	AnimMap();

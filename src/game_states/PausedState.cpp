@@ -31,8 +31,6 @@ void PausedState::updateLate()
 
 void PausedState::render()
 {
-	
-
 	sf::RectangleShape screenOverlay{ {1600.f, 900.f} };
 
 	sf::Text pausedText{};
@@ -48,5 +46,4 @@ void PausedState::render()
 
 	gWnd.draw(screenOverlay);
 	gWnd.draw(pausedText);
-
 }

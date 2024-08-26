@@ -28,6 +28,7 @@ public:
 	Cfg::Textures getTexType();
 	void play();
 	void stop();
+	void pause();
 	void animate();
 
 
