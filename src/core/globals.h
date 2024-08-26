@@ -19,7 +19,8 @@ extern float gTime;
 extern float gPrevTime;
 
 extern sf::View gameView;
-
+extern std::stack<std::unique_ptr<sf::Sprite> > bgLayers;
+extern std::stack<std::unique_ptr<sf::Sprite> > loopLayers;
 namespace wndw
 {
 	extern void CreateWindow(std::string title_, unsigned int w_, unsigned int h_);

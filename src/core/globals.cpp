@@ -12,6 +12,10 @@ sf::View gameView = {};
 float gTime = 0.f;
 float gPrevTime = 0.f;
 
+std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
+std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
+
+
 void wndw::CreateWindow(std::string title_, unsigned int w_, unsigned int h_)
 {
 	gWW = w_;

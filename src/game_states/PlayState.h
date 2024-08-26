@@ -16,8 +16,7 @@ class PlayState : public GameState
 	friend class GameStateMgr;
 
 
-	std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
-	std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
+
 
 	std::unique_ptr<Player> player{};
 	float tmpTimer{};
@@ -35,7 +34,7 @@ class PlayState : public GameState
 
 	void DrawBG();
 	void AdjustView();
-	void MoveView(float xVelocity);
+	
 	void setLoopLayers();
 	void DrawFront();
 public:

@@ -26,6 +26,10 @@ void Animation::animate()
 		}
 	}
 }
+bool Animation::isOnLastFrame()
+{
+	return (data.frameIdx == data.numFrames - 1);
+}
 void Animation::LoadAnim(std::ifstream& animData)
 {
 		

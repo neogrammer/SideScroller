@@ -30,6 +30,7 @@ public:
 	void stop();
 	void pause();
 	void animate();
+	bool isOnLastFrame();
 
 
 
