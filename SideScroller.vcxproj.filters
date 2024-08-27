@@ -79,6 +79,18 @@
     <Filter Include="Source Files\core\action">
       <UniqueIdentifier>{8cd9ba7f-2b6b-4ee9-9b8b-37099ba8a6a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\data\animations\actors\enemies">
+      <UniqueIdentifier>{9dfe21bf-e50a-456e-9459-d4542eed693a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\actors\enemies">
+      <UniqueIdentifier>{64c77315-a9d9-46bd-9ead-01f840cc4c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entities\enemies">
+      <UniqueIdentifier>{7a5bbc91-8d22-45bc-bd48-6cf833279531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entities\enemies">
+      <UniqueIdentifier>{eba38ac4-4b74-4a77-bc69-65522779d360}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="src\entities\player\Player.cpp">
       <Filter>Source Files\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\enemies\goblin\Goblin.cpp">
+      <Filter>Source Files\entities\enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +209,9 @@
     <ClInclude Include="src\entities\player\Player.h">
       <Filter>Header Files\entities</Filter>
     </ClInclude>
+    <ClInclude Include="src\entities\enemies\goblin\Goblin.h">
+      <Filter>Header Files\entities\enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\core\tpl\ResourceManager.tpl">
@@ -207,6 +225,9 @@
     </None>
     <None Include="assets\data\animations\actors\player.dat">
       <Filter>Resource Files\assets\data\animations\actors</Filter>
+    </None>
+    <None Include="assets\data\animations\actors\enemies\goblin.dat">
+      <Filter>Resource Files\assets\data\animations\actors\enemies</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +248,9 @@
     </Image>
     <Image Include="assets\textures\actors\player\WarriorBig3_229x132.png">
       <Filter>Resource Files\assets\textures\actors\player</Filter>
+    </Image>
+    <Image Include="assets\textures\actors\enemies\goblinAtlas300x300.png">
+      <Filter>Resource Files\assets\textures\actors\enemies</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

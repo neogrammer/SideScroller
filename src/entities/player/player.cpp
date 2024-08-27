@@ -12,9 +12,9 @@ Player::~Player()
 {
 }
 
-std::variant<PlayerState> Player::onEvent(GameEvent evt_)
+std::variant<PlayerState, GoblinState> Player::onEvent(GameEvent evt_)
 {
-	std::vector<PlayerState> possibleStates = {};
+	std::vector<std::variant<PlayerState, GoblinState> > possibleStates = {};
 	possibleStates.reserve(int(PlayerState::Count));
 
 	switch (std::get<PlayerState>(animMgr.transientState))
@@ -365,7 +365,7 @@ void Player::MoveView(float xVelocity)
 	}
 }
 
-std::variant<PlayerState> Player::pickState(GameEvent evt_, std::vector<PlayerState>& possibles_)
+std::variant<PlayerState, GoblinState> Player::pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_)
 {
 	if (std::get<PlayerState>(animMgr.transientState) == PlayerState::Attacking)
 	{

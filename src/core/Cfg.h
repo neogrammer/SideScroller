@@ -133,6 +133,7 @@ enum class GameEvent
 enum class AnimType
 {
 	Player,
+	Goblin,
 	Count
 };
 
@@ -157,6 +158,16 @@ enum class PlayerState
 	Count
 };
 
+enum class GoblinState
+{
+	Idle,
+	Running,
+	Attacking,
+	Damaged,
+	Dying,
+	Count
+};
+
 enum class Dir
 {
 	Right,
@@ -176,7 +187,7 @@ struct Cfg
 	static void Initialize();
 
 	// Resource Enums 
-	enum class Textures : int { Logo, PlayerAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
+	enum class Textures : int { Logo, PlayerAtlas, GoblinAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
 	enum class Fonts : int { Font1, Count };
 	enum class Music : int { Count };
 	enum class Sounds : int { Count };
@@ -201,9 +212,11 @@ struct Cfg
 	static ActionMap<int> playerInputs;
 
 	static std::map<std::string, Textures> textureLookupTable;
-	static std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > animStateLookup;
-	static std::map<std::pair<std::variant<PlayerState>, bool>, std::string> playerStateStringLookup;
+	static std::map<std::pair<AnimType, std::string>, std::variant<PlayerState, GoblinState> > animStateLookup;
+	static std::map<std::pair<std::variant<PlayerState, GoblinState>, bool>, std::string> playerStateStringLookup;
 
+	static std::map<std::pair<AnimType, std::string>, std::variant<PlayerState, GoblinState> > goblinAnimStateLookup;
+	static std::map<std::pair<std::variant<PlayerState, GoblinState>, bool>, std::string> goblinStateStringLookup;
 private:
     // initalize the resources for the entire game
     static void initFonts();

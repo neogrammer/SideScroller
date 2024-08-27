@@ -1,13 +1,13 @@
 #include <visual/AnimMgr.h>
 
 
-AnimMgr::AnimMgr(const std::string& filename, std::function <std::variant<PlayerState>(GameEvent evt_)> onEvent_, AnimType type_)
+AnimMgr::AnimMgr(const std::string& filename, std::function <std::variant<PlayerState, GoblinState>(GameEvent evt_)> onEvent_, AnimType type_)
 	: animMap{}
-	, mainState{PlayerState::Idle}
-	, transientState{ PlayerState::Idle }
+	, mainState{ (type_ == AnimType::Player) ? std::variant<PlayerState, GoblinState>(PlayerState::Idle) : std::variant<PlayerState, GoblinState>(GoblinState::Idle) }
+	, transientState{ (type_ == AnimType::Player) ? std::variant<PlayerState, GoblinState>(PlayerState::Idle) : std::variant<PlayerState, GoblinState>(GoblinState::Idle) }
 	, currentAnimFrameTimeElapsed{ 0.f }
 	, currentStateTimeElapsed{ 0.f }
-	, onEvent{onEvent_}
+	, onEvent{ onEvent_ }
 {
 	setup(filename, type_);
 	animMap.currAnim = "idleRt";
@@ -24,7 +24,7 @@ void AnimMgr::setup(const std::string& filename, AnimType type_)
 	loadAnimMap(filename, type_);
 }
 
-void AnimMgr::changeAnimState(std::variant<PlayerState> newState_)
+void AnimMgr::changeAnimState(std::variant<PlayerState, GoblinState> newState_)
 {
 	transientState = newState_;
 }
@@ -36,7 +36,7 @@ void AnimMgr::update()
 
 void AnimMgr::updateLate()
 {
-	
+
 
 	if (mainState != transientState || changingDirection != "none")
 	{
@@ -54,7 +54,14 @@ void AnimMgr::updateLate()
 		}
 		animMap.currentAnimation->stop();
 		mainState = transientState;
-		animMap.currAnim = Cfg::playerStateStringLookup[std::pair(mainState, facingRight)];
+		if (animMap.animType == AnimType::Goblin)
+		{
+			animMap.currAnim = Cfg::goblinStateStringLookup[std::pair(mainState, facingRight)];
+		}
+		else if (animMap.animType == AnimType::Player)
+		{
+			animMap.currAnim = Cfg::playerStateStringLookup[std::pair(mainState, facingRight)];
+		}
 		animMap.currentAnimation = animMap.anims.at(animMap.currAnim).get();
 		animMap.currentAnimation->play();
 		

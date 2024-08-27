@@ -14,19 +14,27 @@ void PlayState::input()
 void PlayState::update()
 {
 	player->update();
-	
+	goblin->update();
 	setLoopLayers();
 }
 
 void PlayState::updateLate()
 {
 	player->updateLate();
+	goblin->updateLate();
 }
 
 void PlayState::render()
 {
 	gWnd.setView(gameView);
 	DrawBG();
+
+	sf::Sprite aGoblinSpr;
+	aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
+	aGoblinSpr.setTextureRect(goblin->getAnimRect());
+	aGoblinSpr.setPosition(goblin->getImagePos());
+	gWnd.draw(aGoblinSpr);
+
 	sf::Sprite aSpr;
 	aSpr.setTexture(Cfg::textures.get((int)player->texType));
 	aSpr.setTextureRect(player->getAnimRect());
@@ -224,17 +232,6 @@ void PlayState::DrawFront()
 		std::cout << "bgLayers are not displaying properly" << std::endl;
 }
 
-//void PlayState::AdjustView()
-//{
-//	if (player->pos.x + player->size.x / 2.f > gameView.getCenter().x && gameView.getCenter().x < 4500.f - 800.f)
-//	{
-//		gameView.setCenter({ player->pos.x + player->size.x / 2.f , gameView.getCenter().y });
-//	}
-//	if (player->pos.x + player->size.x / 2.f < gameView.getCenter().x && gameView.getCenter().x > 800.f)
-//	{
-//		gameView.setCenter({ player->pos.x + player->size.x / 2.f , gameView.getCenter().y });
-//	}
-//}
 
 
 void PlayState::setLoopLayers()
@@ -298,6 +295,7 @@ void PlayState::setLoopLayers()
 PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }
 	, player{ std::make_unique<Player>() }
+	, goblin{ std::make_unique<Goblin>() }
 {
 	
 }

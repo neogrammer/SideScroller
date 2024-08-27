@@ -141,9 +141,17 @@ sf::IntRect Animation::getCurrentRect()
 	return animRects[i];
 }
 
-std::variant<PlayerState> Animation::getName()
+std::variant<PlayerState, GoblinState> Animation::getName()
 {
-	return Cfg::animStateLookup[std::pair(data.animType, data.name)];
+	if (data.animType == AnimType::Goblin)
+	{
+		return Cfg::goblinAnimStateLookup[std::pair(data.animType, data.name)];
+	}
+	else
+	{
+		return Cfg::animStateLookup[std::pair(data.animType, data.name)];
+	}
+
 }
 
 Cfg::Textures Animation::getTexType()

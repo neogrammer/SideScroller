@@ -24,7 +24,7 @@ public:
 	unsigned int getCurrentFrame();
 	sf::IntRect getCurrentRect();
 
-	std::variant<PlayerState> getName();
+	std::variant<PlayerState, GoblinState> getName();
 	Cfg::Textures getTexType();
 	void play();
 	void stop();

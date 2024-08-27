@@ -12,7 +12,7 @@ std::map<std::string, Cfg::Textures> Cfg::textureLookupTable =  {
 	{"player",Textures::PlayerAtlas}
 };
 
-std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > Cfg::animStateLookup = {
+std::map<std::pair<AnimType, std::string>, std::variant<PlayerState, GoblinState> > Cfg::animStateLookup = {
 	{ std::pair{AnimType::Player,"idleRt"}, PlayerState::Idle },
 	{ std::pair{AnimType::Player,"runRt"}, PlayerState::Running },
 	{ std::pair{AnimType::Player,"attackRt"}, PlayerState::Attacking },
@@ -47,7 +47,7 @@ std::map<std::pair<AnimType, std::string>, std::variant<PlayerState> > Cfg::anim
 	{ std::pair{AnimType::Player,"ladderGrabLt"}, PlayerState::LadderClimbing }
 };
 
-std::map<std::pair<std::variant<PlayerState>, bool>, std::string> Cfg::playerStateStringLookup = {
+std::map<std::pair<std::variant<PlayerState, GoblinState>, bool>, std::string> Cfg::playerStateStringLookup = {
 	{ std::pair(PlayerState::Idle, true), "idleRt"},
 	{ std::pair(PlayerState::Running, true), "runRt"},
 		{ std::pair(PlayerState::Attacking, true), "attackRt"},
@@ -83,6 +83,34 @@ std::map<std::pair<std::variant<PlayerState>, bool>, std::string> Cfg::playerSta
 };
 
 
+
+std::map<std::pair<AnimType, std::string>, std::variant<PlayerState, GoblinState> > Cfg::goblinAnimStateLookup = {
+	{ std::pair{AnimType::Goblin,"idleRt"}, GoblinState::Idle },
+	{ std::pair{AnimType::Goblin,"runRt"}, GoblinState::Running },
+	{ std::pair{AnimType::Goblin,"attackRt"}, GoblinState::Attacking },
+	{ std::pair{AnimType::Goblin,"hurtRt"}, GoblinState::Damaged },
+	{ std::pair{AnimType::Goblin,"deathRt"}, GoblinState::Dying },
+	{ std::pair{AnimType::Goblin,"idleLt"}, GoblinState::Idle },
+	{ std::pair{AnimType::Goblin,"runLt"}, GoblinState::Running },
+	{ std::pair{AnimType::Goblin,"attackLt"}, GoblinState::Attacking },
+	{ std::pair{AnimType::Goblin,"hurtLt"}, GoblinState::Damaged },
+	{ std::pair{AnimType::Goblin,"deathLt"}, GoblinState::Dying }
+};
+
+std::map<std::pair<std::variant<PlayerState, GoblinState>, bool>, std::string> Cfg::goblinStateStringLookup = {
+	{ std::pair(GoblinState::Idle, true), "idleRt"},
+	{ std::pair(GoblinState::Running, true), "runRt"},
+		{ std::pair(GoblinState::Attacking, true), "attackRt"},
+		{ std::pair(GoblinState::Damaged, true), "hurtRt"},
+	{ std::pair(GoblinState::Dying, true), "deathRt"},
+		{ std::pair(GoblinState::Idle, false), "idleLt"},
+	{ std::pair(GoblinState::Running, false), "runLt"},
+		{ std::pair(GoblinState::Attacking, false), "attackLt"},
+		{ std::pair(GoblinState::Damaged, false), "hurtLt"},
+	{ std::pair(GoblinState::Dying, false), "deathLt"},
+};
+
+
 void Cfg::Initialize()
 {
     initTextures();
@@ -109,6 +137,9 @@ void Cfg::initSounds()
 void Cfg::initTextures()
 {
 	textures.load((int)Cfg::Textures::PlayerAtlas, "assets/textures/actors/player/WarriorBig3_229x132.png");
+	textures.get((int)Textures::PlayerAtlas).setSmooth(true);
+	textures.load((int)Cfg::Textures::GoblinAtlas, "assets/textures/actors/enemies/goblinAtlas300x300.png");
+	textures.get((int)Textures::GoblinAtlas).setSmooth(true);
 	textures.load((int)Cfg::Textures::BG1_1, "assets/textures/bgs/bg1/bgLayer1.png");
 	textures.load((int)Cfg::Textures::BG1_2, "assets/textures/bgs/bg1/bgLayer2.png");
 	textures.load((int)Cfg::Textures::BG1_3, "assets/textures/bgs/bg1/bgLayer3.png");

@@ -143,6 +143,7 @@
     <ClCompile Include="src\core\GameStateMgr.cpp" />
     <ClCompile Include="src\core\globals.cpp" />
     <ClCompile Include="src\core\rec.cpp" />
+    <ClCompile Include="src\entities\enemies\goblin\Goblin.cpp" />
     <ClCompile Include="src\entities\player\Player.cpp" />
     <ClCompile Include="src\game_states\PausedState.cpp" />
     <ClCompile Include="src\game_states\PlayState.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\core\globals.h" />
     <ClInclude Include="src\core\rec.h" />
     <ClInclude Include="src\core\ResourceManager.h" />
+    <ClInclude Include="src\entities\enemies\goblin\Goblin.h" />
     <ClInclude Include="src\entities\player\Player.h" />
     <ClInclude Include="src\game_states\PausedState.h" />
     <ClInclude Include="src\game_states\PlayState.h" />
@@ -176,12 +178,14 @@
     <ClInclude Include="src\visual\AnimMgr.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\data\animations\actors\enemies\goblin.dat" />
     <None Include="assets\data\animations\actors\player.dat" />
     <None Include="src\action\tpl\ActionMap.tpl" />
     <None Include="src\action\tpl\ActionTarget.tpl" />
     <None Include="src\core\tpl\ResourceManager.tpl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\textures\actors\enemies\goblinAtlas300x300.png" />
     <Image Include="assets\textures\actors\player\WarriorBig3_229x132.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer1.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer2.png" />
