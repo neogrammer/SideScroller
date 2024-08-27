@@ -228,17 +228,17 @@ void PlayState::DrawFront()
 		std::cout << "bgLayers are not displaying properly" << std::endl;
 }
 
-void PlayState::AdjustView()
-{
-	if (player->pos.x + player->size.x / 2.f > gameView.getCenter().x && gameView.getCenter().x < 4500.f - 800.f)
-	{
-		gameView.setCenter({ player->pos.x + player->size.x / 2.f , gameView.getCenter().y });
-	}
-	if (player->pos.x + player->size.x / 2.f < gameView.getCenter().x && gameView.getCenter().x > 800.f)
-	{
-		gameView.setCenter({ player->pos.x + player->size.x / 2.f , gameView.getCenter().y });
-	}
-}
+//void PlayState::AdjustView()
+//{
+//	if (player->pos.x + player->size.x / 2.f > gameView.getCenter().x && gameView.getCenter().x < 4500.f - 800.f)
+//	{
+//		gameView.setCenter({ player->pos.x + player->size.x / 2.f , gameView.getCenter().y });
+//	}
+//	if (player->pos.x + player->size.x / 2.f < gameView.getCenter().x && gameView.getCenter().x > 800.f)
+//	{
+//		gameView.setCenter({ player->pos.x + player->size.x / 2.f , gameView.getCenter().y });
+//	}
+//}
 
 
 void PlayState::setLoopLayers()

@@ -19,21 +19,21 @@ class PlayState : public GameState
 
 
 	std::unique_ptr<Player> player{};
-	float tmpTimer{};
-	float l1Factor{0.1f};
-	float l2Factor{0.25f};
-	float l3Factor{0.5f};
-	float l4Factor{0.75f};
-	float l5Factor{1.f};
-	bool playerIsInCenter{ false };
-	float mapXVelocity{ 0.0f };
+	//float tmpTimer{};
+	//float l1Factor{0.1f};
+	//float l2Factor{0.25f};
+	//float l3Factor{0.5f};
+	//float l4Factor{0.75f};
+	//float l5Factor{1.f};
+	//bool playerIsInCenter{ false };
+	//float mapXVelocity{ 0.0f };
 	std::array<int, 5> bgLengthsTravelled = { 1,1,1,1,1 };
 	
 	
 
 
 	void DrawBG();
-	void AdjustView();
+	//void AdjustView();
 	
 	void setLoopLayers();
 	void DrawFront();

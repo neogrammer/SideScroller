@@ -248,7 +248,7 @@ void Player::input()
 	}
 	else if (vel.x > 0.f && pos.x + (size.x / 2.f) <= 25000.f - 800.f)
 	{
-		MoveView(-vel.x);
+		MoveView(vel.x);
 		gameView.setCenter({ pos.x + (size.x / 2.f) , 450.f });
 	}
 	else if (vel.x > 0.f && pos.x + (size.x / 2.f) > 25000.f - 800.f)
@@ -322,21 +322,21 @@ void Player::MoveView(float xVelocity)
 
 	tmpStack.push(std::move(bgLayers.top()));
 	bgLayers.pop();
-	tmpStack.top()->move({ ((80000.f / xVelocity) * gTime) , 0.f });
+	tmpStack.top()->move({ ((150000.f / xVelocity) * gTime) , 0.f });
 	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
 
 	tmpStack.push(std::move(bgLayers.top()));
 	bgLayers.pop();
-	tmpStack.top()->move({ ((75000.f / xVelocity) * gTime) , 0.f });
+	tmpStack.top()->move({ ((125000.f / xVelocity) * gTime) , 0.f });
 	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
 
 	tmpStack.push(std::move(bgLayers.top()));
 	bgLayers.pop();
-	tmpStack.top()->move({ ((50000.f / xVelocity) * gTime) , 0.f });
+	tmpStack.top()->move({ ((55000.f / xVelocity) * gTime) , 0.f });
 	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
@@ -352,7 +352,7 @@ void Player::MoveView(float xVelocity)
 
 	tmpStack.push(std::move(bgLayers.top()));
 	bgLayers.pop();
-	tmpStack.top()->move({ ((20000.f / xVelocity) * gTime) , 0.f });
+	tmpStack.top()->move({ ((10000.f / xVelocity) * gTime) , 0.f });
 	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
