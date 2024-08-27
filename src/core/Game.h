@@ -10,7 +10,6 @@ class Tilemap;
 
 class Game
 {
-	std::unique_ptr<GameStateMgr> gameStateMgr{};
 	sf::Clock frameTimer{};
 
 	void input();

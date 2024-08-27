@@ -7,20 +7,20 @@
 #include <utility>
 
 Game::Game()
-	: gameStateMgr{ std::make_unique<GameStateMgr>(this) }
 {
 	wndw::CreateWindow("MegamanOne", 1600U, 900U);
 	gWnd.setPosition({ 120, 20 });
+	gStateMgr->setGame(this);
 }
 
 void Game::render()
 {
-	gameStateMgr->render();
+	gStateMgr->render();
 }
 
 void Game::input()
 {
-	gameStateMgr->input();
+	gStateMgr->input();
 }
 
 Game::~Game()
@@ -45,7 +45,7 @@ void Game::run()
 			{
 				gWnd.close();
 			}
-			gameStateMgr->processEvent(e);
+			gStateMgr->processEvent(e);
 		}
 
 		// if not closed, update and draw the game as needed
@@ -74,11 +74,11 @@ void Game::run()
 
 void Game::update()
 {
-	gameStateMgr->update();
+	gStateMgr->update();
 }
 
 void Game::updateLate()
 {
-	gameStateMgr->updateLate();
+	gStateMgr->updateLate();
 }
 

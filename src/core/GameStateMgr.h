@@ -21,7 +21,7 @@ public:
 	std::stack<GameState*> stateStack;
 	Game* game;
 	GameStateMgr(Game* game_ = nullptr);
-
+	void setGame(Game* game_);
 	~GameStateMgr();
 	GameStateMgr& operator=(const GameStateMgr&) = delete;
 	GameStateMgr(const GameStateMgr&) = delete;

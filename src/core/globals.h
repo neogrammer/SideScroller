@@ -7,6 +7,7 @@
 #include <string>
 #include <core/Cfg.h>
 #include <core/rec.h>
+#include <memory>
 
 extern sf::RenderWindow gWnd;
 extern sf::ContextSettings gWndSettings;
@@ -21,6 +22,8 @@ extern float gPrevTime;
 extern sf::View gameView;
 extern std::stack<std::unique_ptr<sf::Sprite> > bgLayers;
 extern std::stack<std::unique_ptr<sf::Sprite> > loopLayers;
+
+extern std::unique_ptr<GameStateMgr> gStateMgr;
 namespace wndw
 {
 	extern void CreateWindow(std::string title_, unsigned int w_, unsigned int h_);

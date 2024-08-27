@@ -18,6 +18,10 @@ GameStateMgr::GameStateMgr(Game* game_)
 	stateStack.push(stateMap.at(GameStateType::Splash).get());
 	
 }
+void GameStateMgr::setGame(Game* game_)
+{
+	game = game_;
+}
 GameStateMgr::~GameStateMgr()
 {
 	while (!stateStack.empty())

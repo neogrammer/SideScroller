@@ -205,9 +205,6 @@
     <None Include="src\action\tpl\ActionTarget.tpl">
       <Filter>Header Files\action\tpl</Filter>
     </None>
-    <None Include="assets\data\animations\actors\player.anim">
-      <Filter>Resource Files\assets\data\animations\actors</Filter>
-    </None>
     <None Include="assets\data\animations\actors\player.dat">
       <Filter>Resource Files\assets\data\animations\actors</Filter>
     </None>

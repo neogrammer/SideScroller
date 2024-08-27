@@ -156,57 +156,44 @@ sf::IntRect Player::getAnimRect()
 
 void Player::input()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (std::get<PlayerState>(animMgr.mainState) != PlayerState::Attacking)
 	{
-		//if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) + (300.f * gTime), player->pos.y }).x <= 800)
-	 //	{
-		vel.x = 400.f;
-		//	}
-			//else
-			//{
-			//	// move view
-			//	player->vel.x = 0.f;
-			//	MoveView(300.f);
-			//}
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		//if (gWnd.mapCoordsToPixel({ (float)player->pos.x + (player->size.x / 2.f) - (300.f * gTime), player->pos.y }).x >= 800 || gameView.getCenter().x - (300.f * gTime) < 800.f)
-		//{
-		vel.x = -400.f;
 
-		//if ((gWnd.mapCoordsToPixel({ player->pos.x + (player->size.x / 2.f) + (player->vel.x * gTime), player->pos.y }).x < 800) && (gameView.getCenter().x - (300.f * gTime) + (player->size.x / 2.f) > 800.f))
-		//{
-		//	// move view
-		//	player->vel.x = 0.f;
-		//	MoveView(-300.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			vel.x = 400.f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			vel.x = -400.f;
+		}
+		else
+		{
+			vel.x = 0.f;
+		}
 
-
-		//}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			vel.y = -400.f;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			vel.y = 400.f;
+		}
+		else
+		{
+			vel.y = 0.f;
+		}
 	}
-	else
-	{
-		vel.x = 0.f;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		vel.y = -400.f;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		vel.y = 400.f;
-	}
-	else
-	{
-		vel.y = 0.f;
-	}
-
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		onEvent(GameEvent::StartedAttacking);
-		vel.x = 0.f;
+		if (std::get<PlayerState>(animMgr.mainState) != PlayerState::Attacking)
+		{
+			onEvent(GameEvent::StartedAttacking);
+			vel.y = 0.f;
+			vel.x = 0.f;
+		}
 	}
 	else
 	{
@@ -259,48 +246,58 @@ void Player::input()
 
 void Player::update()
 {
-	if (vel.x != 0.f || vel.y != 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (std::get<PlayerState>(animMgr.mainState) != PlayerState::Attacking)
 	{
-		
-		onEvent(GameEvent::StartedRunning);
-		if (vel.x < 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if (vel.x != 0.f || vel.y != 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			animMgr.faceLeft();
+
+			onEvent(GameEvent::StartedRunning);
+			if (vel.x < 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				animMgr.faceLeft();
+			}
+			else if (vel.x > 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				animMgr.faceRight();
+			}
 		}
-		else if (vel.x > 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+
+		//pos += vel * gTime;
+		if (pos.x < 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			animMgr.faceRight();
+			//onEvent(GameEvent::StoppedRunning);
+			pos.x = 10.f;
+		}
+		if (pos.y > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			//onEvent(GameEvent::StoppedRunning);
+			pos.y = 900.f - size.y;
+		}
+		if (pos.y < 550.f && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			//onEvent(GameEvent::StoppedRunning);
+			pos.y = 550.f;
+		}
+		if (pos.x > 25000.f - 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			//onEvent(GameEvent::StoppedRunning);
+			pos.x = 25000.f - 10.f;
+		}
+		if (vel.x == 0.f && vel.y == 0.f && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			onEvent(GameEvent::StoppedRunning);
 		}
 	}
 
-	//pos += vel * gTime;
-	if (pos.x < 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		//onEvent(GameEvent::StoppedRunning);
-		pos.x = 10.f;
-	}
-	if (pos.y > 900.f - size.y && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		//onEvent(GameEvent::StoppedRunning);
-		pos.y = 900.f - size.y;
-	}
-	if (pos.y < 550.f && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		//onEvent(GameEvent::StoppedRunning);
-		pos.y = 550.f;
-	}
-	if (pos.x > 25000.f - 10.f && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		//onEvent(GameEvent::StoppedRunning);
-		pos.x = 25000.f - 10.f;
-	}
-	if (vel.x == 0.f && vel.y == 0.f && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S)  && !sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+
+	if (pos.x > 24900.f)
 	{
 		onEvent(GameEvent::StoppedRunning);
+		gStateMgr->changeState(GameStateType::StageClearState);
 	}
-	
 
 	animMgr.update();
+
 }
 
 void Player::updateLate()
@@ -357,42 +354,6 @@ void Player::MoveView(float xVelocity)
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
 
-	/*	tmpStack.push(std::move(bgLayers.top()));
-		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.9999f * gTime) , 0.f });
-		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
-		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();
-
-		tmpStack.push(std::move(bgLayers.top()));
-		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * .6f * gTime) , 0.f });
-		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
-		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();
-
-		tmpStack.push(std::move(bgLayers.top()));
-		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.3f * gTime) , 0.f });
-		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
-		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();
-
-
-		tmpStack.push(std::move(bgLayers.top()));
-		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.2f * gTime) , 0.f });
-		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
-		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();
-
-
-		tmpStack.push(std::move(bgLayers.top()));
-		bgLayers.pop();
-		tmpStack.top()->move({ (-xVelocity * gTime) + (xVelocity * 0.0001f * gTime) , 0.f });
-		loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
-		tmpLoopStack.push(std::move(loopLayers.top()));
-		loopLayers.pop();*/
 
 
 	for (int i = 0; i < numLayers; i++)
@@ -402,21 +363,6 @@ void Player::MoveView(float xVelocity)
 		loopLayers.push(std::move(tmpLoopStack.top()));
 		tmpLoopStack.pop();
 	}
-
-
-	//player->vel.x = 0.f;
-	//if (xVelocity < 0.f)
-	//{
-	//	player->pos = sf::Vector2f{ gWnd.mapPixelToCoords({ 800, (int)player->pos.y }).x - (player->size.x / 2.f), player->pos.y };
-	//}
-	//else if (xVelocity > 0.f)
-	//{
-	//	auto pos = sf::Vector2f{ gWnd.mapPixelToCoords({800 ,gWnd.mapCoordsToPixel(player->pos).y }).x - player->size.x / 2.f , player->pos.y };
-
-	//	auto diff = (player->pos.x - pos.x) - ((int)((player->pos.x - pos.x) * 100.f) % 2 == 1) ? (xVelocity * gTime) : 0.f;// std::roundf((xVelocity * gTime)); //{ gWnd.mapPixelToCoords({ 800, (int)player->pos.y }).x - (player->size.x / 2.f) + 0.5f, player->pos.y };
-	//	pos.x += diff;
-	//	player->pos = pos;
-	//}
 }
 
 std::variant<PlayerState> Player::pickState(GameEvent evt_, std::vector<PlayerState>& possibles_)

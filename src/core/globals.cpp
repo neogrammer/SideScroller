@@ -1,5 +1,6 @@
 #include <core/globals.h>
 
+
 sf::RenderWindow gWnd = {};
 sf::ContextSettings gWndSettings = { sf::ContextSettings{} };
 unsigned int gWW = {};
@@ -15,6 +16,7 @@ float gPrevTime = 0.f;
 std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
 std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
 
+std::unique_ptr<GameStateMgr> gStateMgr{ std::make_unique<GameStateMgr>() };
 
 void wndw::CreateWindow(std::string title_, unsigned int w_, unsigned int h_)
 {

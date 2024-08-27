@@ -177,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\animations\actors\player.dat" />
-    <None Include="assets\data\animations\actors\player.anim" />
     <None Include="src\action\tpl\ActionMap.tpl" />
     <None Include="src\action\tpl\ActionTarget.tpl" />
     <None Include="src\core\tpl\ResourceManager.tpl" />
