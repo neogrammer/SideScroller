@@ -111,6 +111,7 @@ enum class GameEvent
 	StartedAttacking,
 	StoppedAttacking,
 	ContinuedAttacking,
+	DamageCooldownEnded,
 	LifeDepleted,
 	Damaged,
 	Jumped,

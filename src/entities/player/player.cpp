@@ -4,7 +4,7 @@
 #include <entities/enemies/goblin/Goblin.h>
 
 Player::Player()
-	: rec{ { 200.f,700.f }, { 207.f,132.f }, Cfg::Textures::PlayerAtlas, { 0,0 }, { 207, 132 }, { 0,0 }, { 0.f,0.f } }
+	: rec{ { 200.f,700.f }, { 46.f,81.f }, Cfg::Textures::PlayerAtlas, { 0,0 }, { 229, 132 }, { 75,44 }, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/player.dat", std::bind(&Player::onEvent, this, std::placeholders::_1), AnimType::Player }
 {
 }

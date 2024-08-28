@@ -17,7 +17,7 @@ void PlayState::update()
 	//goblin->update();
 	if (gGroundMoved)
 	{
-		if (!goblin->markedForDeath)
+		if (!goblin->deaddead)
 			goblin->pos.x += gDistGroundMoved;
 
 		gGroundMoved = false;
@@ -29,22 +29,25 @@ void PlayState::update()
 		rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
 		if (phys::RectVsRect(attackBox, *goblin))
 		{
-			std::variant<Goblin*> gob;
-			gob = (goblin.get());
-			player->damageEnemy(gob);
-			std::unique_ptr<sf::Text> dmg{};
-			dmg = std::make_unique<sf::Text>();
-			dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
-			dmg->setString("10");
-			dmg->setCharacterSize(32U);
-			dmg->setFillColor(sf::Color::Red);
-			dmg->setPosition({goblin->getImagePos() + (goblin->size/ 2.f)});
-			gDamageNumbers.push(std::move(dmg));
-			gDmgElapsed.push(0.f);
+			if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y - 30.f && player->pos.y + player->size.y < goblin->pos.y + goblin->size.y + 30.f && !goblin->hitCooldownActive)
+			{
+				std::variant<Goblin*> gob;
+				gob = (goblin.get());
+				player->damageEnemy(gob);
+				std::unique_ptr<sf::Text> dmg{};
+				dmg = std::make_unique<sf::Text>();
+				dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+				dmg->setString("10");
+				dmg->setCharacterSize(32U);
+				dmg->setFillColor(sf::Color::Red);
+				dmg->setPosition({ goblin->pos.x + (goblin->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, goblin->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
+				gDamageNumbers.push(std::move(dmg));
+				gDmgElapsed.push(0.f);
+			}
 		}
 	}
 
-	if (!goblin->markedForDeath)
+	if (!goblin->deaddead)
 		goblin->update();
 
 	
@@ -55,7 +58,7 @@ void PlayState::updateLate()
 {
 	player->updateLate();
 	//goblin->updateLate();
-	if (!goblin->markedForDeath)
+	if (!goblin->deaddead)
 		goblin->updateLate();
 
 }
@@ -65,19 +68,40 @@ void PlayState::render()
 	gWnd.setView(gameView);
 	DrawBG();
 
-	sf::Sprite aGoblinSpr;
-	aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
-	aGoblinSpr.setTextureRect(goblin->getAnimRect());
-	aGoblinSpr.setPosition(goblin->getImagePos());
-	if (!goblin->markedForDeath)
-		gWnd.draw(aGoblinSpr);
+
+	if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y)
+	{
+		sf::Sprite aGoblinSpr;
+		aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
+		aGoblinSpr.setTextureRect(goblin->getAnimRect());
+		aGoblinSpr.setPosition(goblin->getImagePos());
+		if (!goblin->deaddead)
+			gWnd.draw(aGoblinSpr);
 
 
-	sf::Sprite aSpr;
-	aSpr.setTexture(Cfg::textures.get((int)player->texType));
-	aSpr.setTextureRect(player->getAnimRect());
-	aSpr.setPosition(player->getImagePos());
-	gWnd.draw(aSpr);
+		sf::Sprite aSpr;
+		aSpr.setTexture(Cfg::textures.get((int)player->texType));
+		aSpr.setTextureRect(player->getAnimRect());
+		aSpr.setPosition(player->getImagePos());
+		gWnd.draw(aSpr);
+	}
+	else
+	{
+
+		sf::Sprite aSpr;
+		aSpr.setTexture(Cfg::textures.get((int)player->texType));
+		aSpr.setTextureRect(player->getAnimRect());
+		aSpr.setPosition(player->getImagePos());
+		gWnd.draw(aSpr);
+
+		sf::Sprite aGoblinSpr;
+		aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
+		aGoblinSpr.setTextureRect(goblin->getAnimRect());
+		aGoblinSpr.setPosition(goblin->getImagePos());
+		if (!goblin->deaddead)
+			gWnd.draw(aGoblinSpr);
+	}
+	
 	DrawFront();
 
 

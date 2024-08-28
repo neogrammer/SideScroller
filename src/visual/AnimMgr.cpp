@@ -53,13 +53,24 @@ void AnimMgr::updateLate()
 			changingDirection = "none";
 		}
 		animMap.currentAnimation->stop();
-		mainState = transientState;
+		
+		
 		if (animMap.animType == AnimType::Goblin)
 		{
+			if (std::get<GoblinState>(transientState) == GoblinState::Count)
+			{
+				transientState = mainState;
+			}
+			mainState = transientState;
 			animMap.currAnim = Cfg::goblinStateStringLookup[std::pair(mainState, facingRight)];
 		}
 		else if (animMap.animType == AnimType::Player)
 		{
+			if (std::get<PlayerState>(transientState) == PlayerState::Count)
+			{
+				transientState = mainState;
+			}
+			mainState = transientState;
 			animMap.currAnim = Cfg::playerStateStringLookup[std::pair(mainState, facingRight)];
 		}
 		animMap.currentAnimation = animMap.anims.at(animMap.currAnim).get();

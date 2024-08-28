@@ -26,6 +26,10 @@ public:
 	int health{};
 	int maxHealth{};
 	Dir direction{ Dir::Right };
+	float hitCooldown{ 0.3f };
+	float hitCooldownElapsed{ 0.f };
+	bool hitCooldownActive{ false };
+	bool deaddead{ false };
 
 	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_);
 	sf::IntRect getAnimRect();
