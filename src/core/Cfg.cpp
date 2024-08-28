@@ -125,7 +125,7 @@ void Cfg::Initialize()
 
 void Cfg::initMusic()
 {
-   
+	music.load((int)Music::Intro, "assets/music/Intro.mp3");
 }
 
 void Cfg::initSounds()

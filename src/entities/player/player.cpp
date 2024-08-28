@@ -308,7 +308,7 @@ void Player::updateLate()
 
 void Player::MoveView(float xVelocity)
 {
-	gWnd.setView(gameView);
+	//gWnd.setView(gameView);
 
 
 	// move map and then put the player at the center of the screen

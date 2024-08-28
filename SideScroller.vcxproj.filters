@@ -91,6 +91,9 @@
     <Filter Include="Source Files\entities\enemies">
       <UniqueIdentifier>{eba38ac4-4b74-4a77-bc69-65522779d360}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\music">
+      <UniqueIdentifier>{68a22fa7-f8d0-42f9-b8ec-8781f534597c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -257,5 +260,10 @@
     <Font Include="assets\fonts\frisky_puppy.ttf">
       <Filter>Resource Files\assets\fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\music\Intro.mp3">
+      <Filter>Resource Files\assets\music</Filter>
+    </Media>
   </ItemGroup>
 </Project>

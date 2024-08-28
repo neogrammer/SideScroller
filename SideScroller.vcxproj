@@ -196,6 +196,9 @@
   <ItemGroup>
     <Font Include="assets\fonts\frisky_puppy.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\music\Intro.mp3" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

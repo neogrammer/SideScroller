@@ -122,8 +122,8 @@ void GameStateMgr::safeStateSwitch()
 		}
 		else
 		{
-			gameView = gWnd.getDefaultView();
-			gWnd.setView(gWnd.getDefaultView());
+			
+			//gWnd.setView(gWnd.getDefaultView());
 			if (popOffCurrent)
 				stateStack.pop();
 			
@@ -131,8 +131,10 @@ void GameStateMgr::safeStateSwitch()
 
 			if (nextState == GameStateType::Play)
 			{
+				gameView = gWnd.getDefaultView();
 				dynamic_cast<PlayState*>(stateStack.top())->LoadLevel();
 			}
+
 		}
 		nextState = GameStateType::None;
 		popOffCurrent = true;

@@ -62,6 +62,9 @@ void Game::run()
 			
 			update();
 			updateLate();
+
+			
+
 			// now render the screen
 			gWnd.clear(sf::Color(47, 147, 247, 255));
 			render();

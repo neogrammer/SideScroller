@@ -1,5 +1,7 @@
 #include "PausedState.h"
 #include <core/globals.h>
+#include <iostream>
+
 PausedState::PausedState(GameStateMgr* mgr_)
 	: GameState{mgr_}
 {
@@ -11,6 +13,7 @@ PausedState::~PausedState()
 
 void PausedState::processEvent(sf::Event& e)
 {
+
 	if (e.type == sf::Event::KeyReleased && e.key.code == sf::Keyboard::P)
 	{
 		owner->popTop();
@@ -31,6 +34,11 @@ void PausedState::updateLate()
 
 void PausedState::render()
 {
+	gWnd.setView(gWnd.getDefaultView());
+	std::cout << gWnd.getView().getCenter().x << std::endl;
+	/*auto vw = gWnd.getDefaultView();
+	gWnd.setView(vw);*/
+
 	sf::RectangleShape screenOverlay{ {1600.f, 900.f} };
 
 	sf::Text pausedText{};
@@ -46,4 +54,7 @@ void PausedState::render()
 
 	gWnd.draw(screenOverlay);
 	gWnd.draw(pausedText);
+	gWnd.setView(gameView);
+
+
 }

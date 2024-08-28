@@ -146,7 +146,7 @@ void PlayState::render()
 	}
 
 
-	gWnd.setView(gWnd.getDefaultView());
+	//gWnd.setView(gWnd.getDefaultView());
 
 	//std::unique_ptr<sf::Text> dmg{};
 	//dmg = std::make_unique<sf::Text>();
@@ -280,6 +280,7 @@ void PlayState::LoadLevel(int levelNum_)
 			}
 		}
 	}
+	Cfg::music.get((int)Cfg::Music::Intro).play();
 }
 
 void PlayState::DrawBG()
