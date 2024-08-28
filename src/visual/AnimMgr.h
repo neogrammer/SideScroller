@@ -34,6 +34,7 @@ public:
 	void updateLate();
 	void faceRight();
 	void faceLeft();
+	unsigned int getCurrentIdx();
 	sf::IntRect getCurrentRect();
 	void loadAnimMap(std::string animFile_, AnimType type_);
 };

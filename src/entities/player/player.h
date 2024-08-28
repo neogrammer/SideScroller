@@ -6,6 +6,7 @@
 #include <string>
 #include <variant>
 #include <core/rec.h>
+class Goblin;
 
 class Player : public rec
 {
@@ -15,6 +16,9 @@ class Player : public rec
 	bool stopAttacking{ false };
 	
 	Dir direction{ Dir::Right };
+
+
+
 public:
 	Player();
 	~Player();
@@ -29,6 +33,11 @@ public:
 	void update();
 	void updateLate();
 	void MoveView(float xVelocity);
+	bool isAttacking();
+	bool isOnDamageFrame();
+	sf::FloatRect getAttackBox();
+
+	void damageEnemy(std::variant<Goblin*> enemy);
 	void render();
 	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_);
 

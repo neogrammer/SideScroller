@@ -1,6 +1,5 @@
 #include <core/globals.h>
 
-
 sf::RenderWindow gWnd = {};
 sf::ContextSettings gWndSettings = { sf::ContextSettings{} };
 unsigned int gWW = {};
@@ -17,6 +16,14 @@ std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
 std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
 
 std::unique_ptr<GameStateMgr> gStateMgr{ std::make_unique<GameStateMgr>() };
+
+extern bool gGroundMoved{ false };
+extern float gDistGroundMoved{ 0.f };
+
+std::stack<std::unique_ptr<sf::Text> > gDamageNumbers{};
+std::stack< float > gDmgElapsed{};
+float gDmgDelay{1.2f};
+
 
 void wndw::CreateWindow(std::string title_, unsigned int w_, unsigned int h_)
 {

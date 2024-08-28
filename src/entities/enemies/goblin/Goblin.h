@@ -14,15 +14,18 @@ class Goblin : public rec
 	bool facingRight{ true };
 	bool stopAttacking{ false };
 
-	Dir direction{ Dir::Right };
 public:
 
-	Goblin(sf::Vector2f pos_ = {1500.f, 450.f });
+	Goblin(sf::Vector2f pos_ = {1650.f, 650.f });
 	~Goblin();
 	Goblin(const Goblin&) = delete;
 	Goblin& operator=(const Goblin&) = delete;
 	Goblin(Goblin&&) = delete;
 	Goblin& operator=(Goblin&&) = delete;
+	bool markedForDeath{ false };
+	int health{};
+	int maxHealth{};
+	Dir direction{ Dir::Right };
 
 	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_);
 	sf::IntRect getAnimRect();
@@ -30,6 +33,9 @@ public:
 	void update();
 	void updateLate();
 	void render();
+	void faceLeft();
+	void faceRight();
+	void takeHit(int damage_);
 	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_);
 
 };

@@ -8,7 +8,6 @@
 #include <core/Cfg.h>
 #include <core/rec.h>
 #include <memory>
-
 extern sf::RenderWindow gWnd;
 extern sf::ContextSettings gWndSettings;
 extern sf::Vector2f mpos;
@@ -24,6 +23,15 @@ extern std::stack<std::unique_ptr<sf::Sprite> > bgLayers;
 extern std::stack<std::unique_ptr<sf::Sprite> > loopLayers;
 
 extern std::unique_ptr<GameStateMgr> gStateMgr;
+extern std::stack< std::unique_ptr<sf::Text> > gDamageNumbers;
+extern std::stack< float > gDmgElapsed;
+extern float gDmgDelay;
+
+
+
+extern bool gGroundMoved;
+extern float gDistGroundMoved;
+
 namespace wndw
 {
 	extern void CreateWindow(std::string title_, unsigned int w_, unsigned int h_);

@@ -14,14 +14,50 @@ void PlayState::input()
 void PlayState::update()
 {
 	player->update();
-	goblin->update();
+	//goblin->update();
+	if (gGroundMoved)
+	{
+		if (!goblin->markedForDeath)
+			goblin->pos.x += gDistGroundMoved;
+
+		gGroundMoved = false;
+		gDistGroundMoved = 0.f;
+	}
+
+	if (player->isAttacking() && player->isOnDamageFrame() && !goblin->markedForDeath)
+	{
+		rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
+		if (phys::RectVsRect(attackBox, *goblin))
+		{
+			std::variant<Goblin*> gob;
+			gob = (goblin.get());
+			player->damageEnemy(gob);
+			std::unique_ptr<sf::Text> dmg{};
+			dmg = std::make_unique<sf::Text>();
+			dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+			dmg->setString("10");
+			dmg->setCharacterSize(32U);
+			dmg->setFillColor(sf::Color::Red);
+			dmg->setPosition({goblin->getImagePos() + (goblin->size/ 2.f)});
+			gDamageNumbers.push(std::move(dmg));
+			gDmgElapsed.push(0.f);
+		}
+	}
+
+	if (!goblin->markedForDeath)
+		goblin->update();
+
+	
 	setLoopLayers();
 }
 
 void PlayState::updateLate()
 {
 	player->updateLate();
-	goblin->updateLate();
+	//goblin->updateLate();
+	if (!goblin->markedForDeath)
+		goblin->updateLate();
+
 }
 
 void PlayState::render()
@@ -33,7 +69,9 @@ void PlayState::render()
 	aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
 	aGoblinSpr.setTextureRect(goblin->getAnimRect());
 	aGoblinSpr.setPosition(goblin->getImagePos());
-	gWnd.draw(aGoblinSpr);
+	if (!goblin->markedForDeath)
+		gWnd.draw(aGoblinSpr);
+
 
 	sf::Sprite aSpr;
 	aSpr.setTexture(Cfg::textures.get((int)player->texType));
@@ -41,7 +79,60 @@ void PlayState::render()
 	aSpr.setPosition(player->getImagePos());
 	gWnd.draw(aSpr);
 	DrawFront();
+
+
+	
+
+	std::stack<std::unique_ptr<sf::Text>> txtTmp={};
+	std::stack<float> elapTmp = {};
+	while (!gDamageNumbers.empty())
+	{
+		std::cout << gDamageNumbers.top()->getPosition().x << std::endl;
+		std::cout << gameView.getCenter().x << std::endl;
+
+		gDamageNumbers.top()->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+		
+	//	gDamageNumbers.top()->setPosition((sf::Vector2f)gWnd.mapCoordsToPixel(gDamageNumbers.top()->getPosition()));
+		gWnd.draw(*gDamageNumbers.top());
+		gDmgElapsed.top() += gTime;
+		if (gDmgElapsed.top() > gDmgDelay)
+		{
+			gDamageNumbers.pop();
+			gDmgElapsed.pop();
+			continue;
+		}
+		else
+		{
+			txtTmp.push(std::move(gDamageNumbers.top()));
+			gDamageNumbers.pop();
+			elapTmp.push(gDmgElapsed.top());
+			gDmgElapsed.pop();
+		}
+	}
+
+
+
+	while (!txtTmp.empty())
+	{
+		
+			gDamageNumbers.push(std::move(txtTmp.top()));
+			txtTmp.pop();
+			gDmgElapsed.push(elapTmp.top());
+			elapTmp.pop();
+	}
+
+
 	gWnd.setView(gWnd.getDefaultView());
+
+	//std::unique_ptr<sf::Text> dmg{};
+	//dmg = std::make_unique<sf::Text>();
+	//dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+	//dmg->setString("Booyakasha");
+	//dmg->setCharacterSize(32U);
+	//dmg->setFillColor(sf::Color::Red);
+	//dmg->setPosition({ 500.f,500.f});
+	//gWnd.draw(*dmg);
+
 }
 
 void PlayState::processEvent(sf::Event& e)
@@ -297,5 +388,5 @@ PlayState::PlayState(GameStateMgr* mgr_)
 	, player{ std::make_unique<Player>() }
 	, goblin{ std::make_unique<Goblin>() }
 {
-	
+	goblin->faceLeft();
 }

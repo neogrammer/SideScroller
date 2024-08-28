@@ -80,6 +80,11 @@ void AnimMgr::faceLeft()
 		changingDirection = "left";
 }
 
+unsigned int AnimMgr::getCurrentIdx()
+{
+	return animMap.currentAnimation->getCurrentFrame();
+}
+
 sf::IntRect AnimMgr::getCurrentRect()
 {
 	return animMap.getRect();

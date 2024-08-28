@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <core/GameStateMgr.h>
 #include <core/globals.h>
+#include <entities/enemies/goblin/Goblin.h>
 
 Player::Player()
 	: rec{ { 200.f,700.f }, { 207.f,132.f }, Cfg::Textures::PlayerAtlas, { 0,0 }, { 207, 132 }, { 0,0 }, { 0.f,0.f } }
@@ -342,6 +343,9 @@ void Player::MoveView(float xVelocity)
 	tmpStack.push(std::move(bgLayers.top()));
 	bgLayers.pop();
 	tmpStack.top()->move({ ((40000.f / xVelocity) * gTime) , 0.f });
+	gGroundMoved = true;
+	gDistGroundMoved = ((40000.f / xVelocity) * gTime);
+	
 	loopLayers.top()->setPosition({ tmpStack.top()->getPosition().x + 4500.f, tmpStack.top()->getPosition().y });
 	tmpLoopStack.push(std::move(loopLayers.top()));
 	loopLayers.pop();
@@ -363,6 +367,34 @@ void Player::MoveView(float xVelocity)
 		loopLayers.push(std::move(tmpLoopStack.top()));
 		tmpLoopStack.pop();
 	}
+}
+
+bool Player::isAttacking()
+{
+	return (std::get<PlayerState>(animMgr.mainState) == PlayerState::Attacking);
+}
+
+bool Player::isOnDamageFrame()
+{
+	return (animMgr.getCurrentIdx() == 5) || (animMgr.getCurrentIdx() == 9);
+}
+
+sf::FloatRect Player::getAttackBox()
+{
+	
+	if (facingRight)
+	{
+		return { { getImagePos().x + 145.f, getImagePos().y + 20.f},{50.f,85.f}};
+	}
+	else
+	{
+		return { { getImagePos().x + 145.f, getImagePos().y + 20.f},{50.f,85.f} };
+	}
+}
+
+void Player::damageEnemy(std::variant<Goblin*> enemy)
+{
+	std::get<Goblin*>(enemy)->takeHit(10);
 }
 
 std::variant<PlayerState, GoblinState> Player::pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_)

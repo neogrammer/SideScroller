@@ -1,8 +1,10 @@
 #include "Goblin.h"
 #include <core/globals.h>
 Goblin::Goblin(sf::Vector2f pos_)
-	: rec{ pos_, { 300.f, 300.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 0,0 }, { 0.f,0.f } }
+	: rec{ pos_, { 46.f, 59.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 129,140}, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/enemies/goblin.dat", std::bind(&Goblin::onEvent, this, std::placeholders::_1), AnimType::Goblin }
+	, health{ 20 }
+	, maxHealth{ 20 }
 {
 }
 
@@ -129,6 +131,25 @@ void Goblin::updateLate()
 
 void Goblin::render()
 {
+}
+
+void Goblin::faceLeft()
+{
+	animMgr.faceLeft();
+}
+
+void Goblin::faceRight()
+{
+	animMgr.faceRight();
+}
+
+void Goblin::takeHit(int damage_)
+{
+	health -= damage_;
+	if (health <= 0)
+	{
+		this->markedForDeath = true;
+	}
 }
 
 std::variant<PlayerState, GoblinState> Goblin::pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_)
