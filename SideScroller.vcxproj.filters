@@ -94,6 +94,15 @@
     <Filter Include="Resource Files\assets\music">
       <UniqueIdentifier>{68a22fa7-f8d0-42f9-b8ec-8781f534597c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\sound">
+      <UniqueIdentifier>{de7c42ee-9406-4bda-9fab-1530a8b35839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\sound\combat">
+      <UniqueIdentifier>{e4c7fe4f-3081-416e-9d71-6072b71e8324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\sound\combat\goblin">
+      <UniqueIdentifier>{3b58bb5c-974f-4f40-b315-c59c86dbf6bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -232,6 +241,18 @@
     <None Include="assets\data\animations\actors\enemies\goblin.dat">
       <Filter>Resource Files\assets\data\animations\actors\enemies</Filter>
     </None>
+    <None Include="assets\sound\combat\Sword1.ogg">
+      <Filter>Resource Files\assets\sound\combat</Filter>
+    </None>
+    <None Include="assets\sound\combat\Sword2.ogg">
+      <Filter>Resource Files\assets\sound\combat</Filter>
+    </None>
+    <None Include="assets\sound\combat\goblin\death.ogg">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </None>
+    <None Include="assets\sound\combat\goblin\hurt.ogg">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\bgs\bg1\bgLayer1.png">
@@ -264,6 +285,27 @@
   <ItemGroup>
     <Media Include="assets\music\Intro.mp3">
       <Filter>Resource Files\assets\music</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\attack.mp3">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\death.mp3">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\die1.wav">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\yell.wav">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\hit.wav">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\grunts.mp3">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
+    </Media>
+    <Media Include="assets\sound\combat\goblin\scream.mp3">
+      <Filter>Resource Files\assets\sound\combat\goblin</Filter>
     </Media>
   </ItemGroup>
 </Project>

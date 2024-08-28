@@ -180,6 +180,10 @@
   <ItemGroup>
     <None Include="assets\data\animations\actors\enemies\goblin.dat" />
     <None Include="assets\data\animations\actors\player.dat" />
+    <None Include="assets\sound\combat\goblin\death.ogg" />
+    <None Include="assets\sound\combat\goblin\hurt.ogg" />
+    <None Include="assets\sound\combat\Sword1.ogg" />
+    <None Include="assets\sound\combat\Sword2.ogg" />
     <None Include="src\action\tpl\ActionMap.tpl" />
     <None Include="src\action\tpl\ActionTarget.tpl" />
     <None Include="src\core\tpl\ResourceManager.tpl" />
@@ -198,6 +202,13 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\music\Intro.mp3" />
+    <Media Include="assets\sound\combat\goblin\attack.mp3" />
+    <Media Include="assets\sound\combat\goblin\death.mp3" />
+    <Media Include="assets\sound\combat\goblin\yell.wav" />
+    <Media Include="assets\sound\combat\goblin\hit.wav" />
+    <Media Include="assets\sound\combat\goblin\die1.wav" />
+    <Media Include="assets\sound\combat\goblin\grunts.mp3" />
+    <Media Include="assets\sound\combat\goblin\scream.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

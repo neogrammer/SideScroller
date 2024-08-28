@@ -16,8 +16,8 @@
 class PlayState : public GameState
 {
 	friend class GameStateMgr;
-	std::unique_ptr<Player> player{};
-	std::unique_ptr<Goblin> goblin{};
+	std::unique_ptr<Player> player;
+	std::unique_ptr<Goblin> goblin;
 	std::array<int, 5> bgLengthsTravelled = { 1,1,1,1,1 };
 
 	void DrawBG();

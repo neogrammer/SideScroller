@@ -6,7 +6,13 @@
 Player::Player()
 	: rec{ { 200.f,700.f }, { 46.f,81.f }, Cfg::Textures::PlayerAtlas, { 0,0 }, { 229, 132 }, { 75,44 }, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/player.dat", std::bind(&Player::onEvent, this, std::placeholders::_1), AnimType::Player }
+	, sword1Snd{std::make_unique<sf::Sound>()}
+	, sword2Snd{ std::make_unique<sf::Sound>() }
 {
+	Cfg::Initialize();
+	sword1Snd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::Sword1));
+	sword2Snd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::Sword2));
+
 }
 
 Player::~Player()
@@ -191,6 +197,7 @@ void Player::input()
 	{
 		if (std::get<PlayerState>(animMgr.mainState) != PlayerState::Attacking)
 		{
+		
 			onEvent(GameEvent::StartedAttacking);
 			vel.y = 0.f;
 			vel.x = 0.f;
@@ -200,6 +207,8 @@ void Player::input()
 	{
 		if (std::get<PlayerState>(animMgr.mainState) == PlayerState::Attacking)
 		{
+			
+
 			stopAttacking = true;
 			vel.x = 0.f;
 		}
@@ -288,6 +297,13 @@ void Player::update()
 		{
 			onEvent(GameEvent::StoppedRunning);
 		}
+	}
+	else
+	{
+		if (animMgr.getCurrentIdx() == 1U)
+			sword1Snd->play();
+		if (animMgr.getCurrentIdx() == 5U)
+			sword2Snd->play();
 	}
 
 

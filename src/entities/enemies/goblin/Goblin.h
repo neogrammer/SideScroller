@@ -13,6 +13,9 @@ class Goblin : public rec
 	AnimMgr animMgr;
 	bool facingRight{ true };
 	bool stopAttacking{ false };
+	std::unique_ptr<sf::Sound> screamSnd;
+	std::unique_ptr<sf::Sound> hitSnd;
+
 
 public:
 

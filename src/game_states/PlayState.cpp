@@ -410,8 +410,11 @@ void PlayState::setLoopLayers()
 	
 PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }
-	, player{ std::make_unique<Player>() }
-	, goblin{ std::make_unique<Goblin>() }
+	, player{  }
+	, goblin{ }
 {
+	player = std::make_unique<Player>();
+	goblin = std::make_unique<Goblin>();
+
 	goblin->faceLeft();
 }

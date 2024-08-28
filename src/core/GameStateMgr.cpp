@@ -10,6 +10,8 @@
 GameStateMgr::GameStateMgr(Game* game_)
 	: game{ game_ }
 {
+	
+
 	stateMap.emplace(std::pair{ GameStateType::Splash, std::move(std::make_unique<SplashState>(this)) });
 	stateMap.emplace(std::pair{ GameStateType::Title, std::move(std::make_unique<TitleState>(this)) });
 	stateMap.emplace(std::pair{ GameStateType::Pause, std::move(std::make_unique<PausedState>(this)) });

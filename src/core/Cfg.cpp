@@ -131,7 +131,14 @@ void Cfg::initMusic()
 void Cfg::initSounds()
 {
 	
-
+	sounds.load((int)Sounds::Sword1, "assets/sound/combat/Sword1.ogg");
+	sounds.load((int)Sounds::Sword2, "assets/sound/combat/Sword2.ogg");
+	sounds.load((int)Sounds::GoblinAtk1, "assets/sound/combat/goblin/attack.mp3");
+	sounds.load((int)Sounds::GoblinDeath, "assets/sound/combat/goblin/death.ogg");
+	sounds.load((int)Sounds::GoblinHurt, "assets/sound/combat/goblin/hurt.ogg");
+	sounds.load((int)Sounds::GoblinDie1, "assets/sound/combat/goblin/die1.wav");
+	sounds.load((int)Sounds::GoblinYell, "assets/sound/combat/goblin/hit.wav");
+	sounds.load((int)Sounds::GoblinScream, "assets/sound/combat/goblin/scream.mp3");
 }
 
 void Cfg::initTextures()

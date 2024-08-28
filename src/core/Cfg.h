@@ -191,7 +191,7 @@ struct Cfg
 	enum class Textures : int { Logo, PlayerAtlas, GoblinAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
 	enum class Fonts : int { Font1, Count };
 	enum class Music : int { Intro, Count };
-	enum class Sounds : int { Count };
+	enum class Sounds : int { Sword1, Sword2, GoblinAtk1, GoblinDeath, GoblinDie1, GoblinYell, GoblinHurt, GoblinScream, Count };
 
 	// inputs the player will be able to use
 	enum PlayerInputs : int

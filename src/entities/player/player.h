@@ -14,9 +14,10 @@ class Player : public rec
 	AnimMgr animMgr;
 	bool facingRight{ true };
 	bool stopAttacking{ false };
-	
-	Dir direction{ Dir::Right };
 
+	Dir direction{ Dir::Right };
+	std::unique_ptr<sf::Sound> sword1Snd{};
+	std::unique_ptr<sf::Sound> sword2Snd{};
 
 
 public:
@@ -36,6 +37,7 @@ public:
 	bool isAttacking();
 	bool isOnDamageFrame();
 	sf::FloatRect getAttackBox();
+
 
 	void damageEnemy(std::variant<Goblin*> enemy);
 	void render();

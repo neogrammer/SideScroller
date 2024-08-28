@@ -36,8 +36,7 @@ void PausedState::render()
 {
 	gWnd.setView(gWnd.getDefaultView());
 	std::cout << gWnd.getView().getCenter().x << std::endl;
-	/*auto vw = gWnd.getDefaultView();
-	gWnd.setView(vw);*/
+	
 
 	sf::RectangleShape screenOverlay{ {1600.f, 900.f} };
 

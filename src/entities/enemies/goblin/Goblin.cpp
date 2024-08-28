@@ -3,10 +3,20 @@
 Goblin::Goblin(sf::Vector2f pos_)
 	: rec{ pos_, { 46.f, 62.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 129,140}, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/enemies/goblin.dat", std::bind(&Goblin::onEvent, this, std::placeholders::_1), AnimType::Goblin }
-	, health{ 20 }
-	, maxHealth{ 20 }
+	, health{ 40 }
+	, maxHealth{ 40 }
 	, deaddead{false}
+	, screamSnd{}
+	, hitSnd{}
 {
+	screamSnd = std::make_unique<sf::Sound>();
+	hitSnd = std::make_unique<sf::Sound>();
+
+	screamSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinDeath));
+	hitSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinHurt));
+
+	
+
 }
 
 Goblin::~Goblin()
@@ -147,6 +157,7 @@ void Goblin::input()
 
 void Goblin::update()
 {
+
 	if (hitCooldownActive)
 	{
 		hitCooldownElapsed += gTime;
@@ -199,11 +210,14 @@ void Goblin::takeHit(int damage_)
 			hitCooldownElapsed = 0.f;
 			hitCooldown = 10000.f;
 			markedForDeath = true;
+			screamSnd->play();
 		}
 		else
 		{
 			hitCooldownActive = true;
 			hitCooldownElapsed = 0.f;
+
+			hitSnd->play();
 		}
 		onEvent(GameEvent::Damaged);
 	}
