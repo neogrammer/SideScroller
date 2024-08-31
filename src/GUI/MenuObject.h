@@ -42,6 +42,11 @@ protected:
 
 	std::unordered_map<std::string, size_t> itemPointer;
 	std::vector<MenuObject> items;
+
+	sf::Vector2i cellCursor{ 0,0 };
+	int32_t cursorItem = 0;
+	sf::Vector2i cursorPos{ 0,0 };
+	
 public:
 	MenuObject();
 	MenuObject(const std::string& name_);
@@ -51,9 +56,17 @@ public:
 	MenuObject(MenuObject&&) = default;
 	MenuObject& operator=(MenuObject&&) = default;
 
+	void onUp();
+	void onDown();
+	void onLeft();
+	void onRight();
+	void onBack();
+	MenuObject* onConfirm();
+
 	MenuObject& setTable(int cols_, int rows_);
 	MenuObject& setID(int32_t id_);
 	MenuObject& enable(bool b_);
+	bool isEnabled();
 	std::string& getName();
 	uint32_t getID();
 	sf::Vector2i getSize();
@@ -64,6 +77,9 @@ public:
 	void build();
 	static void setupPatches();
 	static sf::Sprite& getPatch(PatchPiece piece_);
+	void clampCursor();
+	sf::Vector2i getCursorPos();
+	MenuObject* getSelectedItem();
 
 	MenuObject& operator[](const std::string& name_);
 

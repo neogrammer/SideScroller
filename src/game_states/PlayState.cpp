@@ -13,6 +13,8 @@ void PlayState::input()
 
 void PlayState::update()
 {
+
+
 	player->update();
 	//goblin->update();
 	if (gGroundMoved)
@@ -52,6 +54,30 @@ void PlayState::update()
 
 	
 	setLoopLayers();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
+		menuMgr.open(&baseGUI["main"]);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+		menuMgr.onUp();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+		menuMgr.onLeft();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+		menuMgr.onDown();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+		menuMgr.onRight();
+
+	MenuObject* command = nullptr;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+		command = menuMgr.onConfirm();
+
+	if (command != nullptr)
+	{
+		lastAction = "Selected: " + command->getName() + " ID: " + std::to_string(command->getID());
+		menuMgr.close();
+	}
 }
 
 void PlayState::updateLate()
@@ -157,7 +183,8 @@ void PlayState::render()
 	//dmg->setPosition({ 500.f,500.f});
 	//gWnd.draw(*dmg);
 	gWnd.setView(gWnd.getDefaultView());
-	baseGUI["main"].render({500,400});
+	//baseGUI["main"].render({500,400});
+	menuMgr.render({ 500,500 });
 }
 
 void PlayState::processEvent(sf::Event& e)
@@ -285,24 +312,14 @@ void PlayState::LoadLevel(int levelNum_)
 
 	// GUI SETUP TEST
 	baseGUI["main"].setTable(1,10);
-	baseGUI["main"]["Attack"].setID(101);
+	baseGUI["main"]["Attack"].setTable(3,3).setID(101);
+	baseGUI["main"]["Attack"]["Arts"].setTable(1, 4).setID(301);
+	auto& arts = baseGUI["main"]["Attack"]["Arts"];
+	arts["Slice-N-Dice"].setID(403).enable(false);
 	baseGUI["main"]["Magic"].setID(102).enable(false);
 	baseGUI["main"]["Defend"].setID(103);
 	baseGUI["main"]["Items"].setID(104);
 	baseGUI["main"]["Escape"].setID(105);
-	baseGUI["main"]["DummyA"].setID(105);
-	baseGUI["main"]["DummyB"].setID(105);
-	baseGUI["main"]["DummyX"].setID(105);
-	baseGUI["main"]["DummyGF"].setID(105);
-	baseGUI["main"]["DummyGF"].setID(105);
-	baseGUI["main"]["DummyS"].setID(105);
-	baseGUI["main"]["DummyG"].setID(105);
-	baseGUI["main"]["DummyY"].setID(105);
-	baseGUI["main"]["DummyWQ"].setID(105);
-	baseGUI["main"]["DummyT"].setID(105);
-	baseGUI["main"]["DummyYY"].setID(105);
-	
-
 	baseGUI.build();
 
 

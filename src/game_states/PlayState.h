@@ -15,16 +15,17 @@
 #include <visual/AnimMgr.h>
 
 #include <GUI/MenuObject.h>
-
+#include <GUI/MenuMgr.h>
 class PlayState : public GameState
 {
 	friend class GameStateMgr;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Goblin> goblin;
 	std::array<int, 5> bgLengthsTravelled = { 1,1,1,1,1 };
-
+	std::string lastAction{ "" };
 	//GUI
 	MenuObject baseGUI;
+	MenuMgr menuMgr;
 
 	void DrawBG();
 	
