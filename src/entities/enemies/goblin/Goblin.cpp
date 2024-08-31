@@ -210,6 +210,7 @@ void Goblin::takeHit(int damage_)
 			hitCooldownElapsed = 0.f;
 			hitCooldown = 10000.f;
 			markedForDeath = true;
+			
 			screamSnd->play();
 		}
 		else

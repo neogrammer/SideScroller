@@ -18,7 +18,7 @@ public:
 	void onRight();
 	void onBack();
 	MenuObject* onConfirm();
-
+	bool isOpen();
 	void render(sf::Vector2i screenOffset_);
 
 

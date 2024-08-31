@@ -67,7 +67,7 @@ public:
 	MenuObject& setID(int32_t id_);
 	MenuObject& enable(bool b_);
 	bool isEnabled();
-	std::string& getName();
+	std::string getName();
 	uint32_t getID();
 	sf::Vector2i getSize();
 	void setName(const std::string& name_);

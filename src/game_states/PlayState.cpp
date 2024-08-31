@@ -7,76 +7,195 @@
 
 void PlayState::input()
 {
-
-	player->input();
+	if (!menuMgr.isOpen())
+		player->input();
 }
 
 void PlayState::update()
 {
 
-
-	player->update();
-	//goblin->update();
-	if (gGroundMoved)
+	if (!menuMgr.isOpen())
 	{
-		if (!goblin->deaddead)
-			goblin->pos.x += gDistGroundMoved;
+		player->update();
+		//goblin->update();
+		if (gGroundMoved)
+		{
+			if (!goblin->deaddead)
+				goblin->pos.x += gDistGroundMoved;
 
-		gGroundMoved = false;
-		gDistGroundMoved = 0.f;
+			gGroundMoved = false;
+			gDistGroundMoved = 0.f;
+		}
+
+		if (player->isAttacking() && player->isOnDamageFrame() && !goblin->markedForDeath)
+		{
+			rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
+			if (phys::RectVsRect(attackBox, *goblin))
+			{
+				if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y - 30.f && player->pos.y + player->size.y < goblin->pos.y + goblin->size.y + 30.f && !goblin->hitCooldownActive)
+				{
+					std::variant<Goblin*> gob;
+					gob = (goblin.get());
+					player->damageEnemy(gob);
+					std::unique_ptr<sf::Text> dmg{};
+					dmg = std::make_unique<sf::Text>();
+					dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+					dmg->setString("10");
+					dmg->setCharacterSize(32U);
+					dmg->setFillColor(sf::Color::Red);
+					dmg->setPosition({ goblin->pos.x + (goblin->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, goblin->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
+					gDamageNumbers.push(std::move(dmg));
+					gDmgElapsed.push(0.f);
+				}
+			}
+		}
+
+		if (!goblin->deaddead)
+			goblin->update();
+
+
+		setLoopLayers();
 	}
 
-	if (player->isAttacking() && player->isOnDamageFrame() && !goblin->markedForDeath)
+
+	menuButtonReleased = false;
+	if (menuButtonDown)
 	{
-		rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
-		if (phys::RectVsRect(attackBox, *goblin))
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::M))
 		{
-			if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y - 30.f && player->pos.y + player->size.y < goblin->pos.y + goblin->size.y + 30.f && !goblin->hitCooldownActive)
-			{
-				std::variant<Goblin*> gob;
-				gob = (goblin.get());
-				player->damageEnemy(gob);
-				std::unique_ptr<sf::Text> dmg{};
-				dmg = std::make_unique<sf::Text>();
-				dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
-				dmg->setString("10");
-				dmg->setCharacterSize(32U);
-				dmg->setFillColor(sf::Color::Red);
-				dmg->setPosition({ goblin->pos.x + (goblin->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, goblin->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
-				gDamageNumbers.push(std::move(dmg));
-				gDmgElapsed.push(0.f);
-			}
+			menuButtonReleased = true;
+		}
+	}
+	confirmButtonReleased = false;
+	if (confirmButtonDown)
+	{
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+			confirmButtonReleased = true;
+		}
+	}
+	cancelButtonReleased = false;
+	if (cancelButtonDown)
+	{
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		{
+			cancelButtonReleased = true;
+		}
+	}
+	leftButtonReleased = false;
+	if (leftButtonDown)
+	{
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			rightButtonReleased = true;
+		}
+	}
+	rightButtonReleased = false;
+	if (rightButtonDown)
+	{
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			rightButtonReleased = true;
+		}
+	}
+	upButtonReleased = false;
+	if (upButtonDown)
+	{
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			upButtonReleased = true;
+		}
+	}
+	downButtonReleased = false;
+	if (downButtonDown)
+	{
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			downButtonReleased = true;
 		}
 	}
 
-	if (!goblin->deaddead)
-		goblin->update();
 
-	
-	setLoopLayers();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
-		menuMgr.open(&baseGUI["main"]);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-		menuMgr.onUp();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-		menuMgr.onLeft();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-		menuMgr.onDown();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-		menuMgr.onRight();
-
-	MenuObject* command = nullptr;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
-		command = menuMgr.onConfirm();
-
-	if (command != nullptr)
+	menuButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
 	{
-		lastAction = "Selected: " + command->getName() + " ID: " + std::to_string(command->getID());
-		menuMgr.close();
+		menuButtonDown = true;
+	}
+	confirmButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		confirmButtonDown = true;
+	}
+	cancelButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+	{
+		cancelButtonDown = true;
+	}
+	leftButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		leftButtonDown = true;
+	}
+	rightButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		rightButtonDown = true;
+	}
+	upButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		upButtonDown = true;
+	}
+	downButtonDown = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		downButtonDown = true;
+	}
+
+
+	if (!menuMgr.isOpen())
+	{
+		if (menuButtonReleased)
+		{
+			menuMgr.open(&baseGUI["main"]);
+			lastAction = "";
+			commandTextElapsed = 0.f;
+		}
+	}
+	else
+	{
+		if (menuButtonReleased)
+			menuMgr.close();
+		
+		if (upButtonReleased)
+			menuMgr.onUp();
+
+		if (leftButtonReleased)
+			menuMgr.onLeft();
+
+		if (downButtonReleased)
+			menuMgr.onDown();
+
+		if (rightButtonReleased)
+			menuMgr.onRight();
+
+
+
+		MenuObject* command = nullptr;
+		if (confirmButtonReleased)
+			command = menuMgr.onConfirm();
+		if (cancelButtonReleased)
+		{
+			menuMgr.onBack();
+		}
+
+		if (command != nullptr)
+		{
+			lastAction = "Selected: " + command->getName() + " ID: " + std::to_string(command->getID());
+			 
+			menuMgr.close();
+		}
+		
 	}
 }
 
@@ -185,6 +304,21 @@ void PlayState::render()
 	gWnd.setView(gWnd.getDefaultView());
 	//baseGUI["main"].render({500,400});
 	menuMgr.render({ 500,500 });
+	
+	if (lastAction != "" && commandTextElapsed < commandTextDelay)
+	{
+	
+		commandTextElapsed += gTime;
+	
+		sf::Text cmdTxt{ sf::Text{} };
+		cmdTxt.setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+		cmdTxt.setCharacterSize(44U);
+		cmdTxt.setString(lastAction);
+		cmdTxt.setPosition({ 200.f, 700.f });
+		cmdTxt.setFillColor(sf::Color::Yellow);
+		
+		gWnd.draw(cmdTxt);
+	}
 }
 
 void PlayState::processEvent(sf::Event& e)
@@ -311,11 +445,11 @@ void PlayState::LoadLevel(int levelNum_)
 	Cfg::music.get((int)Cfg::Music::Intro).play();
 
 	// GUI SETUP TEST
-	baseGUI["main"].setTable(1,10);
-	baseGUI["main"]["Attack"].setTable(3,3).setID(101);
-	baseGUI["main"]["Attack"]["Arts"].setTable(1, 4).setID(301);
+	baseGUI["main"].setTable(1,4);
+	baseGUI["main"]["Attack"].setTable(3,3).setID(101).setName("Attack");
+	baseGUI["main"]["Attack"]["Arts"].setTable(2, 4).setID(301).setName("Arts");
 	auto& arts = baseGUI["main"]["Attack"]["Arts"];
-	arts["Slice-N-Dice"].setID(403).enable(false);
+	arts["Swift Slash"].setID(403).enable(false);
 	baseGUI["main"]["Magic"].setID(102).enable(false);
 	baseGUI["main"]["Defend"].setID(103);
 	baseGUI["main"]["Items"].setID(104);

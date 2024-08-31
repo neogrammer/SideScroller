@@ -105,7 +105,7 @@ bool MenuObject::isEnabled()
 	return enabled;
 }
 
-std::string& MenuObject::getName()
+std::string MenuObject::getName()
 {
 	return name;
 }
@@ -254,7 +254,7 @@ void MenuObject::clampCursor()
 	{
 		cellCursor.y = ((int)items.size() / cellTable.x);
 		cellCursor.x = ((int)items.size() % cellTable.x) - 1;
-		cursorItem = items.size() - 1;
+		cursorItem = (int32_t)(items.size() - 1);
 	}
 }
 
@@ -319,7 +319,7 @@ void MenuObject::render(sf::Vector2i screenOffset_)
 		if ((totalRows - topVisibleRow) > cellTable.y)
 		{
 			patchPos = { sizeInPatches.x - 1, sizeInPatches.y - 1 };
-			sf::Vector2f screenLocation = sf::Vector2f{ (float)(patchPos.x * gGuiPatch + (int)screenOffset_.x), (float)(patchPos.y * gGuiPatch + (int)screenOffset_.y) };
+			sf::Vector2f screenLocation = sf::Vector2f{ (float)(patchPos.x * gGuiPatch + (int)screenOffset_.x ), (float)(patchPos.y * gGuiPatch + (int)screenOffset_.y) };
 			sf::Vector2i sourcePatch = { 3,2 };
 			sf::Sprite markerSpr{ sf::Sprite{} };
 			markerSpr.setTexture(Cfg::textures.get((int)Cfg::Textures::RetroMenu));
@@ -361,7 +361,7 @@ void MenuObject::render(sf::Vector2i screenOffset_)
 				patchPos.x = cell.x * (cellSize.x + cellPadding.x) + 1 + cellSize.x;
 				patchPos.x = cell.y * (cellSize.y + cellPadding.y) + 1;
 				sf::Vector2i sourcePatch = { 3, 1 };
-				screenLocation = { (float)patchPos.x * (float)gGuiPatch + (float)screenOffset_.x,(float)patchPos.y * (float)gGuiPatch + (float)screenOffset_.y };
+				screenLocation = { (float)patchPos.x * (float)gGuiPatch + (float)screenOffset_.x + (items[topLeftItem + i].getSize().x * gGuiPatch) ,(float)patchPos.y* (float)gGuiPatch + (float)screenOffset_.y };
 
 				sf::Sprite markerSpr{ sf::Sprite{} };
 				markerSpr.setTexture(Cfg::textures.get((int)Cfg::Textures::RetroMenu));

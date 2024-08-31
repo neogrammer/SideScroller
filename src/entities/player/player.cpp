@@ -168,10 +168,12 @@ void Player::input()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
+			facingRight = true;
 			vel.x = 400.f;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
+			facingRight = false;
 			vel.x = -400.f;
 		}
 		else
@@ -252,10 +254,7 @@ void Player::input()
 	{
 		gameView.setCenter({ 25000.f - 800.f,450.f });
 	}
-}
 
-void Player::update()
-{
 	if (std::get<PlayerState>(animMgr.mainState) != PlayerState::Attacking)
 	{
 		if (vel.x != 0.f || vel.y != 0.f || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -300,12 +299,17 @@ void Player::update()
 	}
 	else
 	{
-		if (animMgr.getCurrentIdx() == 1U)
-			sword1Snd->play();
-		if (animMgr.getCurrentIdx() == 5U)
-			sword2Snd->play();
+		
+			if (animMgr.getCurrentIdx() == 1U)
+				sword1Snd->play();
+			if (animMgr.getCurrentIdx() == 5U)
+				sword2Snd->play();
+		
 	}
+}
 
+void Player::update()
+{
 
 	if (pos.x > 24900.f)
 	{
@@ -404,7 +408,7 @@ sf::FloatRect Player::getAttackBox()
 	}
 	else
 	{
-		return { { getImagePos().x + 145.f, getImagePos().y + 20.f},{50.f,85.f} };
+		return { { getImagePos().x + 34.f, getImagePos().y + 20.f},{50.f,85.f} };
 	}
 }
 

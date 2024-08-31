@@ -27,6 +27,22 @@ class PlayState : public GameState
 	MenuObject baseGUI;
 	MenuMgr menuMgr;
 
+	bool menuButtonDown{ false };
+	bool menuButtonReleased{ false };
+	bool confirmButtonDown{ false };
+	bool confirmButtonReleased{ false };
+	bool cancelButtonDown{ false };
+	bool cancelButtonReleased{ false };
+	bool leftButtonDown{ false };
+	bool leftButtonReleased{ false };
+	bool rightButtonDown{ false };
+	bool rightButtonReleased{ false };
+	bool upButtonDown{ false };
+	bool upButtonReleased{ false };
+	bool downButtonDown{ false };
+	bool downButtonReleased{ false };
+	float commandTextElapsed{ 0.f };
+	float commandTextDelay{ 2.f };
 	void DrawBG();
 	
 	void setLoopLayers();

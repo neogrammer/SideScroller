@@ -12,6 +12,11 @@ void MenuMgr::close()
 	panels.clear();
 }
 
+bool MenuMgr::isOpen()
+{
+	return !panels.empty();
+}
+
 void MenuMgr::onUp()
 {
 	if (!panels.empty()) 
@@ -58,6 +63,8 @@ MenuObject* MenuMgr::onConfirm()
 		if (next->isEnabled())
 			panels.push_back(next);
 	}
+
+	return nullptr;
 }
 
 void MenuMgr::render(sf::Vector2i screenOffset_)
