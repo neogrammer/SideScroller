@@ -1,6 +1,6 @@
 #ifndef MENUOBJECT_H__
 #define MENUOBJECT_H__
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <core/globals.h>
 #include <memory>
@@ -25,7 +25,7 @@ protected:
 	static sf::Texture* patchedGuiSpr;
 	static sf::Sprite patches[(unsigned int)PatchPiece::Count];
 
-	sf::RenderTexture builtMenuTexture;
+	std::unique_ptr<sf::Texture> builtMenuTexture;
 	std::unique_ptr<sf::Sprite> builtSpr;
 	std::string name;
 	bool enabled{ true };
@@ -40,11 +40,16 @@ protected:
 	const sf::Vector2i patchSize{ gGuiPatch, gGuiPatch };
 	sf::Vector2i sizeInPatches{ 0,0 };
 
-	std::map<std::string, MenuObject> items;
+	std::unordered_map<std::string, size_t> itemPointer;
+	std::vector<MenuObject> items;
 public:
 	MenuObject();
 	MenuObject(const std::string& name_);
 	~MenuObject() = default;
+	MenuObject(const MenuObject&) = default;
+	MenuObject& operator=(const MenuObject&) = default;
+	MenuObject(MenuObject&&) = default;
+	MenuObject& operator=(MenuObject&&) = default;
 
 	MenuObject& setTable(int cols_, int rows_);
 	MenuObject& setID(int32_t id_);
@@ -52,14 +57,21 @@ public:
 	std::string& getName();
 	uint32_t getID();
 	sf::Vector2i getSize();
+	void setName(const std::string& name_);
+
 	bool hasItems();
 	void render(sf::Vector2i screenOffset_);
 	void build();
 	static void setupPatches();
-	sf::Sprite& getPatch(PatchPiece piece_);
+	static sf::Sprite& getPatch(PatchPiece piece_);
 
 	MenuObject& operator[](const std::string& name_);
 
 };
+
+namespace gui
+{
+	std::unique_ptr<sf::Texture> makeGuiTex(sf::Vector2i sizeInPatches_);
+}
 
 #endif

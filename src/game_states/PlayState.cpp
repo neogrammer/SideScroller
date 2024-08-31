@@ -157,7 +157,7 @@ void PlayState::render()
 	//dmg->setPosition({ 500.f,500.f});
 	//gWnd.draw(*dmg);
 	gWnd.setView(gWnd.getDefaultView());
-	baseGUI["Magic"].render({500,400});
+	baseGUI["main"].render({500,400});
 }
 
 void PlayState::processEvent(sf::Event& e)
@@ -284,9 +284,13 @@ void PlayState::LoadLevel(int levelNum_)
 	Cfg::music.get((int)Cfg::Music::Intro).play();
 
 	// GUI SETUP TEST
-	baseGUI["Magic"].setID(101).enable(false).setTable(4, 2);
-	baseGUI["Magic"]["White"].setID(102).enable(false).setTable(3, 3);
-	baseGUI["Magic"].build();
+	baseGUI["main"].setTable(1,5);
+	baseGUI["main"]["Attack"].setID(101);
+	baseGUI["main"]["Magic"].setID(102);
+	baseGUI["main"]["Defend"].setID(103);
+	baseGUI["main"]["Items"].setID(104);
+	baseGUI["main"]["Escape"].setID(105);
+	baseGUI.build();
 
 
 }

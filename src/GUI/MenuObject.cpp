@@ -6,7 +6,7 @@ sf::Sprite MenuObject::patches[(unsigned int)PatchPiece::Count] = { sf::Sprite{}
 
 MenuObject::MenuObject()
 	: name{"root"}
-	, builtMenuTexture{}
+	, builtMenuTexture{std::make_unique<sf::Texture>()}
 	, builtSpr{std::make_unique<sf::Sprite>()}
 {
 	
@@ -15,7 +15,7 @@ MenuObject::MenuObject()
 
 MenuObject::MenuObject(const std::string& name_)
 	: name{name_}
-	, builtMenuTexture{}
+	, builtMenuTexture{ std::make_unique<sf::Texture>() }
 	, builtSpr{ std::make_unique<sf::Sprite>() }
 {
 	
@@ -26,6 +26,8 @@ MenuObject& MenuObject::setTable(int cols_, int rows_)
 	cellTable = { cols_, rows_ };
 	return *this;
 }
+
+
 
 MenuObject& MenuObject::setID(int32_t id_)
 {
@@ -54,6 +56,11 @@ sf::Vector2i MenuObject::getSize()
 	return { int(int32_t(name.size())), 1 };
 }
 
+void MenuObject::setName(const std::string& name_)
+{
+	name = name_;
+}
+
 bool MenuObject::hasItems()
 {
 	return !items.empty();
@@ -65,14 +72,14 @@ void MenuObject::build()
 {
 	for (auto& i : items)
 	{
-		if (i.second.hasItems())
+		if (i.hasItems())
 		{
-			i.second.build();
+			i.build();
 		}
 
 		// longest child name determines cell width
-		cellSize.x = std::max(i.second.getSize().x, cellSize.x);
-		cellSize.y = std::max(i.second.getSize().y, cellSize.y);
+		cellSize.x = std::max(i.getSize().x, cellSize.x);
+		cellSize.y = std::max(i.getSize().y, cellSize.y);
 
 	}
 
@@ -80,105 +87,21 @@ void MenuObject::build()
 	//{
 	//	cellSize = { 3, 3 };
 	//}
+	float wid = cellSize.x * Cfg::fonts.get((int)Cfg::Fonts::Mickey).getGlyph(sf::Uint32(41), 24, false).bounds.width;
 
 	// Adjust size of this object (in patches) if it rendered as a panel
-	sizeInPatches.x = cellTable.x * cellSize.x + (cellTable.x - 1) * cellPadding.x + 2;
+	sizeInPatches.x = cellTable.x * ((int)wid / 24) + 1 + (cellTable.x - 1) * cellPadding.x + 2;
+		//cellTable.x * cellSize.x + (cellTable.x - 1) * cellPadding.x + 2;
 	sizeInPatches.y = cellTable.y * cellSize.y + (cellTable.y - 1) * cellPadding.y + 2;
-
+		//cellTable.y * cellSize.y + (cellTable.y - 1) * cellPadding.y + 2;
+	
 	totalRows = (int32_t)((items.size() / cellTable.x) + (((items.size() % cellTable.x) > 0) ? 1 : 0));
-	if (totalRows == 0)
-		totalRows = 1;
+	/*if (totalRows == 0)
+		totalRows = 1;*/
 
-	builtMenuTexture.create(unsigned int(sizeInPatches.x * gGuiPatch) , unsigned int(sizeInPatches.y * gGuiPatch));
-
-	builtMenuTexture.clear(sf::Color::Transparent);
-
-
-	sf::Vector2i patchPos{ 0,0 };
-	for (patchPos.x = 0; patchPos.x < sizeInPatches.x; patchPos.x++)
-	{
-		for (patchPos.y = 0; patchPos.y < sizeInPatches.y; patchPos.y++)
-		{
-			// determine position in screen space
-			sf::Vector2i textureLocation = patchPos * gGuiPatch;
-			sf::Vector2i sourcePatch{ 0,0 };
-			if (patchPos.x > 0) sourcePatch.x = 1;
-			if (patchPos.x == sizeInPatches.x - 1) sourcePatch.x = 2;
-			if (patchPos.y > 0) sourcePatch.y = 1;
-			if (patchPos.y == sizeInPatches.y - 1) sourcePatch.y = 2;
-
-			PatchPiece currentOneToCopy = PatchPiece::Count;
-			switch (sourcePatch.x)
-			{
-			case 0:
-			{
-				if (sourcePatch.y == 0)
-				{
-					currentOneToCopy = PatchPiece::TL;
-				}
-				else if (sourcePatch.y == 1)
-				{
-					currentOneToCopy = PatchPiece::L;
-				}
-				else if (sourcePatch.y == 2)
-				{
-					currentOneToCopy = PatchPiece::BL;
-				}
-				
-			}
-				break;
-			case 1:
-			{
-				if (sourcePatch.y == 0)
-				{
-					currentOneToCopy = PatchPiece::T;
-				}
-				else if (sourcePatch.y == 1)
-				{
-					currentOneToCopy = PatchPiece::C;
-				}
-				else if (sourcePatch.y == 2)
-				{
-					currentOneToCopy = PatchPiece::B;
-				}
-				
-			}
-				break;
-			case 2:
-			{
-				if (sourcePatch.y == 0)
-				{
-					currentOneToCopy = PatchPiece::TR;
-				}
-				else if (sourcePatch.y == 1)
-				{
-					currentOneToCopy = PatchPiece::R;
-				}
-				else if (sourcePatch.y == 2)
-				{
-					currentOneToCopy = PatchPiece::BR;
-				}
-				
-			}
-				break;
-			default:
-				break;
-			}
-
-			sf::Sprite& sprToDraw = getPatch(currentOneToCopy);
-			sprToDraw.setPosition({ (float)(patchPos.x * gGuiPatch),(float)(patchPos.y * gGuiPatch) });
-			builtMenuTexture.draw(sprToDraw);
-			//sf::Sprite test{};
-			//test.setTexture(builtMenuTexture.getTexture());
-			//test.setTextureRect({ { (int)(patchPos.x * gGuiPatch),(int)(patchPos.y * gGuiPatch)}, {24,24}});
-			//test.setPosition({ (float)(patchPos.x * gGuiPatch),(float)(patchPos.y * gGuiPatch) });
-			//gWnd.clear();
-			//gWnd.draw(test);
-			//gWnd.display();
-
-		}
-	}
-	builtSpr->setTexture(builtMenuTexture.getTexture());
+	
+	builtMenuTexture = std::move(gui::makeGuiTex(sizeInPatches));
+	builtSpr->setTexture(*builtMenuTexture);
 }
 
 void MenuObject::setupPatches()
@@ -258,9 +181,32 @@ sf::Sprite& MenuObject::getPatch(PatchPiece piece_)
 
 void MenuObject::render(sf::Vector2i screenOffset_)
 {
-	builtSpr->setPosition({ (float)screenOffset_.x,(float)screenOffset_.y });
 
-	gWnd.draw(*builtSpr);
+		builtSpr->setPosition({ (float)screenOffset_.x,(float)screenOffset_.y });
+		gWnd.draw(*builtSpr);
+
+		sf::Text txt{ sf::Text{} };
+		txt.setFont(Cfg::fonts.get((int)Cfg::Fonts::Mickey));
+		txt.setFillColor(sf::Color::White);
+		txt.setOutlineColor(sf::Color::Black);
+		txt.setOutlineThickness(2);
+		txt.setCharacterSize(24U);
+		sf::Vector2i patchPos;
+		sf::Vector2i cell{ 0,0 };
+		for (auto& m : items)
+		{
+			// Patch location (including border offset and padding)
+			patchPos.x = cell.x * (cellSize.x + cellPadding.x) + 1;
+			patchPos.y = cell.y * (cellSize.y + cellPadding.y) + 1;
+			// Actual screen location in pixel
+			sf::Vector2i screenLocation = patchPos * gGuiPatch + screenOffset_;
+			txt.setString(m.getName());
+			txt.setPosition(sf::Vector2f(screenLocation));
+			gWnd.draw(txt);
+			cell.y++;
+		}
+}
+	
 
 	//sf::Sprite& spr0{ MenuObject::patches[(unsigned int)PatchPiece::TL]};
 	//sf::Sprite& spr1{ MenuObject::patches[(unsigned int)PatchPiece::T] };
@@ -294,10 +240,115 @@ void MenuObject::render(sf::Vector2i screenOffset_)
 	//gWnd.draw(spr7);
 	//gWnd.draw(spr8);
 	//change
-}
+
 
 MenuObject& MenuObject::operator[](const std::string& name_)
 {
-	return items[name_];
+	if (itemPointer.count(name_) == 0)
+	{
+		itemPointer[name_] = items.size();
+		items.push_back(MenuObject(name_));
+	}
+
+	return items[itemPointer[name_] ];
 }
 
+std::unique_ptr<sf::Texture> gui::makeGuiTex(sf::Vector2i sizeInPatches_)
+{
+	sf::RenderTexture builtMenuTexture = {};
+	std::unique_ptr<sf::Texture> tex{ nullptr };
+	builtMenuTexture.create(unsigned int(sizeInPatches_.x * gGuiPatch), unsigned int(sizeInPatches_.y * gGuiPatch));
+
+	builtMenuTexture.clear(sf::Color::Transparent);
+
+
+	sf::Vector2i patchPos{ 0,0 };
+	for (patchPos.x = 0; patchPos.x < sizeInPatches_.x; patchPos.x++)
+	{
+		for (patchPos.y = 0; patchPos.y < sizeInPatches_.y; patchPos.y++)
+		{
+			// determine position in screen space
+
+			sf::Vector2i sourcePatch{ 0,0 };
+			if (patchPos.x > 0) sourcePatch.x = 1;
+			if (patchPos.x == sizeInPatches_.x - 1) sourcePatch.x = 2;
+			if (patchPos.y > 0) sourcePatch.y = 1;
+			if (patchPos.y == sizeInPatches_.y - 1) sourcePatch.y = 2;
+
+			PatchPiece currentOneToCopy = PatchPiece::Count;
+			switch (sourcePatch.x)
+			{
+			case 0:
+			{
+				if (sourcePatch.y == 0)
+				{
+					currentOneToCopy = PatchPiece::TL;
+				}
+				else if (sourcePatch.y == 1)
+				{
+					currentOneToCopy = PatchPiece::L;
+				}
+				else if (sourcePatch.y == 2)
+				{
+					currentOneToCopy = PatchPiece::BL;
+				}
+
+			}
+			break;
+			case 1:
+			{
+				if (sourcePatch.y == 0)
+				{
+					currentOneToCopy = PatchPiece::T;
+				}
+				else if (sourcePatch.y == 1)
+				{
+					currentOneToCopy = PatchPiece::C;
+				}
+				else if (sourcePatch.y == 2)
+				{
+					currentOneToCopy = PatchPiece::B;
+				}
+
+			}
+			break;
+			case 2:
+			{
+				if (sourcePatch.y == 0)
+				{
+					currentOneToCopy = PatchPiece::TR;
+				}
+				else if (sourcePatch.y == 1)
+				{
+					currentOneToCopy = PatchPiece::R;
+				}
+				else if (sourcePatch.y == 2)
+				{
+					currentOneToCopy = PatchPiece::BR;
+				}
+
+			}
+			break;
+			default:
+				break;
+			}
+
+			sf::Sprite& sprToDraw = MenuObject::getPatch(currentOneToCopy);
+			sprToDraw.setPosition({ (float)(patchPos.x * gGuiPatch),(float)(patchPos.y * gGuiPatch) });
+			builtMenuTexture.draw(sprToDraw);
+			//sf::Sprite test{};
+			//test.setTexture(builtMenuTexture.getTexture());
+			//test.setTextureRect({ { (int)(patchPos.x * gGuiPatch),(int)(patchPos.y * gGuiPatch)}, {24,24}});
+			//test.setPosition({ (float)(patchPos.x * gGuiPatch),(float)(patchPos.y * gGuiPatch) });
+			//gWnd.clear();
+			//gWnd.draw(test);
+			//gWnd.display();
+
+		}
+	}
+
+	tex = std::make_unique<sf::Texture>();
+	tex->create(builtMenuTexture.getTexture().getSize().x, builtMenuTexture.getTexture().getSize().y);
+	tex->swap(*const_cast<sf::Texture*>(&builtMenuTexture.getTexture()));
+	return std::move(tex);
+}
