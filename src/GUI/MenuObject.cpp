@@ -293,7 +293,7 @@ void MenuObject::render(sf::Vector2i screenOffset_)
 	//gWnd.draw(spr6);
 	//gWnd.draw(spr7);
 	//gWnd.draw(spr8);
-
+	//change
 }
 
 MenuObject& MenuObject::operator[](const std::string& name_)
