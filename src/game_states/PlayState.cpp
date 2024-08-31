@@ -284,12 +284,25 @@ void PlayState::LoadLevel(int levelNum_)
 	Cfg::music.get((int)Cfg::Music::Intro).play();
 
 	// GUI SETUP TEST
-	baseGUI["main"].setTable(1,5);
+	baseGUI["main"].setTable(1,15);
 	baseGUI["main"]["Attack"].setID(101);
 	baseGUI["main"]["Magic"].setID(102).enable(false);
 	baseGUI["main"]["Defend"].setID(103);
 	baseGUI["main"]["Items"].setID(104);
 	baseGUI["main"]["Escape"].setID(105);
+	baseGUI["main"]["DummyA"].setID(105);
+	baseGUI["main"]["DummyB"].setID(105);
+	baseGUI["main"]["DummyX"].setID(105);
+	baseGUI["main"]["DummyGF"].setID(105);
+	baseGUI["main"]["DummyGF"].setID(105);
+	baseGUI["main"]["DummyS"].setID(105);
+	baseGUI["main"]["DummyG"].setID(105);
+	baseGUI["main"]["DummyY"].setID(105);
+	baseGUI["main"]["DummyWQ"].setID(105);
+	baseGUI["main"]["DummyT"].setID(105);
+	baseGUI["main"]["DummyYY"].setID(105);
+	
+
 	baseGUI.build();
 
 

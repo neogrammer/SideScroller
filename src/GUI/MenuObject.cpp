@@ -53,7 +53,10 @@ uint32_t MenuObject::getID()
 
 sf::Vector2i MenuObject::getSize()
 {
-	return { int(int32_t(name.size())), 1 };
+	int num = name.length();
+	int wid = num * Cfg::fonts.get((int)Cfg::Fonts::Mickey).getGlyph(sf::Uint32(41), 24U, false).textureRect.width;
+	float widF = std::ceilf((float)wid / (float)gGuiPatch);
+	return { (int)widF, 1};
 }
 
 void MenuObject::setName(const std::string& name_)
@@ -87,10 +90,11 @@ void MenuObject::build()
 	//{
 	//	cellSize = { 3, 3 };
 	//}
-	float wid = cellSize.x * Cfg::fonts.get((int)Cfg::Fonts::Mickey).getGlyph(sf::Uint32(41), 24, false).bounds.width;
+	
 
 	// Adjust size of this object (in patches) if it rendered as a panel
-	sizeInPatches.x = cellTable.x * ((int)wid / 24) + 1 + (cellTable.x - 1) * cellPadding.x + 2;
+	sizeInPatches.x = cellTable.x * cellSize.x + (cellTable.x - 1) * cellPadding.x + 2;
+
 		//cellTable.x * cellSize.x + (cellTable.x - 1) * cellPadding.x + 2;
 	sizeInPatches.y = cellTable.y * cellSize.y + (cellTable.y - 1) * cellPadding.y + 2;
 		//cellTable.y * cellSize.y + (cellTable.y - 1) * cellPadding.y + 2;
@@ -100,7 +104,7 @@ void MenuObject::build()
 		totalRows = 1;*/
 
 	
-	builtMenuTexture = std::move(gui::makeGuiTex(sizeInPatches));
+	builtMenuTexture = std::move(gui::makeGuiTex(sizeInPatches, cellTable.x));
 	builtSpr->setTexture(*builtMenuTexture);
 }
 
@@ -294,10 +298,14 @@ MenuObject& MenuObject::operator[](const std::string& name_)
 	return items[itemPointer[name_] ];
 }
 
-std::unique_ptr<sf::Texture> gui::makeGuiTex(sf::Vector2i sizeInPatches_)
+std::unique_ptr<sf::Texture> gui::makeGuiTex(sf::Vector2i sizeInPatches_, int numCols)
 {
 	sf::RenderTexture builtMenuTexture = {};
 	std::unique_ptr<sf::Texture> tex{ nullptr };
+	if (numCols <= 1)
+		numCols = 2;
+	sizeInPatches_.x += numCols - 1;
+
 	builtMenuTexture.create(unsigned int(sizeInPatches_.x * gGuiPatch), unsigned int(sizeInPatches_.y * gGuiPatch));
 
 	builtMenuTexture.clear(sf::Color::Transparent);

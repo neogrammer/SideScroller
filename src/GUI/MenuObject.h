@@ -71,7 +71,7 @@ public:
 
 namespace gui
 {
-	std::unique_ptr<sf::Texture> makeGuiTex(sf::Vector2i sizeInPatches_);
+	std::unique_ptr<sf::Texture> makeGuiTex(sf::Vector2i sizeInPatches_, int numCols = 1);
 }
 
 #endif
