@@ -284,7 +284,7 @@ void PlayState::LoadLevel(int levelNum_)
 	Cfg::music.get((int)Cfg::Music::Intro).play();
 
 	// GUI SETUP TEST
-	baseGUI["main"].setTable(1,15);
+	baseGUI["main"].setTable(1,10);
 	baseGUI["main"]["Attack"].setID(101);
 	baseGUI["main"]["Magic"].setID(102).enable(false);
 	baseGUI["main"]["Defend"].setID(103);

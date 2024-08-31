@@ -53,7 +53,7 @@ uint32_t MenuObject::getID()
 
 sf::Vector2i MenuObject::getSize()
 {
-	int num = name.length();
+	int num = (int)name.length();
 	int wid = num * Cfg::fonts.get((int)Cfg::Fonts::Mickey).getGlyph(sf::Uint32(41), 24U, false).textureRect.width;
 	float widF = std::ceilf((float)wid / (float)gGuiPatch);
 	return { (int)widF, 1};
@@ -221,6 +221,31 @@ void MenuObject::render(sf::Vector2i screenOffset_)
 		bottomRightItem = std::min(int32_t(items.size()), bottomRightItem);
 		int32_t visibleItems = bottomRightItem - topLeftItem;
 
+
+		// scroll markers
+		if (topVisibleRow > 0)
+		{
+			patchPos = { sizeInPatches.x - 1, 0 };
+			sf::Vector2f screenLocation = sf::Vector2f{ (float)(patchPos.x * gGuiPatch + (int)screenOffset_.x), (float)(patchPos.y * gGuiPatch + (int)screenOffset_.y) };
+			sf::Vector2i sourcePatch = { 3,0 };
+			sf::Sprite markerSpr{ sf::Sprite{} };
+			markerSpr.setTexture(Cfg::textures.get((int)Cfg::Textures::RetroMenu));
+			markerSpr.setTextureRect({ {sourcePatch.x*gGuiPatch, sourcePatch.y*gGuiPatch},{gGuiPatch,gGuiPatch} });
+			markerSpr.setPosition(screenLocation);
+			gWnd.draw(markerSpr);
+		}
+
+		if ((totalRows - topVisibleRow) > cellTable.y)
+		{
+			patchPos = { sizeInPatches.x - 1, sizeInPatches.y - 1 };
+			sf::Vector2f screenLocation = sf::Vector2f{ (float)(patchPos.x * gGuiPatch + (int)screenOffset_.x), (float)(patchPos.y * gGuiPatch + (int)screenOffset_.y) };
+			sf::Vector2i sourcePatch = { 3,2 };
+			sf::Sprite markerSpr{ sf::Sprite{} };
+			markerSpr.setTexture(Cfg::textures.get((int)Cfg::Textures::RetroMenu));
+			markerSpr.setTextureRect({ {sourcePatch.x * gGuiPatch, sourcePatch.y * gGuiPatch},{gGuiPatch,gGuiPatch} });
+			markerSpr.setPosition(screenLocation);
+			gWnd.draw(markerSpr);
+		}
 
 		for (int32_t i = 0; i < visibleItems; i++)
 		{

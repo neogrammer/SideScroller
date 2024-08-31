@@ -103,6 +103,12 @@
     <Filter Include="Resource Files\assets\sound\combat\goblin">
       <UniqueIdentifier>{3b58bb5c-974f-4f40-b315-c59c86dbf6bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{13d4ced3-22d8-4c17-9d24-7674520b0e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{81894d7f-eb65-4207-a58c-dd5d2aea6f31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -158,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="src\entities\enemies\goblin\Goblin.cpp">
       <Filter>Source Files\entities\enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\MenuObject.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\MenuMgr.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +236,12 @@
     <ClInclude Include="src\entities\enemies\goblin\Goblin.h">
       <Filter>Header Files\entities\enemies</Filter>
     </ClInclude>
+    <ClInclude Include="src\GUI\MenuObject.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\MenuMgr.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\core\tpl\ResourceManager.tpl">
@@ -276,11 +294,15 @@
     <Image Include="assets\textures\actors\enemies\goblinAtlas300x300.png">
       <Filter>Resource Files\assets\textures\actors\enemies</Filter>
     </Image>
+    <Image Include="assets\textures\GUI\RetroMenu.png">
+      <Filter>Resource Files\assets\textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\frisky_puppy.ttf">
       <Filter>Resource Files\assets\fonts</Filter>
     </Font>
+    <Font Include="assets\fonts\MM.otf" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\music\Intro.mp3">

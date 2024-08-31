@@ -150,6 +150,7 @@
     <ClCompile Include="src\game_states\SplashState..cpp" />
     <ClCompile Include="src\game_states\StageClearState.cpp" />
     <ClCompile Include="src\game_states\TitleState.cpp" />
+    <ClCompile Include="src\GUI\MenuMgr.cpp" />
     <ClCompile Include="src\GUI\MenuObject.cpp" />
     <ClCompile Include="src\visual\Animation.cpp" />
     <ClCompile Include="src\visual\AnimMap.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="src\game_states\SplashState.h" />
     <ClInclude Include="src\game_states\StageClearState.h" />
     <ClInclude Include="src\game_states\TitleState.h" />
+    <ClInclude Include="src\GUI\MenuMgr.h" />
     <ClInclude Include="src\GUI\MenuObject.h" />
     <ClInclude Include="src\visual\Animation.h" />
     <ClInclude Include="src\visual\AnimData.h" />
