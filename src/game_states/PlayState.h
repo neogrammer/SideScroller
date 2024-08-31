@@ -13,12 +13,18 @@
 #include <memory>
 #include <array>
 #include <visual/AnimMgr.h>
+
+#include <GUI/MenuObject.h>
+
 class PlayState : public GameState
 {
 	friend class GameStateMgr;
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Goblin> goblin;
 	std::array<int, 5> bgLengthsTravelled = { 1,1,1,1,1 };
+
+	//GUI
+	MenuObject baseGUI;
 
 	void DrawBG();
 	

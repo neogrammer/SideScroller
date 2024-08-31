@@ -5,10 +5,13 @@
 #include <string>
 #include <functional>
 #include <utility>
-
+#include <GUI/MenuObject.h>
 Game::Game()
 {
+	MenuObject::setupPatches();
+
 	wndw::CreateWindow("MegamanOne", 1600U, 900U);
+	
 	gWnd.setPosition({ 120, 20 });
 	gStateMgr->setGame(this);
 }

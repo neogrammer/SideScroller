@@ -153,6 +153,8 @@ void Cfg::initTextures()
 	textures.load((int)Cfg::Textures::BG1_4, "assets/textures/bgs/bg1/bgLayer4.png");
 	textures.load((int)Cfg::Textures::BG1_5, "assets/textures/bgs/bg1/bgLayer5.png");
 	textures.load((int)Cfg::Textures::Logo, "assets/textures/bgs/logoImg.png");
+	textures.load((int)Cfg::Textures::RetroMenu, "assets/textures/GUI/RetroMenu.png");
+
 
 
 }
@@ -197,4 +199,6 @@ void Cfg::initPlayerInputs()
 void Cfg::initFonts()
 {
 	fonts.load((int)Cfg::Fonts::Font1, "assets/fonts/frisky_puppy.ttf");
+	fonts.load((int)Cfg::Fonts::Mickey, "assets/fonts/MM.otf");
+
 }

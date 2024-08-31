@@ -12,6 +12,8 @@ sf::View gameView = {};
 float gTime = 0.f;
 float gPrevTime = 0.f;
 
+const int32_t gGuiPatch = 24;
+
 std::stack<std::unique_ptr<sf::Sprite> > bgLayers{};
 std::stack<std::unique_ptr<sf::Sprite> > loopLayers{};
 

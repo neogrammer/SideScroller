@@ -150,6 +150,7 @@
     <ClCompile Include="src\game_states\SplashState..cpp" />
     <ClCompile Include="src\game_states\StageClearState.cpp" />
     <ClCompile Include="src\game_states\TitleState.cpp" />
+    <ClCompile Include="src\GUI\MenuObject.cpp" />
     <ClCompile Include="src\visual\Animation.cpp" />
     <ClCompile Include="src\visual\AnimMap.cpp" />
     <ClCompile Include="src\visual\AnimMgr.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\game_states\SplashState.h" />
     <ClInclude Include="src\game_states\StageClearState.h" />
     <ClInclude Include="src\game_states\TitleState.h" />
+    <ClInclude Include="src\GUI\MenuObject.h" />
     <ClInclude Include="src\visual\Animation.h" />
     <ClInclude Include="src\visual\AnimData.h" />
     <ClInclude Include="src\visual\AnimMap.h" />
@@ -196,9 +198,11 @@
     <Image Include="assets\textures\bgs\bg1\bgLayer3.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer4.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer5.png" />
+    <Image Include="assets\textures\GUI\RetroMenu.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\frisky_puppy.ttf" />
+    <Font Include="assets\fonts\MM.otf" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\music\Intro.mp3" />

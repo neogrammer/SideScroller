@@ -10,6 +10,7 @@ class Tilemap;
 
 class Game
 {
+
 	sf::Clock frameTimer{};
 
 	void input();

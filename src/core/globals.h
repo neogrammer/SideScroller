@@ -14,6 +14,7 @@ extern sf::Vector2f mpos;
 extern unsigned int gWW;
 extern unsigned int gWH;
 extern bool gWndFull;
+extern const int32_t gGuiPatch;
 
 extern float gTime;
 extern float gPrevTime;

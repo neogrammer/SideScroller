@@ -156,7 +156,8 @@ void PlayState::render()
 	//dmg->setFillColor(sf::Color::Red);
 	//dmg->setPosition({ 500.f,500.f});
 	//gWnd.draw(*dmg);
-
+	gWnd.setView(gWnd.getDefaultView());
+	baseGUI["Magic"].render({500,400});
 }
 
 void PlayState::processEvent(sf::Event& e)
@@ -281,6 +282,13 @@ void PlayState::LoadLevel(int levelNum_)
 		}
 	}
 	Cfg::music.get((int)Cfg::Music::Intro).play();
+
+	// GUI SETUP TEST
+	baseGUI["Magic"].setID(101).enable(false).setTable(4, 2);
+	baseGUI["Magic"]["White"].setID(102).enable(false).setTable(3, 3);
+	baseGUI["Magic"].build();
+
+
 }
 
 void PlayState::DrawBG()
@@ -365,7 +373,6 @@ void PlayState::setLoopLayers()
 				bgLengthsTravelled[i]++;
 				bgLayers.top()->setPosition({ loopLayers.top()->getPosition() });
 				loopLayers.top()->setPosition({ bgLayers.top()->getPosition().x + (float)bgLayers.top()->getTextureRect().width, bgLayers.top()->getPosition().y });
-				
 			}
 			tmpStack.push(std::move(bgLayers.top()));
 			bgLayers.pop();

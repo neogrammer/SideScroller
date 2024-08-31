@@ -188,8 +188,8 @@ struct Cfg
 	static void Initialize();
 
 	// Resource Enums 
-	enum class Textures : int { Logo, PlayerAtlas, GoblinAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
-	enum class Fonts : int { Font1, Count };
+	enum class Textures : int { Logo, RetroMenu, PlayerAtlas, GoblinAtlas, BG1_1, BG1_2, BG1_3, BG1_4, BG1_5, Count };
+	enum class Fonts : int { Font1, Mickey, Count };
 	enum class Music : int { Intro, Count };
 	enum class Sounds : int { Sword1, Sword2, GoblinAtk1, GoblinDeath, GoblinDie1, GoblinYell, GoblinHurt, GoblinScream, Count };
 
