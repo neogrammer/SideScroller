@@ -286,7 +286,7 @@ void PlayState::LoadLevel(int levelNum_)
 	// GUI SETUP TEST
 	baseGUI["main"].setTable(1,5);
 	baseGUI["main"]["Attack"].setID(101);
-	baseGUI["main"]["Magic"].setID(102);
+	baseGUI["main"]["Magic"].setID(102).enable(false);
 	baseGUI["main"]["Defend"].setID(103);
 	baseGUI["main"]["Items"].setID(104);
 	baseGUI["main"]["Escape"].setID(105);

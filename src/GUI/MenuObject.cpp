@@ -193,18 +193,59 @@ void MenuObject::render(sf::Vector2i screenOffset_)
 		txt.setCharacterSize(24U);
 		sf::Vector2i patchPos;
 		sf::Vector2i cell{ 0,0 };
-		for (auto& m : items)
+		//for (auto& m : items)
+		//{
+		//	// Patch location (including border offset and padding)
+		//	patchPos.x = cell.x * (cellSize.x + cellPadding.x) + 1;
+		//	patchPos.y = cell.y * (cellSize.y + cellPadding.y) + 1;
+		//	// Actual screen location in pixel
+		//	sf::Vector2i screenLocation = patchPos * gGuiPatch + screenOffset_;
+		//	txt.setString(m.getName());
+		//	txt.setPosition(sf::Vector2f(screenLocation));
+		//	gWnd.draw(txt);
+		//	cell.y++;
+		//}
+
+		cell = { 0,0 };
+		patchPos = { 1,1 };
+		
+		// work out visible items
+		int32_t topLeftItem = topVisibleRow * cellTable.x;
+		int32_t bottomRightItem = cellTable.y * cellTable.x + topLeftItem;
+
+		// clamp to stay in bounds
+		bottomRightItem = std::min(int32_t(items.size()), bottomRightItem);
+		int32_t visibleItems = bottomRightItem - topLeftItem;
+
+
+		for (int32_t i = 0; i < visibleItems; i++)
 		{
-			// Patch location (including border offset and padding)
-			patchPos.x = cell.x * (cellSize.x + cellPadding.x) + 1;
+			cell.x = i % cellTable.x;
+			cell.y = i / cellTable.x;
+
+
+			patchPos.x = cell.x * (cellSize.x + cellPadding.x) * 1;
 			patchPos.y = cell.y * (cellSize.y + cellPadding.y) + 1;
-			// Actual screen location in pixel
-			sf::Vector2i screenLocation = patchPos * gGuiPatch + screenOffset_;
-			txt.setString(m.getName());
-			txt.setPosition(sf::Vector2f(screenLocation));
+
+			sf::Vector2f screenLocation{ (float)(patchPos.x * gGuiPatch + screenOffset_.x) , (float)(patchPos.y * gGuiPatch + screenOffset_.y) };
+
+			txt.setString(items[i + topLeftItem].name);
+			txt.setPosition(sf::Vector2f(screenLocation.x + gGuiPatch, screenLocation.y));
+
+			if (items[topLeftItem + i].enabled)
+			{
+				txt.setFillColor(sf::Color::White);
+				txt.setOutlineColor(sf::Color::Black);
+			}
+			else
+			{
+				txt.setFillColor(sf::Color(55, 55, 55, 255));
+				txt.setOutlineColor(sf::Color(55, 55, 55, 255));
+			}
+
 			gWnd.draw(txt);
-			cell.y++;
 		}
+
 }
 	
 
