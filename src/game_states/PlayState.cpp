@@ -51,7 +51,12 @@ void PlayState::update()
 		}
 
 		if (!goblin->deaddead)
+		{
+			goblin->checkForPlayer(*player);
+
 			goblin->update();
+
+		}
 
 
 		setLoopLayers();
@@ -204,7 +209,9 @@ void PlayState::updateLate()
 	player->updateLate();
 	//goblin->updateLate();
 	if (!goblin->deaddead)
+	{
 		goblin->updateLate();
+	}
 
 }
 

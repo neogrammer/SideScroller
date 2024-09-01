@@ -35,7 +35,7 @@ public:
 	virtual void faceLeft() = 0;
 	virtual void faceRight() = 0;
 	virtual void takeHit(int damage_) = 0;
-	virtual void resetScriptSequence() = 0;
+	virtual void resetScriptSequence(rec& pos_) = 0;
 	virtual std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_) = 0;
 
 };

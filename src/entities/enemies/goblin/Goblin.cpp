@@ -1,5 +1,6 @@
 #include "Goblin.h"
 #include <core/globals.h>
+#include <iostream>
 Goblin::Goblin(sf::Vector2f pos_)
 	: Enemy{ pos_, { 46.f, 62.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 129,140}, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/enemies/goblin.dat", std::bind(&Goblin::onEvent, this, std::placeholders::_1), AnimType::Goblin }
@@ -8,6 +9,7 @@ Goblin::Goblin(sf::Vector2f pos_)
 	, deaddead{false}
 	, screamSnd{}
 	, hitSnd{}
+	, playerSpotted{false}
 {
 	screamSnd = std::make_unique<sf::Sound>();
 	hitSnd = std::make_unique<sf::Sound>();
@@ -15,14 +17,7 @@ Goblin::Goblin(sf::Vector2f pos_)
 	screamSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinDeath));
 	hitSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinHurt));
 
-	scriptMgr.addScript(new Enemy_Script::MoveRight{*this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveLeft{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveUp{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveDown{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveUpLeft{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveDownLeft{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveUpRight{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveDownRight{ *this, 100.f, 5.f });
+	
 
 }
 
@@ -77,6 +72,13 @@ std::variant<PlayerState, GoblinState> Goblin::onEvent(GameEvent evt_)
 			possibleStates.push_back(GoblinState::Attacking);
 		}
 		break;
+		case GameEvent::Damaged:
+		{
+			possibleStates.push_back(GoblinState::Damaged);
+			if (markedForDeath)
+				possibleStates.push_back(GoblinState::Dying);
+		}
+		break;
 		default:
 		{
 
@@ -115,6 +117,8 @@ std::variant<PlayerState, GoblinState> Goblin::onEvent(GameEvent evt_)
 		case GameEvent::DamageCooldownEnded:
 		{
 			possibleStates.push_back(GoblinState::Idle);
+			possibleStates.push_back(GoblinState::Running);
+			possibleStates.push_back(GoblinState::Attacking);
 		}
 		break;
 		default:
@@ -162,32 +166,59 @@ void Goblin::input()
 {
 }
 
-void Goblin::resetScriptSequence()
+void Goblin::resetScriptSequence(rec& pos_)
 {
+	auto yTime = fabs((pos_.pos.y - pos.y) / 100.f);
+	auto xTime = fabs((pos_.pos.x - pos.x) / 100.f);
 
 
-	scriptMgr.addScript(new Enemy_Script::MoveRight{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveLeft{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveUp{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveDown{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveUpLeft{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveDownLeft{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveUpRight{ *this, 100.f, 5.f });
-	scriptMgr.addScript(new Enemy_Script::MoveDownRight{ *this, 100.f, 5.f });
+		scriptMgr.addScript(new Enemy_Script::MoveTo{ *this, pos_,  100.f, xTime + yTime });
+		if (pos.x - pos_.pos.x > 0) facingRight = true;
+		if (pos.x - pos_.pos.x < 0) facingRight = false;
+		if (xTime != 0.f && yTime != 0.f)
+			onEvent(GameEvent::StartedRunning);
+		else
+			onEvent(GameEvent::StoppedRunning);
 
+
+
+}
+
+void Goblin::checkForPlayer(rec& pos_)
+{
+	if (health > 0 && !this->hitCooldownActive)
+	{
+
+		if (scriptMgr.front() == nullptr)
+		{
+			if (sqrtf(powf(pos.x - pos_.pos.x, 2) + powf(pos.y - pos_.pos.y, 2)) < detectRadius)
+			{
+				onEvent(GameEvent::StartedRunning);
+				playerSpotted = true;
+				resetScriptSequence(pos_);
+			}
+			else
+			{
+				onEvent(GameEvent::StoppedRunning);
+			}
+		}
+		else
+		{
+			playerSpotted = false;
+		}
+	}
 }
 
 void Goblin::update()
 {
-
-	if (scriptMgr.front() == nullptr)
+	if (scriptMgr.front() != nullptr && health > 0 && !this->hitCooldownActive)
 	{
-		resetScriptSequence();
+		scriptMgr.update();
 	}
-	scriptMgr.update();
 
 	if (hitCooldownActive)
 	{
+
 		hitCooldownElapsed += gTime;
 
 		if (markedForDeath)
@@ -312,6 +343,24 @@ std::variant<PlayerState, GoblinState> Goblin::pickState(GameEvent evt_, std::ve
 			if (evt_ == GameEvent::Damaged)
 			{
 				return possibles_[1];
+			}
+			else
+			{
+				return possibles_[0];
+			}
+		}
+		if (std::get<GoblinState>(animMgr.transientState) == GoblinState::Damaged)
+		{
+			if (evt_ == GameEvent::DamageCooldownEnded)
+			{
+				if (scriptMgr.front() == nullptr)
+				{
+					return possibles_[0];
+				}
+				else
+				{
+					return possibles_[1];
+				}
 			}
 			else
 			{

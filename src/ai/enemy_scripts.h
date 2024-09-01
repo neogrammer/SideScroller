@@ -142,6 +142,24 @@ namespace Enemy_Script
 		void render() override;
 		bool isDone() override;
 	};
+
+	class MoveTo : public Script
+	{
+		rec& from;
+		rec& to;
+		float speed;
+		float duration;
+		float displacement;
+		float dt;
+	public:
+		MoveTo() = delete;
+		MoveTo(rec& from_, rec& to_, float l_speed, float l_duration);
+		~MoveTo() override;
+		void execute() override;
+		void update() override;
+		void render() override;
+		bool isDone() override;
+	};
 }
 
 #endif

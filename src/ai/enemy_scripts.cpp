@@ -84,6 +84,51 @@ bool Enemy_Script::MoveLeft::isDone()
 }
 
 
+Enemy_Script::MoveTo::MoveTo(rec& from_, rec& to_, float l_speed, float l_duration)
+	: from{ from_}
+	, to{to_}
+	, speed{ l_speed }
+	, duration{ l_duration }
+	, displacement{ 0.f }
+	, dt{ 0.f }
+{
+	dir = Direction::U;
+}
+
+Enemy_Script::MoveTo::~MoveTo()
+{
+}
+
+void Enemy_Script::MoveTo::execute()
+{
+	auto len = sqrtf(powf(to.pos.y - from.pos.y, 2) + powf(to.pos.x - from.pos.x, 2));
+	float xComponent = (to.pos.x - from.pos.x) / len;
+	float yComponent = (to.pos.y - from.pos.y) /len;
+	sf::Vector2f direc = { xComponent, yComponent };
+
+
+	from.pos = from.pos + sf::Vector2f{direc.x* displacement, direc.y* displacement};
+}
+
+void Enemy_Script::MoveTo::update()
+{
+	displacement = gTime * speed;
+	dt += gTime;
+
+	if (dt < duration)
+	{
+		execute();
+	}
+}
+
+void Enemy_Script::MoveTo::render()
+{
+}
+
+bool Enemy_Script::MoveTo::isDone()
+{
+	return dt >= duration;
+}
 
 
 

@@ -29,6 +29,8 @@ public:
 	float hitCooldownElapsed{ 0.f };
 	bool hitCooldownActive{ false };
 	bool deaddead{ false };
+	bool playerSpotted{ false };
+	float detectRadius{ 350.f };
 
 	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_) override final;
 	sf::IntRect getAnimRect() override final;
@@ -39,7 +41,9 @@ public:
 	void faceLeft() override final;
 	void faceRight() override final;
 	void takeHit(int damage_) override final;
-	void resetScriptSequence() override final;
+	void resetScriptSequence(rec& pos_) override final;
+	void checkForPlayer(rec& pos_);
+
 	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_) override final;
 
 };
