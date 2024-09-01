@@ -1,14 +1,10 @@
 #ifndef GOBLIN_H__
 #define GOBLIN_H__
-#include <core/Cfg.h>
-#include <visual/AnimMgr.h>
-#include <functional>
-#include <string>
-#include <variant>
-#include <core/rec.h>
+#include <entities/enemies/Enemy.h>
 
-class Goblin : public rec
+class Goblin : public Enemy
 {
+public:
 	std::function<std::variant<PlayerState, GoblinState>(GameEvent evt_)> Func;
 	AnimMgr animMgr;
 	bool facingRight{ true };
@@ -34,16 +30,17 @@ public:
 	bool hitCooldownActive{ false };
 	bool deaddead{ false };
 
-	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_);
-	sf::IntRect getAnimRect();
-	void input();
-	void update();
-	void updateLate();
-	void render();
-	void faceLeft();
-	void faceRight();
-	void takeHit(int damage_);
-	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_);
+	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_) override final;
+	sf::IntRect getAnimRect() override final;
+	void input() override final;
+	void update() override final;
+	void updateLate() override final;
+	void render() override final;
+	void faceLeft() override final;
+	void faceRight() override final;
+	void takeHit(int damage_) override final;
+	void resetScriptSequence() override final;
+	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_) override final;
 
 };
 

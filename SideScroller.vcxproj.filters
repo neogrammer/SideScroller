@@ -109,6 +109,12 @@
     <Filter Include="Header Files\GUI">
       <UniqueIdentifier>{81894d7f-eb65-4207-a58c-dd5d2aea6f31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ai">
+      <UniqueIdentifier>{22274b56-d8d4-4f31-b865-255798e9c442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ai">
+      <UniqueIdentifier>{28f2dc0f-13c3-4c73-8ce0-31442387b012}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +176,21 @@
     </ClCompile>
     <ClCompile Include="src\GUI\MenuMgr.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ai\Scriptable.cpp">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ai\ScriptMgr.cpp">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ai\Script.cpp">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ai\enemy_scripts.cpp">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\enemies\Enemy.cpp">
+      <Filter>Source Files\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +263,27 @@
     <ClInclude Include="src\GUI\MenuMgr.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="src\ai\Scriptable.h">
+      <Filter>Header Files\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ai\Sequence.h">
+      <Filter>Header Files\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ai\script_types.h">
+      <Filter>Header Files\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ai\ScriptMgr.h">
+      <Filter>Header Files\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ai\enemy_scripts.h">
+      <Filter>Header Files\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ai\Script.h">
+      <Filter>Header Files\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\enemies\Enemy.h">
+      <Filter>Header Files\entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\core\tpl\ResourceManager.tpl">
@@ -302,7 +344,9 @@
     <Font Include="assets\fonts\frisky_puppy.ttf">
       <Filter>Resource Files\assets\fonts</Filter>
     </Font>
-    <Font Include="assets\fonts\MM.otf" />
+    <Font Include="assets\fonts\MM.otf">
+      <Filter>Resource Files\assets\fonts</Filter>
+    </Font>
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\music\Intro.mp3">

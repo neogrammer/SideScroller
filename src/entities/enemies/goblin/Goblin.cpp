@@ -1,7 +1,7 @@
 #include "Goblin.h"
 #include <core/globals.h>
 Goblin::Goblin(sf::Vector2f pos_)
-	: rec{ pos_, { 46.f, 62.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 129,140}, { 0.f,0.f } }
+	: Enemy{ pos_, { 46.f, 62.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 129,140}, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/enemies/goblin.dat", std::bind(&Goblin::onEvent, this, std::placeholders::_1), AnimType::Goblin }
 	, health{ 40 }
 	, maxHealth{ 40 }
@@ -15,7 +15,14 @@ Goblin::Goblin(sf::Vector2f pos_)
 	screamSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinDeath));
 	hitSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinHurt));
 
-	
+	scriptMgr.addScript(new Enemy_Script::MoveRight{*this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveLeft{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveUp{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveDown{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveUpLeft{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveDownLeft{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveUpRight{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveDownRight{ *this, 100.f, 5.f });
 
 }
 
@@ -155,8 +162,29 @@ void Goblin::input()
 {
 }
 
+void Goblin::resetScriptSequence()
+{
+
+
+	scriptMgr.addScript(new Enemy_Script::MoveRight{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveLeft{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveUp{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveDown{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveUpLeft{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveDownLeft{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveUpRight{ *this, 100.f, 5.f });
+	scriptMgr.addScript(new Enemy_Script::MoveDownRight{ *this, 100.f, 5.f });
+
+}
+
 void Goblin::update()
 {
+
+	if (scriptMgr.front() == nullptr)
+	{
+		resetScriptSequence();
+	}
+	scriptMgr.update();
 
 	if (hitCooldownActive)
 	{
@@ -186,6 +214,43 @@ void Goblin::updateLate()
 
 void Goblin::render()
 {
+	//if (scriptMgr_.getDir() != animMgr_.getDirection())
+	//{
+	//	switch (scriptMgr_.front()->getDirection())
+	//	{
+	//	case Direction::D:
+	//		animMgr_.setAnim(AnimName::WalkD);
+	//		break;
+
+	//	case Direction::U:
+	//		animMgr_.setAnim(AnimName::WalkU);
+	//		break;
+	//	case Direction::R:
+	//		animMgr_.setAnim(AnimName::WalkR);
+	//		break;
+	//	case Direction::L:
+	//		animMgr_.setAnim(AnimName::WalkL);
+	//		break;
+	//	case Direction::DR:
+	//		animMgr_.setAnim(AnimName::WalkDR);
+	//		break;
+	//	case Direction::DL:
+	//		animMgr_.setAnim(AnimName::WalkDL);
+	//		break;
+	//	case Direction::UR:
+	//		animMgr_.setAnim(AnimName::WalkUR);
+	//		break;
+	//	case Direction::UL:
+	//		animMgr_.setAnim(AnimName::WalkUL);
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	animMgr_.setDirection(scriptMgr_.getDir());
+	//	currDir_ = scriptMgr_.getDir();
+	//}
+
+	//scriptMgr_.render(l_wnd);
 }
 
 void Goblin::faceLeft()

@@ -109,12 +109,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:\Users\AUStudent\source\repos\neogrammer\SideScroller\src;C:\Users\AUStudent\source\repos\neogrammer\SideScroller\3rdParty\sfml_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\jlhar\source\repos\neogrammer\SideScroller\src;C:\Users\jlhar\source\repos\neogrammer\SideScroller\3rdParty\sfml_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\AUStudent\source\repos\neogrammer\SideScroller\3rdParty\sfml_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\jlhar\source\repos\neogrammer\SideScroller\3rdParty\sfml_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>openal32.lib;sfml-audio-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -137,12 +137,17 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\action\Action.cpp" />
+    <ClCompile Include="src\ai\enemy_scripts.cpp" />
+    <ClCompile Include="src\ai\Script.cpp" />
+    <ClCompile Include="src\ai\Scriptable.cpp" />
+    <ClCompile Include="src\ai\ScriptMgr.cpp" />
     <ClCompile Include="src\core\Cfg.cpp" />
     <ClCompile Include="src\core\Game.cpp" />
     <ClCompile Include="src\core\GameState.cpp" />
     <ClCompile Include="src\core\GameStateMgr.cpp" />
     <ClCompile Include="src\core\globals.cpp" />
     <ClCompile Include="src\core\rec.cpp" />
+    <ClCompile Include="src\entities\enemies\Enemy.cpp" />
     <ClCompile Include="src\entities\enemies\goblin\Goblin.cpp" />
     <ClCompile Include="src\entities\player\Player.cpp" />
     <ClCompile Include="src\game_states\PausedState.cpp" />
@@ -160,6 +165,12 @@
     <ClInclude Include="src\action\Action.h" />
     <ClInclude Include="src\action\ActionMap.h" />
     <ClInclude Include="src\action\ActionTarget.h" />
+    <ClInclude Include="src\ai\enemy_scripts.h" />
+    <ClInclude Include="src\ai\Script.h" />
+    <ClInclude Include="src\ai\Scriptable.h" />
+    <ClInclude Include="src\ai\ScriptMgr.h" />
+    <ClInclude Include="src\ai\script_types.h" />
+    <ClInclude Include="src\ai\Sequence.h" />
     <ClInclude Include="src\core\Cfg.h" />
     <ClInclude Include="src\core\Game.h" />
     <ClInclude Include="src\core\GameState.h" />
@@ -167,6 +178,7 @@
     <ClInclude Include="src\core\globals.h" />
     <ClInclude Include="src\core\rec.h" />
     <ClInclude Include="src\core\ResourceManager.h" />
+    <ClInclude Include="src\entities\enemies\Enemy.h" />
     <ClInclude Include="src\entities\enemies\goblin\Goblin.h" />
     <ClInclude Include="src\entities\player\Player.h" />
     <ClInclude Include="src\game_states\PausedState.h" />
