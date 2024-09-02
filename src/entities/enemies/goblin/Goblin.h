@@ -1,7 +1,7 @@
 #ifndef GOBLIN_H__
 #define GOBLIN_H__
 #include <entities/enemies/Enemy.h>
-
+class Player;
 class Goblin : public Enemy
 {
 public:
@@ -31,6 +31,8 @@ public:
 	bool deaddead{ false };
 	bool playerSpotted{ false };
 	float detectRadius{ 350.f };
+	bool playerInAttackRange{ false };
+	bool isAttacking{ false };
 
 	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_) override final;
 	sf::IntRect getAnimRect() override final;
@@ -42,6 +44,7 @@ public:
 	void faceRight() override final;
 	void takeHit(int damage_) override final;
 	void resetScriptSequence(rec& pos_) override final;
+	bool checkAttackable(Player& pos_);
 	void checkForPlayer(rec& pos_);
 
 	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_) override final;

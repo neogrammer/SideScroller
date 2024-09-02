@@ -9,6 +9,7 @@ class ScriptMgr
 {
 	Sequence<Script*> act;
 	ai::Direction currDir;
+	ai::Facing currFacing;
 	void executeFront();
 	bool isCurrentDone();
 public:
@@ -18,6 +19,9 @@ public:
 	void addScript(Script* action_);
 	void rotate();
 	ai::Direction getDir();
+	ai::Facing getFacing();
+	void breakOut();
+
 
 	void update();
 	void render();

@@ -17,19 +17,19 @@ Enemy_Script::MoveRight::~MoveRight()
 {
 }
 
-void Enemy_Script::MoveRight::execute()
+void Enemy_Script::MoveRight::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ displacement, 0.f };
 }
 
-void Enemy_Script::MoveRight::update()
+void Enemy_Script::MoveRight::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -58,19 +58,19 @@ Enemy_Script::MoveLeft::~MoveLeft()
 {
 }
 
-void Enemy_Script::MoveLeft::execute()
+void Enemy_Script::MoveLeft::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ -1.f * displacement, 0.f };
 }
 
-void Enemy_Script::MoveLeft::update()
+void Enemy_Script::MoveLeft::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -99,25 +99,35 @@ Enemy_Script::MoveTo::~MoveTo()
 {
 }
 
-void Enemy_Script::MoveTo::execute()
+void Enemy_Script::MoveTo::execute(ai::Facing& facing_)
 {
 	auto len = sqrtf(powf(to.pos.y - from.pos.y, 2) + powf(to.pos.x - from.pos.x, 2));
 	float xComponent = (to.pos.x - from.pos.x) / len;
 	float yComponent = (to.pos.y - from.pos.y) /len;
 	sf::Vector2f direc = { xComponent, yComponent };
 
-
+		
 	from.pos = from.pos + sf::Vector2f{direc.x* displacement, direc.y* displacement};
+
+	if (direc.x < 0.f)
+	{
+		facing_ = Facing::Left;
+
+	}
+	else if (direc.x > 0.f)
+	{
+		facing_ = Facing::Right;
+	}
 }
 
-void Enemy_Script::MoveTo::update()
+void Enemy_Script::MoveTo::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -128,6 +138,16 @@ void Enemy_Script::MoveTo::render()
 bool Enemy_Script::MoveTo::isDone()
 {
 	return dt >= duration;
+}
+
+void Enemy_Script::MoveTo::breakOut()
+{
+	needsToBreak = true;
+}
+
+bool Enemy_Script::MoveTo::shouldBreakOut()
+{
+	return needsToBreak;
 }
 
 
@@ -148,19 +168,19 @@ Enemy_Script::MoveUp::~MoveUp()
 {
 }
 
-void Enemy_Script::MoveUp::execute()
+void Enemy_Script::MoveUp::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ 0.f, -1.f * displacement };
 }
 
-void Enemy_Script::MoveUp::update()
+void Enemy_Script::MoveUp::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -189,19 +209,19 @@ Enemy_Script::MoveDown::~MoveDown()
 {
 }
 
-void Enemy_Script::MoveDown::execute()
+void Enemy_Script::MoveDown::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ 0.f,  displacement };
 }
 
-void Enemy_Script::MoveDown::update()
+void Enemy_Script::MoveDown::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -229,19 +249,19 @@ Enemy_Script::MoveUpRight::~MoveUpRight()
 {
 }
 
-void Enemy_Script::MoveUpRight::execute()
+void Enemy_Script::MoveUpRight::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ displacement, -1.f * displacement };
 }
 
-void Enemy_Script::MoveUpRight::update()
+void Enemy_Script::MoveUpRight::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -270,19 +290,19 @@ Enemy_Script::MoveUpLeft::~MoveUpLeft()
 {
 }
 
-void Enemy_Script::MoveUpLeft::execute()
+void Enemy_Script::MoveUpLeft::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ -1.f * displacement, -1.f * displacement };
 }
 
-void Enemy_Script::MoveUpLeft::update()
+void Enemy_Script::MoveUpLeft::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -315,19 +335,19 @@ Enemy_Script::MoveDownLeft::~MoveDownLeft()
 {
 }
 
-void Enemy_Script::MoveDownLeft::execute()
+void Enemy_Script::MoveDownLeft::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ -1.f * displacement,  displacement };
 }
 
-void Enemy_Script::MoveDownLeft::update()
+void Enemy_Script::MoveDownLeft::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 
@@ -356,19 +376,20 @@ Enemy_Script::MoveDownRight::~MoveDownRight()
 {
 }
 
-void Enemy_Script::MoveDownRight::execute()
+void Enemy_Script::MoveDownRight::execute(ai::Facing& facing_)
 {
 	spr.pos=spr.pos+sf::Vector2f{ displacement,  displacement };
+
 }
 
-void Enemy_Script::MoveDownRight::update()
+void Enemy_Script::MoveDownRight::update(ai::Facing& facing_)
 {
 	displacement = gTime * speed;
 	dt += gTime;
 
 	if (dt < duration)
 	{
-		execute();
+		execute(facing_);
 	}
 }
 

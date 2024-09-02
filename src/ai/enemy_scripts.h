@@ -18,8 +18,8 @@ namespace Enemy_Script
 		MoveRight() = delete;
 		MoveRight(rec& l_spr, float l_speed, float l_duration);
 		~MoveRight() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -35,8 +35,8 @@ namespace Enemy_Script
 		MoveLeft() = delete;
 		MoveLeft(rec& l_spr, float l_speed, float l_duration);
 		~MoveLeft() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -52,8 +52,8 @@ namespace Enemy_Script
 		MoveUp() = delete;
 		MoveUp(rec& l_spr, float l_speed, float l_duration);
 		~MoveUp() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -69,8 +69,8 @@ namespace Enemy_Script
 		MoveDown() = delete;
 		MoveDown(rec& l_spr, float l_speed, float l_duration);
 		~MoveDown() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -86,8 +86,8 @@ namespace Enemy_Script
 		MoveUpRight() = delete;
 		MoveUpRight(rec& l_spr, float l_speed, float l_duration);
 		~MoveUpRight() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -103,8 +103,8 @@ namespace Enemy_Script
 		MoveUpLeft() = delete;
 		MoveUpLeft(rec& l_spr, float l_speed, float l_duration);
 		~MoveUpLeft() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -120,8 +120,8 @@ namespace Enemy_Script
 		MoveDownLeft() = delete;
 		MoveDownLeft(rec& l_spr, float l_speed, float l_duration);
 		~MoveDownLeft() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -137,8 +137,8 @@ namespace Enemy_Script
 		MoveDownRight() = delete;
 		MoveDownRight(rec& l_spr, float l_speed, float l_duration);
 		~MoveDownRight() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
 	};
@@ -155,10 +155,13 @@ namespace Enemy_Script
 		MoveTo() = delete;
 		MoveTo(rec& from_, rec& to_, float l_speed, float l_duration);
 		~MoveTo() override;
-		void execute() override;
-		void update() override;
+		void execute(ai::Facing& facing_) override;
+		
+		void update(ai::Facing& facing_) override;
 		void render() override;
 		bool isDone() override;
+		void breakOut() override;
+		bool shouldBreakOut() override;
 	};
 }
 

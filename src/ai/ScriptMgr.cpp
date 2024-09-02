@@ -7,7 +7,7 @@ void ScriptMgr::executeFront()
 {
 	if (!act.get().empty())
 	{
-		act.get().front()->execute();
+		act.get().front()->execute(currFacing);
 	}
 }
 
@@ -26,6 +26,7 @@ bool ScriptMgr::isCurrentDone()
 ScriptMgr::ScriptMgr()
 	: act{}
 	, currDir{ Direction::NotSet }
+	, currFacing{Facing::Left}
 {
 }
 
@@ -46,6 +47,7 @@ void ScriptMgr::addScript(Script* action_)
 	{
 		currDir = act.get().front()->getDirection();
 	}
+	
 }
 
 void ScriptMgr::rotate()
@@ -58,9 +60,15 @@ void ScriptMgr::rotate()
 
 void ScriptMgr::update()
 {
+
 	if (!act.get().empty())
 	{
-		act.get().front()->update();
+		if (act.get().front()->shouldBreakOut())
+		{
+			act.get().pop();
+			return;
+		}
+		act.get().front()->update(currFacing);
 
 		if (act.get().front()->isDone())
 		{
@@ -68,6 +76,10 @@ void ScriptMgr::update()
 			if (!act.get().empty())
 			{
 				currDir = act.get().front()->getDirection();
+			}
+			if (!act.get().empty())
+			{
+				currFacing = act.get().front()->getFacing();
 			}
 		}
 	}
@@ -90,4 +102,19 @@ Script* ScriptMgr::front()
 Direction ScriptMgr::getDir()
 {
 	return currDir;
+}
+
+ai::Facing ScriptMgr::getFacing()
+{
+	return currFacing;
+}
+
+void ScriptMgr::breakOut()
+{
+	while (!act.get().empty())
+	{
+		act.get().pop();
+	}
+		
+	return;
 }

@@ -1,6 +1,8 @@
 #include "Goblin.h"
 #include <core/globals.h>
 #include <iostream>
+#include <entities/player/player.h>
+
 Goblin::Goblin(sf::Vector2f pos_)
 	: Enemy{ pos_, { 46.f, 62.f }, Cfg::Textures::GoblinAtlas, { 0,0 }, { 300, 300 }, { 129,140}, { 0.f,0.f } }
 	, animMgr{ "assets/data/animations/actors/enemies/goblin.dat", std::bind(&Goblin::onEvent, this, std::placeholders::_1), AnimType::Goblin }
@@ -10,6 +12,8 @@ Goblin::Goblin(sf::Vector2f pos_)
 	, screamSnd{}
 	, hitSnd{}
 	, playerSpotted{false}
+	, playerInAttackRange{false}
+	, isAttacking{false}
 {
 	screamSnd = std::make_unique<sf::Sound>();
 	hitSnd = std::make_unique<sf::Sound>();
@@ -97,6 +101,13 @@ std::variant<PlayerState, GoblinState> Goblin::onEvent(GameEvent evt_)
 			possibleStates.push_back(GoblinState::Running);
 		}
 		break;
+		case GameEvent::Damaged:
+		{
+			possibleStates.push_back(GoblinState::Damaged);
+			if (markedForDeath)
+				possibleStates.push_back(GoblinState::Dying);
+		}
+		break;
 		default:
 		{
 		}
@@ -171,17 +182,33 @@ void Goblin::resetScriptSequence(rec& pos_)
 	auto yTime = fabs((pos_.pos.y - pos.y) / 100.f);
 	auto xTime = fabs((pos_.pos.x - pos.x) / 100.f);
 
+	scriptMgr.addScript(new Enemy_Script::MoveTo{ *this, pos_,  100.f, xTime + yTime });
+	if (pos.x - pos_.pos.x > 0) faceLeft();
+	if (pos.x - pos_.pos.x < 0) faceRight();
+	if (xTime != 0.f && yTime != 0.f)
+	{
+		onEvent(GameEvent::StartedRunning);
+		
+	}
+	else
+	{
+		onEvent(GameEvent::StoppedRunning);
 
-		scriptMgr.addScript(new Enemy_Script::MoveTo{ *this, pos_,  100.f, xTime + yTime });
-		if (pos.x - pos_.pos.x > 0) facingRight = true;
-		if (pos.x - pos_.pos.x < 0) facingRight = false;
-		if (xTime != 0.f && yTime != 0.f)
-			onEvent(GameEvent::StartedRunning);
-		else
-			onEvent(GameEvent::StoppedRunning);
+	}
+}
 
+bool Goblin::checkAttackable(Player& pos_)
+{
+	if (sqrt(pow(pos.y - pos_.pos.y, 2) + pow(pos.x - pos_.pos.x, 2)) < 60)
+	{
+		playerInAttackRange = true;
+	}
+	else
+	{
+		playerInAttackRange = false;
+	}
 
-
+	return playerInAttackRange;
 }
 
 void Goblin::checkForPlayer(rec& pos_)
@@ -193,9 +220,10 @@ void Goblin::checkForPlayer(rec& pos_)
 		{
 			if (sqrtf(powf(pos.x - pos_.pos.x, 2) + powf(pos.y - pos_.pos.y, 2)) < detectRadius)
 			{
+				resetScriptSequence(pos_);
 				onEvent(GameEvent::StartedRunning);
 				playerSpotted = true;
-				resetScriptSequence(pos_);
+				
 			}
 			else
 			{
@@ -214,6 +242,14 @@ void Goblin::update()
 	if (scriptMgr.front() != nullptr && health > 0 && !this->hitCooldownActive)
 	{
 		scriptMgr.update();
+		if (scriptMgr.getFacing() == ai::Facing::Left)
+		{
+			faceLeft();
+		}
+		else
+		{
+			faceRight();
+		}
 	}
 
 	if (hitCooldownActive)
@@ -299,7 +335,10 @@ void Goblin::takeHit(int damage_)
 	if (!hitCooldownActive)
 	{
 		health -= damage_;
-
+		if (isAttacking)
+		{
+			isAttacking = false;
+		}
 		if (health <= 0)
 		{
 			hitCooldownActive = true;
@@ -349,22 +388,56 @@ std::variant<PlayerState, GoblinState> Goblin::pickState(GameEvent evt_, std::ve
 				return possibles_[0];
 			}
 		}
-		if (std::get<GoblinState>(animMgr.transientState) == GoblinState::Damaged)
+		if (std::get<GoblinState>(animMgr.transientState) == GoblinState::Attacking)
 		{
-			if (evt_ == GameEvent::DamageCooldownEnded)
+			if (evt_ == GameEvent::StoppedAttacking)
 			{
-				if (scriptMgr.front() == nullptr)
-				{
+				return possibles_[0];
+			}
+			else if (evt_ == GameEvent::Damaged)
+			{
+				if (health > 0)
 					return possibles_[0];
-				}
 				else
-				{
 					return possibles_[1];
-				}
 			}
 			else
 			{
 				return possibles_[0];
+			}
+		}
+		if (std::get<GoblinState>(animMgr.transientState) == GoblinState::Damaged)
+		{
+			if (evt_ == GameEvent::DamageCooldownEnded)
+			{
+				if (isAttacking)
+				{
+					return possibles_[2];
+				}
+				else
+				{
+
+
+					if (scriptMgr.front() == nullptr)
+					{
+						return possibles_[0];
+					}
+					else
+					{
+						return possibles_[1];
+					}
+				}
+			}
+			else
+			{
+				if (isAttacking)
+				{
+					return possibles_[2];
+				}
+				else
+				{
+					return possibles_[0];
+				}
 			}
 		}
 	}

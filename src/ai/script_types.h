@@ -3,6 +3,12 @@
 
 namespace ai
 {
+	enum class Facing
+	{
+		Left,
+		Right
+	};
+
 	enum class Direction
 	{
 		D,

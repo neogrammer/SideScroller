@@ -49,10 +49,29 @@ void PlayState::update()
 				}
 			}
 		}
-
+		bool inRange = false;
 		if (!goblin->deaddead)
 		{
-			goblin->checkForPlayer(*player);
+			
+			inRange = goblin->checkAttackable(*player);
+			if (!inRange)
+			{
+				if (goblin->isAttacking)
+				{
+					goblin->isAttacking = false;
+					goblin->onEvent(GameEvent::StoppedAttacking);
+				}
+				goblin->checkForPlayer(*player);
+			}
+			if (inRange)
+			{
+				if (!goblin->isAttacking)
+				{
+					goblin->isAttacking = true;
+					goblin->scriptMgr.breakOut();
+					goblin->onEvent(GameEvent::StartedAttacking);
+				}
+			}
 
 			goblin->update();
 
