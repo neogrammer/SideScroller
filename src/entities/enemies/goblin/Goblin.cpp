@@ -179,10 +179,10 @@ void Goblin::input()
 
 void Goblin::resetScriptSequence(rec& pos_)
 {
-	auto yTime = fabs((pos_.pos.y - pos.y) / 100.f);
-	auto xTime = fabs((pos_.pos.x - pos.x) / 100.f);
+	auto yTime = fabs((pos_.pos.y - pos.y) / runSpeed);
+	auto xTime = fabs((pos_.pos.x - pos.x) / runSpeed);
 
-	scriptMgr.addScript(new Enemy_Script::MoveTo{ *this, pos_,  100.f, xTime + yTime });
+	scriptMgr.addScript(new Enemy_Script::MoveTo{ *this, pos_,  runSpeed, xTime + yTime });
 	if (pos.x - pos_.pos.x > 0) faceLeft();
 	if (pos.x - pos_.pos.x < 0) faceRight();
 	if (xTime != 0.f && yTime != 0.f)
@@ -199,7 +199,7 @@ void Goblin::resetScriptSequence(rec& pos_)
 
 bool Goblin::checkAttackable(Player& pos_)
 {
-	if (sqrt(pow(pos.y - pos_.pos.y, 2) + pow(pos.x - pos_.pos.x, 2)) < 60)
+	if (sqrt(pow(pos.y - pos_.pos.y, 2) + pow(pos.x - pos_.pos.x, 2)) < attackRange)
 	{
 		playerInAttackRange = true;
 	}

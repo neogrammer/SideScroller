@@ -24,7 +24,7 @@ public:
 	bool markedForDeath{ false };
 	int health{};
 	int maxHealth{};
-	Dir direction{ Dir::Right };
+	Dir direction{ Dir::Left };
 	float hitCooldown{ 0.3f };
 	float hitCooldownElapsed{ 0.f };
 	bool hitCooldownActive{ false };
@@ -32,7 +32,9 @@ public:
 	bool playerSpotted{ false };
 	float detectRadius{ 350.f };
 	bool playerInAttackRange{ false };
+	float attackRange{ 85.f };
 	bool isAttacking{ false };
+	float runSpeed{ 175.f };
 
 	std::variant<PlayerState, GoblinState> onEvent(GameEvent evt_) override final;
 	sf::IntRect getAnimRect() override final;
