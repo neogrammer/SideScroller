@@ -157,6 +157,7 @@
     <ClCompile Include="src\game_states\TitleState.cpp" />
     <ClCompile Include="src\GUI\MenuMgr.cpp" />
     <ClCompile Include="src\GUI\MenuObject.cpp" />
+    <ClCompile Include="src\hud\HUD.cpp" />
     <ClCompile Include="src\visual\Animation.cpp" />
     <ClCompile Include="src\visual\AnimMap.cpp" />
     <ClCompile Include="src\visual\AnimMgr.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\game_states\TitleState.h" />
     <ClInclude Include="src\GUI\MenuMgr.h" />
     <ClInclude Include="src\GUI\MenuObject.h" />
+    <ClInclude Include="src\hud\HUD.h" />
     <ClInclude Include="src\visual\Animation.h" />
     <ClInclude Include="src\visual\AnimData.h" />
     <ClInclude Include="src\visual\AnimMap.h" />
@@ -217,6 +219,7 @@
     <Image Include="assets\textures\bgs\bg1\bgLayer4.png" />
     <Image Include="assets\textures\bgs\bg1\bgLayer5.png" />
     <Image Include="assets\textures\GUI\RetroMenu.png" />
+    <Image Include="assets\textures\HUD\lifeBar402x61.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\frisky_puppy.ttf" />

@@ -411,6 +411,8 @@ void PlayState::render()
 		
 		gWnd.draw(cmdTxt);
 	}
+
+	hud.render(*player);
 }
 
 void PlayState::processEvent(sf::Event& e)
@@ -679,9 +681,12 @@ PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }
 	, player{  }
 	, goblin{ }
+	, hud{}
 {
 	player = std::make_unique<Player>();
 	goblin = std::make_unique<Goblin>();
 
 	goblin->faceLeft();
+
+	hud.setLifeBarTex(Cfg::textures.get((int)Cfg::Textures::LifeBar));
 }

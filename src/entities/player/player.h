@@ -54,6 +54,8 @@ public:
 	sf::FloatRect getAttackBox();
 	void takeHit(int dmg_);
 	int getHealth();
+	int getMaxHealth();
+
 
 
 	void damageEnemy(std::variant<Goblin*> enemy);

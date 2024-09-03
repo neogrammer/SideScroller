@@ -16,6 +16,7 @@
 
 #include <GUI/MenuObject.h>
 #include <GUI/MenuMgr.h>
+#include <hud/HUD.h>
 class PlayState : public GameState
 {
 	friend class GameStateMgr;
@@ -26,7 +27,7 @@ class PlayState : public GameState
 	//GUI
 	MenuObject baseGUI;
 	MenuMgr menuMgr;
-
+	HUD hud;
 	bool menuButtonDown{ false };
 	bool menuButtonReleased{ false };
 	bool confirmButtonDown{ false };

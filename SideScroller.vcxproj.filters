@@ -115,6 +115,15 @@
     <Filter Include="Header Files\ai">
       <UniqueIdentifier>{28f2dc0f-13c3-4c73-8ce0-31442387b012}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\textures\HUD">
+      <UniqueIdentifier>{dcb2d749-9f5c-4639-acbc-5b2b5479c00f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\hud">
+      <UniqueIdentifier>{fe7f4b21-fdce-47c8-878a-9895536c8ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hud">
+      <UniqueIdentifier>{5c828886-d76f-4409-9a63-44478c71fbe6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -191,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="src\entities\enemies\Enemy.cpp">
       <Filter>Source Files\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hud\HUD.cpp">
+      <Filter>Source Files\hud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +296,9 @@
     <ClInclude Include="src\entities\enemies\Enemy.h">
       <Filter>Header Files\entities</Filter>
     </ClInclude>
+    <ClInclude Include="src\hud\HUD.h">
+      <Filter>Header Files\hud</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\core\tpl\ResourceManager.tpl">
@@ -350,6 +365,9 @@
     </Image>
     <Image Include="assets\textures\GUI\RetroMenu.png">
       <Filter>Resource Files\assets\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\HUD\lifeBar402x61.png">
+      <Filter>Resource Files\assets\textures\HUD</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

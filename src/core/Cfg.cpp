@@ -154,6 +154,8 @@ void Cfg::initTextures()
 	textures.load((int)Cfg::Textures::GoblinAtlas, "assets/textures/actors/enemies/goblinAtlas300x300.png");
 	textures.get((int)Textures::GoblinAtlas).setSmooth(true);
 	textures.load((int)Cfg::Textures::BG1_1, "assets/textures/bgs/bg1/bgLayer1.png");
+	textures.load((int)Cfg::Textures::LifeBar, "assets/textures/HUD/lifeBar402x61.png");
+
 	textures.load((int)Cfg::Textures::BG1_2, "assets/textures/bgs/bg1/bgLayer2.png");
 	textures.load((int)Cfg::Textures::BG1_3, "assets/textures/bgs/bg1/bgLayer3.png");
 	textures.load((int)Cfg::Textures::BG1_4, "assets/textures/bgs/bg1/bgLayer4.png");

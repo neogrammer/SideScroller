@@ -507,6 +507,11 @@ int Player::getHealth()
 	return health;
 }
 
+int Player::getMaxHealth()
+{
+	return maxHealth;
+}
+
 void Player::damageEnemy(std::variant<Goblin*> enemy)
 {
 	std::get<Goblin*>(enemy)->takeHit(10);
