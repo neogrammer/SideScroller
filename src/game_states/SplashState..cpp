@@ -5,6 +5,7 @@
 SplashState::SplashState(GameStateMgr* mgr_)
 	: GameState(mgr_)
 {
+
 }
 
 SplashState::~SplashState()
@@ -17,7 +18,7 @@ void SplashState::processEvent(sf::Event& e)
 	{
 		if (e.key.code == sf::Keyboard::Enter)
 		{
-			owner->changeState(GameStateType::Play, true);
+			owner->changeState(GameStateType::Title, true);
 			
 		}
 	}

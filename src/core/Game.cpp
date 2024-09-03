@@ -69,7 +69,7 @@ void Game::run()
 			
 
 			// now render the screen
-			gWnd.clear(sf::Color(47, 147, 247, 255));
+			gWnd.clear(sf::Color(0,0,0, 255));
 			render();
 			gWnd.display();
 

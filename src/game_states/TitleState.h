@@ -5,6 +5,8 @@
 class TitleState : public GameState
 {
 public:
+	Cfg::Textures titleBG;
+public:
 	TitleState(GameStateMgr* mgr_);
 	virtual ~TitleState();
 	void processEvent(sf::Event& e) override final;

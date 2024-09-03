@@ -369,6 +369,9 @@
     <Image Include="assets\textures\HUD\lifeBar402x61.png">
       <Filter>Resource Files\assets\textures\HUD</Filter>
     </Image>
+    <Image Include="assets\textures\bgs\titleBG.png">
+      <Filter>Resource Files\assets\textures\bgs</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\frisky_puppy.ttf">
