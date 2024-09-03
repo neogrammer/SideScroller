@@ -27,6 +27,7 @@ void PlayState::update()
 			gDistGroundMoved = 0.f;
 		}
 
+
 		if (player->isAttacking() && player->isOnDamageFrame() && !goblin->markedForDeath)
 		{
 			rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
@@ -70,6 +71,31 @@ void PlayState::update()
 					goblin->isAttacking = true;
 					goblin->scriptMgr.breakOut();
 					goblin->onEvent(GameEvent::StartedAttacking);
+				}
+			}
+
+
+			if (goblin->isAttacking && goblin->isOnDamageFrame() && player->getHealth() > 0)
+			{
+				
+				rec attackBox{ goblin->getAttackBox().getPosition(), goblin->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
+				if (phys::RectVsRect(attackBox, *player))
+				{
+					if (goblin->pos.y + goblin->size.y > player->pos.y + player->size.y - 60.f && goblin->pos.y + goblin->size.y < player->pos.y + player->size.y + 60.f && !player->hitCooldownActive)
+					{
+						Player* ply;
+						ply = player.get();
+						goblin->damagePlayer(*ply);
+						std::unique_ptr<sf::Text> dmg{};
+						dmg = std::make_unique<sf::Text>();
+						dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+						dmg->setString("10");
+						dmg->setCharacterSize(32U);
+						dmg->setFillColor(sf::Color::Yellow);
+						dmg->setPosition({ player->pos.x + (player->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, player->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
+						gDamageNumbers.push(std::move(dmg));
+						gDmgElapsed.push(0.f);
+					}
 				}
 			}
 

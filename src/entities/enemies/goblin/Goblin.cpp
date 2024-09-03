@@ -17,9 +17,13 @@ Goblin::Goblin(sf::Vector2f pos_)
 {
 	screamSnd = std::make_unique<sf::Sound>();
 	hitSnd = std::make_unique<sf::Sound>();
+	wasHitSnd = std::make_unique<sf::Sound>();
+	swordSwingSnd = std::make_unique<sf::Sound>();
 
 	screamSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinDeath));
 	hitSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinHurt));
+	wasHitSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::GoblinHit));
+	swordSwingSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::Sword2));
 
 	
 
@@ -211,6 +215,11 @@ bool Goblin::checkAttackable(Player& pos_)
 	return playerInAttackRange;
 }
 
+bool Goblin::isOnDamageFrame()
+{
+	return animMgr.getCurrentIdx() == 6;
+}
+
 void Goblin::checkForPlayer(rec& pos_)
 {
 	if (health > 0 && !this->hitCooldownActive)
@@ -235,6 +244,11 @@ void Goblin::checkForPlayer(rec& pos_)
 			playerSpotted = false;
 		}
 	}
+}
+
+void Goblin::damagePlayer(Player& ply_)
+{
+	ply_.takeHit(10);
 }
 
 void Goblin::update()
@@ -270,63 +284,31 @@ void Goblin::update()
 			onEvent(GameEvent::DamageCooldownEnded);
 		}
 	}
+
 	animMgr.update();
 }
 
 void Goblin::updateLate()
 {
-
+	if (isAttacking && animMgr.getCurrentIdx() == 3)
+		swordSwingSnd->play();
 	animMgr.updateLate();
 }
 
 void Goblin::render()
 {
-	//if (scriptMgr_.getDir() != animMgr_.getDirection())
-	//{
-	//	switch (scriptMgr_.front()->getDirection())
-	//	{
-	//	case Direction::D:
-	//		animMgr_.setAnim(AnimName::WalkD);
-	//		break;
-
-	//	case Direction::U:
-	//		animMgr_.setAnim(AnimName::WalkU);
-	//		break;
-	//	case Direction::R:
-	//		animMgr_.setAnim(AnimName::WalkR);
-	//		break;
-	//	case Direction::L:
-	//		animMgr_.setAnim(AnimName::WalkL);
-	//		break;
-	//	case Direction::DR:
-	//		animMgr_.setAnim(AnimName::WalkDR);
-	//		break;
-	//	case Direction::DL:
-	//		animMgr_.setAnim(AnimName::WalkDL);
-	//		break;
-	//	case Direction::UR:
-	//		animMgr_.setAnim(AnimName::WalkUR);
-	//		break;
-	//	case Direction::UL:
-	//		animMgr_.setAnim(AnimName::WalkUL);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//	animMgr_.setDirection(scriptMgr_.getDir());
-	//	currDir_ = scriptMgr_.getDir();
-	//}
-
-	//scriptMgr_.render(l_wnd);
+	
 }
 
 void Goblin::faceLeft()
 {
+	facingRight = false;
 	animMgr.faceLeft();
 }
 
 void Goblin::faceRight()
 {
+	facingRight = true;
 	animMgr.faceRight();
 }
 
@@ -346,17 +328,31 @@ void Goblin::takeHit(int damage_)
 			hitCooldown = 10000.f;
 			markedForDeath = true;
 			
-			screamSnd->play();
+			hitSnd->play();
 		}
 		else
 		{
 			hitCooldownActive = true;
 			hitCooldownElapsed = 0.f;
-
-			hitSnd->play();
+			wasHitSnd->play();
+			
 		}
 		onEvent(GameEvent::Damaged);
 	}
+}
+
+sf::FloatRect Goblin::getAttackBox()
+{
+	
+	if (facingRight)
+	{
+		return { { getImagePos().x + 115.f, getImagePos().y + 140.f},{112.f,82.f} };
+	}
+	else
+	{
+		return { { getImagePos().x + 65.f, getImagePos().y + 116.f},{112.f,82.f} };
+	}
+
 }
 
 std::variant<PlayerState, GoblinState> Goblin::pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_)

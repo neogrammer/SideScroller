@@ -14,11 +14,26 @@ class Player : public rec
 	AnimMgr animMgr;
 	bool facingRight{ true };
 	bool stopAttacking{ false };
-
+public:
 	Dir direction{ Dir::Right };
 	std::unique_ptr<sf::Sound> sword1Snd{};
 	std::unique_ptr<sf::Sound> sword2Snd{};
+	std::unique_ptr<sf::Sound> wasHitSnd{};
+	std::unique_ptr<sf::Sound> footstepDirtSnd{};
+	bool playedFootstep{ false };
 
+
+	
+
+
+	bool attacking{ false };
+	bool hitCooldownActive{ false };
+	float hitCooldownElapsed{ 0.f };
+	float hitCooldown{ .3f };
+	int health{ 50 };
+	int maxHealth{ 50 };
+	int soundSteps{ 400 };
+	int soundStepAccum{ 0 };
 
 public:
 	Player();
@@ -37,6 +52,8 @@ public:
 	bool isAttacking();
 	bool isOnDamageFrame();
 	sf::FloatRect getAttackBox();
+	void takeHit(int dmg_);
+	int getHealth();
 
 
 	void damageEnemy(std::variant<Goblin*> enemy);

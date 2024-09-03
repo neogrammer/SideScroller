@@ -12,7 +12,7 @@
 #include <functional>
 #include <string>
 #include <core/rec.h>
-
+class Player;
 class Enemy : public Scriptable , public rec
 {
 public:
@@ -34,6 +34,8 @@ public:
 	virtual void render() =0 ;
 	virtual void faceLeft() = 0;
 	virtual void faceRight() = 0;
+	virtual sf::FloatRect getAttackBox() = 0;
+	void damagePlayer(Player& player_);
 	virtual void takeHit(int damage_) = 0;
 	virtual void resetScriptSequence(rec& pos_) = 0;
 	virtual std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_) = 0;

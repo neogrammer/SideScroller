@@ -139,6 +139,12 @@ void Cfg::initSounds()
 	sounds.load((int)Sounds::GoblinDie1, "assets/sound/combat/goblin/die1.wav");
 	sounds.load((int)Sounds::GoblinYell, "assets/sound/combat/goblin/hit.wav");
 	sounds.load((int)Sounds::GoblinScream, "assets/sound/combat/goblin/scream.mp3");
+	sounds.load((int)Sounds::Sword3, "assets/sound/combat/Sword3.ogg");
+	sounds.load((int)Sounds::PlayerHit, "assets/sound/combat/SwordHit2.ogg");
+	sounds.load((int)Sounds::GoblinHit, "assets/sound/combat/SwordHit3.ogg");
+	sounds.load((int)Sounds::FootstepDirt, "assets/sound/environment/Footsteps.ogg");
+
+
 }
 
 void Cfg::initTextures()

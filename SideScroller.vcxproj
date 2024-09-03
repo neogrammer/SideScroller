@@ -200,6 +200,10 @@
     <None Include="assets\sound\combat\goblin\hurt.ogg" />
     <None Include="assets\sound\combat\Sword1.ogg" />
     <None Include="assets\sound\combat\Sword2.ogg" />
+    <None Include="assets\sound\combat\Sword3.ogg" />
+    <None Include="assets\sound\combat\SwordHit1.ogg" />
+    <None Include="assets\sound\combat\SwordHit2.ogg" />
+    <None Include="assets\sound\combat\SwordHit3.ogg" />
     <None Include="src\action\tpl\ActionMap.tpl" />
     <None Include="src\action\tpl\ActionTarget.tpl" />
     <None Include="src\core\tpl\ResourceManager.tpl" />

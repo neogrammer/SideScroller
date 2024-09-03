@@ -313,6 +313,18 @@
     <None Include="assets\sound\combat\goblin\hurt.ogg">
       <Filter>Resource Files\assets\sound\combat\goblin</Filter>
     </None>
+    <None Include="assets\sound\combat\Sword3.ogg">
+      <Filter>Resource Files\assets\sound</Filter>
+    </None>
+    <None Include="assets\sound\combat\SwordHit1.ogg">
+      <Filter>Resource Files\assets\sound</Filter>
+    </None>
+    <None Include="assets\sound\combat\SwordHit2.ogg">
+      <Filter>Resource Files\assets\sound</Filter>
+    </None>
+    <None Include="assets\sound\combat\SwordHit3.ogg">
+      <Filter>Resource Files\assets\sound</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\bgs\bg1\bgLayer1.png">

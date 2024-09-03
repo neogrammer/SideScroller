@@ -1,5 +1,5 @@
 #include <entities/enemies/Enemy.h>
-
+#include <entities/player/player.h>
 
 Enemy::Enemy(sf::Vector2f pos_, sf::Vector2f size_, Cfg::Textures texType_, sf::Vector2i texRectTilePos_, sf::Vector2i texRectSize_, sf::Vector2i texOffset_, sf::Vector2f vel_)
 	: Scriptable{}
@@ -14,4 +14,6 @@ Enemy::~Enemy()
 {
 }
 
-
+void Enemy::damagePlayer(Player& player_)
+{
+}

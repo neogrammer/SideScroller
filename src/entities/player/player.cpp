@@ -8,11 +8,14 @@ Player::Player()
 	, animMgr{ "assets/data/animations/actors/player.dat", std::bind(&Player::onEvent, this, std::placeholders::_1), AnimType::Player }
 	, sword1Snd{std::make_unique<sf::Sound>()}
 	, sword2Snd{ std::make_unique<sf::Sound>() }
+	, wasHitSnd{std::make_unique<sf::Sound>()}
+	, footstepDirtSnd{std::make_unique<sf::Sound>()}
 {
 	Cfg::Initialize();
 	sword1Snd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::Sword1));
 	sword2Snd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::Sword2));
-
+	wasHitSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::PlayerHit));
+	footstepDirtSnd->setBuffer(Cfg::sounds.get((int)Cfg::Sounds::FootstepDirt));
 }
 
 Player::~Player()
@@ -39,6 +42,12 @@ std::variant<PlayerState, GoblinState> Player::onEvent(GameEvent evt_)
 			{
 				possibleStates.push_back(PlayerState::Attacking);
 			}
+				break;
+			case GameEvent::Damaged:
+			{
+				possibleStates.push_back(PlayerState::Damaged);
+			}
+			break;
 			default:
 				break;
 		}
@@ -58,6 +67,11 @@ std::variant<PlayerState, GoblinState> Player::onEvent(GameEvent evt_)
 				possibleStates.push_back(PlayerState::Attacking);
 			}
 			break;
+			case GameEvent::Damaged:
+			{
+				possibleStates.push_back(PlayerState::Damaged);
+			}
+			break;
 			default:
 				break;
 		}
@@ -73,6 +87,11 @@ std::variant<PlayerState, GoblinState> Player::onEvent(GameEvent evt_)
 				possibleStates.push_back(PlayerState::Running);
 			}
 				break;
+			case GameEvent::Damaged:
+			{
+				possibleStates.push_back(PlayerState::Damaged);
+			}
+			break;
 			default:
 				break;
 		}
@@ -85,6 +104,19 @@ std::variant<PlayerState, GoblinState> Player::onEvent(GameEvent evt_)
 	break;
 	case PlayerState::Damaged:
 	{
+		switch (evt_)
+		{
+		case GameEvent::DamageCooldownEnded:
+		{
+			possibleStates.push_back(PlayerState::Idle);
+		}
+		break;
+		default:
+		{
+		}
+		break;
+		}
+
 	}
 	break;
 	case PlayerState::Jumping:
@@ -311,6 +343,24 @@ void Player::input()
 void Player::update()
 {
 
+	if (std::get<PlayerState>(animMgr.mainState) == PlayerState::Running)
+	{
+		if (animMgr.getCurrentIdx() == 3 || animMgr.getCurrentIdx() == 7)
+		{
+			if (playedFootstep == false)
+			{
+				footstepDirtSnd->play();
+
+
+				playedFootstep = true;
+			}
+		}
+		else
+		{
+			playedFootstep = false;
+		}
+	}
+
 	if (pos.x > 24900.f)
 	{
 		onEvent(GameEvent::StoppedRunning);
@@ -323,6 +373,19 @@ void Player::update()
 
 void Player::updateLate()
 {
+	if (hitCooldownActive)
+	{
+
+		hitCooldownElapsed += gTime;
+
+		
+		if (hitCooldownElapsed >= hitCooldown)
+		{
+			hitCooldownActive = false;
+			onEvent(GameEvent::DamageCooldownEnded);
+		}
+	}
+
 	animMgr.updateLate();
 }
 
@@ -410,6 +473,38 @@ sf::FloatRect Player::getAttackBox()
 	{
 		return { { getImagePos().x + 34.f, getImagePos().y + 20.f},{50.f,85.f} };
 	}
+}
+
+void Player::takeHit(int dmg_)
+{
+	if (!hitCooldownActive)
+	{
+		health -= dmg_;
+		if (isAttacking())
+		{
+			attacking = false;
+		}
+		if (health <= 0)
+		{
+			hitCooldownActive = true;
+			hitCooldownElapsed = 0.f;
+			hitCooldown = 10000.f;
+		
+		}
+		else
+		{
+			hitCooldownActive = true;
+			hitCooldownElapsed = 0.f;
+			wasHitSnd->play();
+		
+		}
+		onEvent(GameEvent::Damaged);
+	}
+}
+
+int Player::getHealth()
+{
+	return health;
 }
 
 void Player::damageEnemy(std::variant<Goblin*> enemy)

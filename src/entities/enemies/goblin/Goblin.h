@@ -11,6 +11,10 @@ public:
 	bool stopAttacking{ false };
 	std::unique_ptr<sf::Sound> screamSnd;
 	std::unique_ptr<sf::Sound> hitSnd;
+	std::unique_ptr<sf::Sound> wasHitSnd;
+
+	std::unique_ptr<sf::Sound> swordSwingSnd;
+
 
 
 public:
@@ -45,9 +49,14 @@ public:
 	void faceLeft() override final;
 	void faceRight() override final;
 	void takeHit(int damage_) override final;
+	sf::FloatRect getAttackBox() override final;
+
 	void resetScriptSequence(rec& pos_) override final;
 	bool checkAttackable(Player& pos_);
+	bool isOnDamageFrame();
 	void checkForPlayer(rec& pos_);
+	void damagePlayer(Player& ply_);
+
 
 	std::variant<PlayerState, GoblinState> pickState(GameEvent evt_, std::vector<std::variant<PlayerState, GoblinState> > possibles_) override final;
 
