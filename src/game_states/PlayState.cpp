@@ -18,91 +18,96 @@ void PlayState::update()
 	{
 		player->update();
 		//goblin->update();
-		if (gGroundMoved)
+		for (auto& g : goblins)
 		{
-			if (!goblin->deaddead)
-				goblin->pos.x += gDistGroundMoved;
-
-			gGroundMoved = false;
-			gDistGroundMoved = 0.f;
-		}
 
 
-		if (player->isAttacking() && player->isOnDamageFrame() && !goblin->markedForDeath)
-		{
-			rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
-			if (phys::RectVsRect(attackBox, *goblin))
+			if (gGroundMoved)
 			{
-				if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y - 30.f && player->pos.y + player->size.y < goblin->pos.y + goblin->size.y + 30.f && !goblin->hitCooldownActive)
-				{
-					std::variant<Goblin*> gob;
-					gob = (goblin.get());
-					player->damageEnemy(gob);
-					std::unique_ptr<sf::Text> dmg{};
-					dmg = std::make_unique<sf::Text>();
-					dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
-					dmg->setString("10");
-					dmg->setCharacterSize(32U);
-					dmg->setFillColor(sf::Color::Red);
-					dmg->setPosition({ goblin->pos.x + (goblin->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, goblin->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
-					gDamageNumbers.push(std::move(dmg));
-					gDmgElapsed.push(0.f);
-				}
-			}
-		}
-		bool inRange = false;
-		if (!goblin->deaddead)
-		{
-			
-			inRange = goblin->checkAttackable(*player);
-			if (!inRange)
-			{
-				if (goblin->isAttacking)
-				{
-					goblin->isAttacking = false;
-					goblin->onEvent(GameEvent::StoppedAttacking);
-				}
-				goblin->checkForPlayer(*player);
-			}
-			if (inRange)
-			{
-				if (!goblin->isAttacking)
-				{
-					goblin->isAttacking = true;
-					goblin->scriptMgr.breakOut();
-					goblin->onEvent(GameEvent::StartedAttacking);
-				}
+				if (!g->deaddead)
+					g->pos.x += gDistGroundMoved;
+
+				gGroundMoved = false;
+				gDistGroundMoved = 0.f;
 			}
 
 
-			if (goblin->isAttacking && goblin->isOnDamageFrame() && player->getHealth() > 0)
+
+			if (player->isAttacking() && player->isOnDamageFrame() && !g->markedForDeath)
 			{
-				
-				rec attackBox{ goblin->getAttackBox().getPosition(), goblin->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
-				if (phys::RectVsRect(attackBox, *player))
+				rec attackBox{ player->getAttackBox().getPosition(), player->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
+				if (phys::RectVsRect(attackBox, *g))
 				{
-					if (goblin->pos.y + goblin->size.y > player->pos.y + player->size.y - 60.f && goblin->pos.y + goblin->size.y < player->pos.y + player->size.y + 60.f && !player->hitCooldownActive)
+					if (player->pos.y + player->size.y > g->pos.y + g->size.y - 30.f && player->pos.y + player->size.y < g->pos.y + g->size.y + 30.f && !g->hitCooldownActive)
 					{
-						Player* ply;
-						ply = player.get();
-						goblin->damagePlayer(*ply);
+						std::variant<Goblin*> gob;
+						gob = (g.get());
+						player->damageEnemy(gob);
 						std::unique_ptr<sf::Text> dmg{};
 						dmg = std::make_unique<sf::Text>();
 						dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
 						dmg->setString("10");
 						dmg->setCharacterSize(32U);
-						dmg->setFillColor(sf::Color::Yellow);
-						dmg->setPosition({ player->pos.x + (player->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, player->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
+						dmg->setFillColor(sf::Color::Red);
+						dmg->setPosition({ g->pos.x + (g->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, g->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
 						gDamageNumbers.push(std::move(dmg));
 						gDmgElapsed.push(0.f);
 					}
 				}
 			}
+			bool inRange = false;
+			if (!g->deaddead)
+			{
 
-			goblin->update();
+				inRange = g->checkAttackable(*player);
+				if (!inRange)
+				{
+					if (g->isAttacking)
+					{
+						g->isAttacking = false;
+						g->onEvent(GameEvent::StoppedAttacking);
+					}
+					g->checkForPlayer(*player);
+				}
+				if (inRange)
+				{
+					if (!g->isAttacking)
+					{
+						g->isAttacking = true;
+						g->scriptMgr.breakOut();
+						g->onEvent(GameEvent::StartedAttacking);
+					}
+				}
 
+
+				if (g->isAttacking && g->isOnDamageFrame() && player->getHealth() > 0)
+				{
+
+					rec attackBox{ g->getAttackBox().getPosition(), g->getAttackBox().getSize(), player->texType, {0,0}, {0,0},{0,0}, { 0.f,0.f } };
+					if (phys::RectVsRect(attackBox, *player))
+					{
+						if (g->pos.y + g->size.y > player->pos.y + player->size.y - 60.f && g->pos.y + g->size.y < player->pos.y + player->size.y + 60.f && !player->hitCooldownActive)
+						{
+							Player* ply;
+							ply = player.get();
+							g->damagePlayer(*ply);
+							std::unique_ptr<sf::Text> dmg{};
+							dmg = std::make_unique<sf::Text>();
+							dmg->setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+							dmg->setString("10");
+							dmg->setCharacterSize(32U);
+							dmg->setFillColor(sf::Color::Yellow);
+							dmg->setPosition({ player->pos.x + (player->size.x / 2.f) + (float)gDamageNumbers.size() * 10.f, player->pos.y - 30.f - (float)gDamageNumbers.size() * 10.f });
+							gDamageNumbers.push(std::move(dmg));
+							gDmgElapsed.push(0.f);
+						}
+					}
+				}
+
+				g->update();
+
+			}
 		}
-
 
 		setLoopLayers();
 	}
@@ -253,9 +258,10 @@ void PlayState::updateLate()
 {
 	player->updateLate();
 	//goblin->updateLate();
-	if (!goblin->deaddead)
+	for(auto& g : goblins)
+	if (!g->deaddead)
 	{
-		goblin->updateLate();
+		g->updateLate();
 	}
 
 }
@@ -266,40 +272,42 @@ void PlayState::render()
 	DrawBG();
 
 	
-
-	if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y)
+	for (auto& g : goblins)
 	{
+		if (player->pos.y + player->size.y > g->pos.y + g->size.y)
+		{
 
 
-		sf::Sprite aGoblinSpr;
-		aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
-		aGoblinSpr.setTextureRect(goblin->getAnimRect());
-		aGoblinSpr.setPosition(goblin->getImagePos());
-		if (!goblin->deaddead)
-			gWnd.draw(aGoblinSpr);
+			sf::Sprite aGoblinSpr;
+			aGoblinSpr.setTexture(Cfg::textures.get((int)g->texType));
+			aGoblinSpr.setTextureRect(g->getAnimRect());
+			aGoblinSpr.setPosition(g->getImagePos());
+			if (!g->deaddead)
+				gWnd.draw(aGoblinSpr);
 
 
-		sf::Sprite aSpr;
-		aSpr.setTexture(Cfg::textures.get((int)player->texType));
-		aSpr.setTextureRect(player->getAnimRect());
-		aSpr.setPosition(player->getImagePos());
-		gWnd.draw(aSpr);
-	}
-	else
-	{
+			sf::Sprite aSpr;
+			aSpr.setTexture(Cfg::textures.get((int)player->texType));
+			aSpr.setTextureRect(player->getAnimRect());
+			aSpr.setPosition(player->getImagePos());
+			gWnd.draw(aSpr);
+		}
+		else
+		{
 
-		sf::Sprite aSpr;
-		aSpr.setTexture(Cfg::textures.get((int)player->texType));
-		aSpr.setTextureRect(player->getAnimRect());
-		aSpr.setPosition(player->getImagePos());
-		gWnd.draw(aSpr);
+			sf::Sprite aSpr;
+			aSpr.setTexture(Cfg::textures.get((int)player->texType));
+			aSpr.setTextureRect(player->getAnimRect());
+			aSpr.setPosition(player->getImagePos());
+			gWnd.draw(aSpr);
 
-		sf::Sprite aGoblinSpr;
-		aGoblinSpr.setTexture(Cfg::textures.get((int)goblin->texType));
-		aGoblinSpr.setTextureRect(goblin->getAnimRect());
-		aGoblinSpr.setPosition(goblin->getImagePos());
-		if (!goblin->deaddead)
-			gWnd.draw(aGoblinSpr);
+			sf::Sprite aGoblinSpr;
+			aGoblinSpr.setTexture(Cfg::textures.get((int)g->texType));
+			aGoblinSpr.setTextureRect(g->getAnimRect());
+			aGoblinSpr.setPosition(g->getImagePos());
+			if (!g->deaddead)
+				gWnd.draw(aGoblinSpr);
+		}
 	}
 	
 	DrawFront();
@@ -513,6 +521,19 @@ void PlayState::LoadLevel(int levelNum_)
 	baseGUI["main"]["Escape"].setID(105);
 	baseGUI.build();
 
+	if (levelNum_ == 1)
+	{
+		numGoblins = 2;
+
+	}
+
+	for (int i = 0; i < numGoblins; i++)
+	{
+		goblins.emplace_back(std::make_unique<Goblin>());
+		goblins.back()->pos.x += i * 400;
+		goblins.back()->faceLeft();
+	}
+
 
 }
 
@@ -643,13 +664,14 @@ void PlayState::setLoopLayers()
 PlayState::PlayState(GameStateMgr* mgr_)
 	: GameState{ mgr_ }
 	, player{  }
-	, goblin{ }
+	, goblins{ }
 	, hud{}
 {
+	goblins.clear();
 	player = std::make_unique<Player>();
-	goblin = std::make_unique<Goblin>();
 
-	goblin->faceLeft();
+
+	
 
 	hud.setLifeBarTex(Cfg::textures.get((int)Cfg::Textures::LifeBar));
 }

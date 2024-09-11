@@ -21,7 +21,7 @@ class PlayState : public GameState
 {
 	friend class GameStateMgr;
 	std::unique_ptr<Player> player;
-	std::unique_ptr<Goblin> goblin;
+	std::vector<std::unique_ptr<Goblin>> goblins;
 	std::array<int, 5> bgLengthsTravelled = { 1,1,1,1,1 };
 	std::string lastAction{ "" };
 	//GUI
@@ -44,6 +44,9 @@ class PlayState : public GameState
 	bool downButtonReleased{ false };
 	float commandTextElapsed{ 0.f };
 	float commandTextDelay{ 2.f };
+
+	int numGoblins{ 0 };
+
 	void DrawBG();
 	
 	void setLoopLayers();
