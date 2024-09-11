@@ -265,44 +265,7 @@ void PlayState::render()
 	gWnd.setView(gameView);
 	DrawBG();
 
-	//if (scriptMgr_.getDir() != animMgr_.getDirection())
-	//{
-	//	switch (scriptMgr_.front()->getDirection())
-	//	{
-	//	case Direction::D:
-	//		animMgr_.setAnim(AnimName::WalkD);
-	//		break;
-
-	//	case Direction::U:
-	//		animMgr_.setAnim(AnimName::WalkU);
-	//		break;
-	//	case Direction::R:
-	//		animMgr_.setAnim(AnimName::WalkR);
-	//		break;
-	//	case Direction::L:
-	//		animMgr_.setAnim(AnimName::WalkL);
-	//		break;
-	//	case Direction::DR:
-	//		animMgr_.setAnim(AnimName::WalkDR);
-	//		break;
-	//	case Direction::DL:
-	//		animMgr_.setAnim(AnimName::WalkDL);
-	//		break;
-	//	case Direction::UR:
-	//		animMgr_.setAnim(AnimName::WalkUR);
-	//		break;
-	//	case Direction::UL:
-	//		animMgr_.setAnim(AnimName::WalkUL);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//	animMgr_.setDirection(scriptMgr_.getDir());
-	//	currDir_ = scriptMgr_.getDir();
-	//}
-
-	//scriptMgr_.render(l_wnd);
-
+	
 
 	if (player->pos.y + player->size.y > goblin->pos.y + goblin->size.y)
 	{

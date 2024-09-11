@@ -1,6 +1,16 @@
 #include "HUD.h"
 #include <core/globals.h>
 #include <entities/player/player.h>
+void HUD::setUpShape()
+{
+	this->redShape = sf::RectangleShape{};
+	this->redShape.setSize({ 300.f, 200.f });
+	this->redShape.setPosition(30.f, 30.f);
+	this->redShape.setFillColor(sf::Color::Blue);
+
+	
+
+}
 void HUD::setLifeBarTex(sf::Texture& tex_)
 {
 	lifeBarTex = &tex_;
@@ -39,4 +49,16 @@ void HUD::render(Player& player_)
 
 	drawLifeBar(player_);
 
+	gWnd.draw(this->redShape);
+
+
+	sf::Text namePlate = {};
+	namePlate.setString("Kenzie : " + std::to_string(player_.health) + " / " +  std::to_string(player_.getMaxHealth()));
+	namePlate.setFont(Cfg::fonts.get((int)Cfg::Fonts::Font1));
+	namePlate.setCharacterSize(44U);
+	namePlate.setPosition(45.f, 45.f);
+	namePlate.setFillColor(sf::Color::White);
+	namePlate.setOutlineColor(sf::Color::Black);
+	namePlate.setOutlineThickness(2);
+	gWnd.draw(namePlate);
 }
