@@ -675,3 +675,4 @@ PlayState::PlayState(GameStateMgr* mgr_)
 
 	hud.setLifeBarTex(Cfg::textures.get((int)Cfg::Textures::LifeBar));
 }
+
